@@ -9,7 +9,8 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
         const int FIRST_NUMBER = 1;
         const int LAST_NUMBER = 45;
-        const int SUPP_THRESHOLD = 5;        
+        const int SUPP_THRESHOLD = 5;
+        const int NUM_DRAW_NUMS = 8;       
 
         static void Main() {
 
@@ -27,7 +28,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
             int[] drawNumbers = new int[8];
 
-            drawNumbers = InitializeArrayWithNoDuplicates(8);
+            drawNumbers = InitializeArrayWithNoDuplicates(NUM_DRAW_NUMS);
 
             WelcomeMessage();
 
