@@ -1,0 +1,38 @@
+ /* static void LinearSearch(int[,] lottoNumbers, int item) {
+            int timesFound = 0;
+
+            for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
+                for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
+                    if (lottoNumbers[row, column] == item) {
+                        timesFound++;
+                    }
+                }
+                Console.WriteLine("\n\n{0} was found {1} times in Game {2}", item, timesFound, row + 1);
+                timesFound = 0; // reset to 0 at end of a game
+            }
+
+
+        } // end LinearSearch */
+
+        /* static void LinearSearch2(int[,] lottoNumbers, int[] drawNumbers) {
+            int timesFound = 0;
+
+            for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
+
+                int searchNum;
+
+                searchNum = drawNumbers[drawNumber];
+
+                for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
+
+                    for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
+
+                        if (lottoNumbers[row, column] == drawNumbers[drawNumber]) {
+                            timesFound++;
+                        }
+                    }
+                    Console.WriteLine("\n\nSearch NUM : {2} - found {0} matching number in Game {1}", timesFound, row + 1, searchNum);
+                    timesFound = 0; // reset to 0 at end of a game
+                }
+            }
+        } // end LinearSearch2 */

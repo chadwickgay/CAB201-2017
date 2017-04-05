@@ -35,7 +35,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
             DisplayDrawNumbers(drawNumbers);
 
-            LinearSearch(lottoNumbers, drawNumbers);
+            CheckLottoNumbers(lottoNumbers, drawNumbers);
 
             ThankYouMessage();
 
@@ -66,7 +66,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
             }
         }//end DisplayDrawNumbers
 
-        static void LinearSearch(int[,] lottoNumbers, int[] drawNumbers) {
+        static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
 
             int winningNum = 0, suppNum = 0;
 
@@ -76,7 +76,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
                     for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
 
-                        if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) { 
+                        if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             winningNum++;
                         }
 
@@ -85,12 +85,16 @@ namespace Gold_Lotto_Checker_Stage_2 {
                         }
                     }
                 }
-                Console.WriteLine("\n\n\tfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, row + 1);
+                DisplayGameResults(winningNum, suppNum, row + 1);
 
                 winningNum = 0;
                 suppNum = 0;
             }
         }// end LinearSearch
+
+        static void DisplayGameResults(int winningNum, int suppNum, int gameNum) {
+            Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, gameNum);
+        }
 
         static int[] InitializeArrayWithNoDuplicates(int size) {
 

@@ -5,7 +5,9 @@ namespace Gold_Lotto_Checker {
 
     class Program {
 
-
+        const int FIRST_NUMBER = 1;
+        const int LAST_NUMBER = 45;
+        const int SUPP_THRESHOLD = 5;
 
         static void Main() {
 
@@ -29,11 +31,7 @@ namespace Gold_Lotto_Checker {
 
             DisplayDrawNumbers(drawNumbers);
 
-            //LinearSearch(lottoNumbers, 7);
-
-            LinearSearch(lottoNumbers, drawNumbers);
-
-            // Locate Lotto Draw Numbers in Games 
+            CheckLottoNumbers(lottoNumbers, drawNumbers);
 
             ThankYouMessage();
 
@@ -64,74 +62,35 @@ namespace Gold_Lotto_Checker {
             }
         }//end DisplayDrawNumbers
 
-        /* static void LinearSearch(int[,] lottoNumbers, int item) {
-            int timesFound = 0;
-
-            for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-                for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
-                    if (lottoNumbers[row, column] == item) {
-                        timesFound++;
-                    }
-                }
-                Console.WriteLine("\n\n{0} was found {1} times in Game {2}", item, timesFound, row + 1);
-                timesFound = 0; // reset to 0 at end of a game
-            }
-
-
-        } // end LinearSearch */
-
-        /* static void LinearSearch2(int[,] lottoNumbers, int[] drawNumbers) {
-            int timesFound = 0;
-
-            for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
-
-                int searchNum;
-
-                searchNum = drawNumbers[drawNumber];
-
-                for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-
-                    for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
-
-                        if (lottoNumbers[row, column] == drawNumbers[drawNumber]) {
-                            timesFound++;
-                        }
-                    }
-                    Console.WriteLine("\n\nSearch NUM : {2} - found {0} matching number in Game {1}", timesFound, row + 1, searchNum);
-                    timesFound = 0; // reset to 0 at end of a game
-                }
-            }
-        } // end LinearSearch2 */
-
-        static void LinearSearch(int[,] lottoNumbers, int[] drawNumbers) {
+        static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
 
             int winningNum = 0, suppNum = 0;
 
-            int searchNum = 0; // only used for testings
-
-            for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
+             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
 
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
 
                     for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
 
-                        searchNum = drawNumbers[drawNumber]; // only used for testings
-
-                        if (drawNumber <= 5 && lottoNumbers[row, column] == drawNumbers[drawNumber]) { // remove supp threshold magic number
+                        if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) { 
                             winningNum++;
                         }
 
-                        if (drawNumber > 5 && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
+                        if (drawNumber > SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             suppNum++;
                         }
                     }       
                 }
-                Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, row + 1);
+                DisplayGameResults(winningNum, suppNum, row + 1);
 
                 winningNum = 0;
                 suppNum = 0;
             }
         }// end LinearSearch
+
+        static void DisplayGameResults(int winningNum, int suppNum, int gameNum) {
+            Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, gameNum);
+        }
 
         static void ThankYouMessage() {
             Console.Write("\n\nThanks for using the Lotto Checker");
@@ -141,8 +100,5 @@ namespace Gold_Lotto_Checker {
             Console.Write("\n\nPress any key to exit program: ");
             Console.ReadKey();
         }//end ExitProgram
-
-
-
     }//end class
 }//end namespace
