@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Lotto Checker", "Gold Lotto Checker\Gold Lotto Checker.csproj", "{472CAA30-BBDA-4F6A-85A8-D24A3E2CE6A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Lotto Checker Stage 2", "Gold Lotto Checker Stage 2\Gold Lotto Checker Stage 2.csproj", "{5F5B55EF-0EA3-4A9C-BAA3-392026EF704D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{472CAA30-BBDA-4F6A-85A8-D24A3E2CE6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472CAA30-BBDA-4F6A-85A8-D24A3E2CE6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472CAA30-BBDA-4F6A-85A8-D24A3E2CE6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472CAA30-BBDA-4F6A-85A8-D24A3E2CE6A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5B55EF-0EA3-4A9C-BAA3-392026EF704D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5B55EF-0EA3-4A9C-BAA3-392026EF704D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5B55EF-0EA3-4A9C-BAA3-392026EF704D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5B55EF-0EA3-4A9C-BAA3-392026EF704D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
