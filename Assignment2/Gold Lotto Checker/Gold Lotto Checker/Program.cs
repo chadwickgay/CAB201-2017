@@ -1,12 +1,25 @@
 ﻿using System;
 
 namespace Gold_Lotto_Checker {
-
-
+    /// <summary>
+    /// 
+    /// Program which displays pre-defined lotto numbers for multiple lotto games and single
+    /// set of pre-defined draw numbers. Checks draw numbers against multiple lotto games
+    /// to determine if any winning or supplementary numbers exist. Outputs number of winning 
+    /// and supplementary numbers found per game.
+    /// 
+    /// Prompts user to exit the program gracefully.
+    /// 
+    /// Author Chadwick Gay April 2017
+    /// Student Number 9410392
+    /// </summary>
     class Program {
 
-        const int FIRST_NUMBER = 1;
-        const int LAST_NUMBER = 45;
+        // Sets the inclusive  range of numbers that can be drawn as part of the lotto.
+        const int DRAW_FIRST_NUMBER = 1;
+        const int DRAW_LAST_NUMBER = 45;
+
+        // Threshold for standard number/supplementary number in draw numbers
         const int SUPP_THRESHOLD = 5;
 
         static void Main() {
@@ -38,22 +51,35 @@ namespace Gold_Lotto_Checker {
             ExitProgram();
         }//end Main
 
+        /// <summary>
+        /// Prints string to console welcoming user to the Lotto Checker.
+        /// </summary>
         static void WelcomeMessage() {
             Console.WriteLine("\n\n\t\tWelcome to Lotto Checker");
         }//end WelcomeMessage
-
+        /// <summary>
+        /// Loops through 2 dimensional array of lotto numbers passed as param
+        /// to ouput game number and lotto numbers in tabular format.
+        /// </summary>
+        /// <param name="lottoNumbers">2 dimensional array of lotto numbers.</param>
         static void DisplayLottoNumbers(int[,] lottoNumbers) {
             Console.Write("\nYour Lotto numbers are");
 
+            // loops through lotto games... game 1, game 2, game 3...
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
                 Console.Write("\n\nGame \t{0}: ", row + 1);
 
+                // loops through numbers in a lotto game... num 1, num 2, num 3...
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
                     Console.Write("\t{0,2}", lottoNumbers[row, column]);
                 }
             }
         }//end DisplayLottoNumbers
-
+        /// <summary>
+        /// Loops through single dimension array of lotto draw numbers passed as param
+        /// to output lotto draw numbers to console in tabular format.
+        /// </summary>
+        /// <param name="drawNumbers">Single dimension array of lotto draw numbers</param>
         static void DisplayDrawNumbers(int[] drawNumbers) {
             Console.WriteLine("\n\nLotto Draw Numbers are:\n");
 
@@ -86,16 +112,27 @@ namespace Gold_Lotto_Checker {
                 winningNum = 0;
                 suppNum = 0;
             }
-        }// end LinearSearch
+        }// end CheckLottoNumbers
 
+        /// <summary>
+        /// Outputs game results to console in formatted string.
+        /// </summary>
+        /// <param name="winningNum">Number of winning numbers located by search method.</param>
+        /// <param name="suppNum">Number of supplementary numbers located by search method.</param>
+        /// <param name="gameNum">Lotto game number.</param>
         static void DisplayGameResults(int winningNum, int suppNum, int gameNum) {
             Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, gameNum);
-        }
-
+        } // end DisplayGameResults
+        /// <summary>
+        /// Prints string to console thanking user for using the Lotto Checker.
+        /// </summary>
         static void ThankYouMessage() {
-            Console.Write("\n\nThanks for using the Lotto Checker");
+            Console.Write("\n\n\t\tThanks for using the Lotto Checker");
         }//end ThankYouMessage
-
+        /// <summary>
+        /// Prints string to console prompting user to press any key to exit.
+        /// Halts console to allow user to exit the program gracefully.
+        /// </summary>
         static void ExitProgram() {
             Console.Write("\n\nPress any key to exit program: ");
             Console.ReadKey();
