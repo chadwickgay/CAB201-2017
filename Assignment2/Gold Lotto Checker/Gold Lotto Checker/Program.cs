@@ -90,7 +90,8 @@ namespace Gold_Lotto_Checker {
 
         static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
 
-            int winningNum = 0, suppNum = 0;
+            int winningNum = 0;
+            int suppNum = 0;
 
              for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
 

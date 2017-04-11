@@ -17,7 +17,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
     /// </summary>
     class Program {
 
-        static Random randomValue = new Random(10);
+        static Random randomValue = new Random();
 
         // Sets the inclusive  range of numbers that can be drawn as part of the lotto.
         const int DRAW_FIRST_NUMBER = 1;
@@ -145,7 +145,8 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
         static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
 
-            int winningNum = 0, suppNum = 0;
+            int winningNum = 0;
+            int suppNum = 0;
 
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
 
