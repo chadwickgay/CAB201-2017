@@ -40,7 +40,7 @@ namespace Gold_Lotto_Checker {
 
             DisplayDrawNumbers(drawNumbers);
 
-            CheckLottoNumbers(lottoNumbers, drawNumbers);
+            PerformLottoDraw(lottoNumbers, drawNumbers);
 
             ThankYouMessage();
 
@@ -53,6 +53,7 @@ namespace Gold_Lotto_Checker {
         static void WelcomeMessage() {
             Console.WriteLine("\n\n\t\tWelcome to Lotto Checker");
         }//end WelcomeMessage
+
         /// <summary>
         /// Loops through 2 dimensional array of lotto numbers passed as param
         /// to ouput game number and lotto numbers in tabular format.
@@ -71,6 +72,7 @@ namespace Gold_Lotto_Checker {
                 }
             }
         }//end DisplayLottoNumbers
+
         /// <summary>
         /// Loops through single dimension array of lotto draw numbers passed as param
         /// to output lotto draw numbers to console in tabular format.
@@ -84,32 +86,40 @@ namespace Gold_Lotto_Checker {
             }
         }//end DisplayDrawNumbers
 
-        static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lottoNumbers"></param>
+        /// <param name="drawNumbers"></param>
+        static void PerformLottoDraw(int[,] lottoNumbers, int[] drawNumbers) {
 
             int winningNum = 0;
             int suppNum = 0;
 
-             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
+            for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
 
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
 
                     for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
 
-                        if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) { 
+                        if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             winningNum++;
                         }
 
                         if (drawNumber > SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             suppNum++;
                         }
-                    }       
+                    }
                 }
+
                 DisplayGameResults(winningNum, suppNum, row + 1);
 
+                // Reset number of winning and supplementary numbers found
+                // before looping through next game.
                 winningNum = 0;
                 suppNum = 0;
             }
-        }// end CheckLottoNumbers
+        }// end PerformLottoDraw
 
         /// <summary>
         /// Outputs game results to console in formatted string.
@@ -118,14 +128,17 @@ namespace Gold_Lotto_Checker {
         /// <param name="suppNum">Number of supplementary numbers located by search method.</param>
         /// <param name="gameNum">Lotto game number.</param>
         static void DisplayGameResults(int winningNum, int suppNum, int gameNum) {
-            Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, gameNum);
+            Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", 
+                winningNum, suppNum, gameNum);
         } // end DisplayGameResults
+
         /// <summary>
         /// Prints string to console thanking user for using the Lotto Checker.
         /// </summary>
         static void ThankYouMessage() {
             Console.Write("\n\n\t\tThanks for using the Lotto Checker");
         }//end ThankYouMessage
+
         /// <summary>
         /// Prints string to console prompting user to press any key to exit.
         /// Halts console to allow user to exit the program gracefully.
@@ -134,5 +147,6 @@ namespace Gold_Lotto_Checker {
             Console.Write("\n\nPress any key to exit program: ");
             Console.ReadKey();
         }//end ExitProgram
+
     }//end class
 }//end namespace

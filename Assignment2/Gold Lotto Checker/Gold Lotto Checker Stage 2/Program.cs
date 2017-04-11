@@ -27,7 +27,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
         const int SUPP_THRESHOLD = 5;
 
         // Number of lotto draw numbers to be generated
-        const int NUM_DRAW_NUMBERS = 8;       
+        const int DRAW_SIZE = 8;       
 
         static void Main() {
 
@@ -43,9 +43,9 @@ namespace Gold_Lotto_Checker_Stage_2 {
                                   {17, 18, 20, 28, 33, 38}
                               };
 
-            int[] drawNumbers = new int[NUM_DRAW_NUMBERS];
+            int[] drawNumbers = new int[DRAW_SIZE];
 
-            drawNumbers = GenerateDrawNumbers(NUM_DRAW_NUMBERS);
+            drawNumbers = GenerateDrawNumbers(DRAW_SIZE);
 
             WelcomeMessage();
 
@@ -53,7 +53,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
             DisplayDrawNumbers(drawNumbers);
 
-            CheckLottoNumbers(lottoNumbers, drawNumbers);
+            PerformLottoDraw(lottoNumbers, drawNumbers); 
 
             ThankYouMessage();
 
@@ -66,6 +66,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
         static void WelcomeMessage() {
             Console.WriteLine("\n\n\t\tWelcome to Lotto Checker");
         }//end WelcomeMessage
+
         /// <summary>
         /// Loops through 2 dimensional array of lotto numbers passed as param
         /// to ouput game number and lotto numbers in tabular format.
@@ -84,6 +85,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
                 }
             }
         }//end DisplayLottoNumbers
+
         /// <summary>
         /// Loops through single dimension array of lotto draw numbers passed as param
         /// to output lotto draw numbers to console in tabular format.
@@ -96,6 +98,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
                 Console.Write("{0,5}", drawNumbers[i]);
             }
         }//end DisplayDrawNumbers
+
         /// <summary>
         /// Randomly generates lotto draw numbers.
         /// Calls DuplicateCheck method to ensure numbers are unique.
@@ -127,6 +130,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
             return someArray;
 
         } // end InitializeArrayWithNoDuplicates
+
         /// <summary>
         /// Checks generated number against array of existing randomly generated numbers.
         /// </summary>
@@ -143,7 +147,12 @@ namespace Gold_Lotto_Checker_Stage_2 {
             return false;
         } // end DuplicateCheck
 
-        static void CheckLottoNumbers(int[,] lottoNumbers, int[] drawNumbers) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lottoNumbers"></param>
+        /// <param name="drawNumbers"></param>
+        static void PerformLottoDraw(int[,] lottoNumbers, int[] drawNumbers) { 
 
             int winningNum = 0;
             int suppNum = 0;
@@ -163,6 +172,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
                         }
                     }
                 }
+
                 DisplayGameResults(winningNum, suppNum, row + 1);
 
                 // Reset number of winning and supplementary numbers found
@@ -170,8 +180,8 @@ namespace Gold_Lotto_Checker_Stage_2 {
                 winningNum = 0;
                 suppNum = 0;
             }
-        }// end CheckLottoNumbers
-        
+        }// end PerformLottoDraw
+
         /// <summary>
         /// Outputs game results to console in formatted string.
         /// </summary>
@@ -181,12 +191,14 @@ namespace Gold_Lotto_Checker_Stage_2 {
         static void DisplayGameResults(int winningNum, int suppNum, int gameNum) {
             Console.WriteLine("\n\nfound {0} matching numbers and {1} supplmentary numbers in Game {2}", winningNum, suppNum, gameNum);
         } // end DisplayGameResults
+
         /// <summary>
         /// Prints string to console thanking user for using the Lotto Checker.
         /// </summary>
         static void ThankYouMessage() {
             Console.Write("\n\n\t\tThanks for using the Lotto Checker");
         }//end ThankYouMessage
+
         /// <summary>
         /// Prints string to console prompting user to press any key to exit.
         /// Halts console to allow user to exit the program gracefully.
