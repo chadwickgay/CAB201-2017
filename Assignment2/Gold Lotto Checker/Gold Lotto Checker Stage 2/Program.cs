@@ -19,9 +19,10 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
         static Random randomValue = new Random();
 
-        // Sets the inclusive  range of numbers that can be drawn as part of the lotto.
+        // Sets the inclusive range of numbers that can be drawn as part of the lotto.
+        // 1-45 inclusive
         const int DRAW_FIRST_NUMBER = 1;
-        const int DRAW_LAST_NUMBER = 45;
+        const int DRAW_LAST_NUMBER = 46; 
 
         // Threshold for standard number/supplementary number in draw numbers
         const int SUPP_THRESHOLD = 5;
@@ -53,7 +54,7 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
             DisplayDrawNumbers(drawNumbers);
 
-            PerformLottoDraw(lottoNumbers, drawNumbers); 
+            PerformLottoDrawMatch(lottoNumbers, drawNumbers); 
 
             ThankYouMessage();
 
@@ -73,12 +74,14 @@ namespace Gold_Lotto_Checker_Stage_2 {
         /// </summary>
         /// <param name="lottoNumbers">2 dimensional array of lotto numbers.</param>
         static void DisplayLottoNumbers(int[,] lottoNumbers) {
+            int gameNum = 0;
+
             Console.Write("\nYour Lotto numbers are");
 
             // loops through lotto games... game 1, game 2, game 3...
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-                Console.Write("\n\nGame \t{0}: ", row + 1);
-
+                gameNum++;
+                Console.Write("\n\nGame \t{0}: ", gameNum);
                 // loops through numbers in a lotto game... num 1, num 2, num 3...
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
                     Console.Write("\t{0,2}", lottoNumbers[row, column]);
@@ -101,35 +104,30 @@ namespace Gold_Lotto_Checker_Stage_2 {
 
         /// <summary>
         /// Randomly generates lotto draw numbers.
-        /// Calls DuplicateCheck method to ensure numbers are unique.
+        /// Calls DuplicateCheck() method to ensure numbers are unique.
+        /// If duplicate number generated - new number generated until unique.
         /// </summary>
         /// <param name="drawSize">Number of lotto draw numbers to be generated</param>
         /// <returns>Randomly generated draw numbers as a single dimension array.</returns>
         static int[] GenerateDrawNumbers(int drawSize) {
 
-            int randomNumber = randomValue.Next(DRAW_FIRST_NUMBER, DRAW_LAST_NUMBER + 1);
-
+            int randomNumber = randomValue.Next(DRAW_FIRST_NUMBER, DRAW_LAST_NUMBER);
             bool isDuplicate;
-
             int[] someArray = new int[drawSize];
 
             for (int i = 0; i < drawSize; i++) {
-
                 do {
-
                     isDuplicate = DuplicateCheck(drawSize, someArray, randomNumber);
 
                     if (isDuplicate) {
-                        randomNumber = randomValue.Next(DRAW_FIRST_NUMBER, DRAW_LAST_NUMBER + 1);
+                        randomNumber = randomValue.Next(DRAW_FIRST_NUMBER, DRAW_LAST_NUMBER);
                     }
-
                 } while (isDuplicate);
 
                 someArray[i] = randomNumber;
             }
             return someArray;
-
-        } // end InitializeArrayWithNoDuplicates
+        } // end GenerateDrawNumbers
 
         /// <summary>
         /// Checks generated number against array of existing randomly generated numbers.
@@ -148,39 +146,43 @@ namespace Gold_Lotto_Checker_Stage_2 {
         } // end DuplicateCheck
 
         /// <summary>
-        /// 
+        /// Loops through array of lotto numbers (game by game) and draw numbers (number by number). 
+        /// If matching value found respective counter for winning or supplementary number incremented.
+        /// Calls DisplayGameResults() method to output formatted results to console.
         /// </summary>
-        /// <param name="lottoNumbers"></param>
-        /// <param name="drawNumbers"></param>
-        static void PerformLottoDraw(int[,] lottoNumbers, int[] drawNumbers) { 
+        /// <param name="lottoNumbers">2 dimensional array of lotto numbers.</param>
+        /// <param name="drawNumbers">Array of lotto draw numbers</param>
+        static void PerformLottoDrawMatch(int[,] lottoNumbers, int[] drawNumbers) {
 
             int winningNum = 0;
             int suppNum = 0;
+            int gameNum = 0;
 
+            // loops through lotto games... game 1, game 2, game 3...
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-
+                // loops through numbers in a lotto game... num 1, num 2, num 3...
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
-
+                    // Loop through each number in a lotto draw... num 1, num 2, num 3...
                     for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
-
                         if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             winningNum++;
                         }
-
                         if (drawNumber > SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             suppNum++;
                         }
                     }
                 }
 
-                DisplayGameResults(winningNum, suppNum, row + 1);
+                gameNum++;
+
+                DisplayGameResults(winningNum, suppNum, gameNum);
 
                 // Reset number of winning and supplementary numbers found
                 // before looping through next game.
                 winningNum = 0;
                 suppNum = 0;
             }
-        }// end PerformLottoDraw
+        }// end PerformLottoDrawMatch
 
         /// <summary>
         /// Outputs game results to console in formatted string.

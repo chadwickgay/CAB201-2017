@@ -40,7 +40,7 @@ namespace Gold_Lotto_Checker {
 
             DisplayDrawNumbers(drawNumbers);
 
-            PerformLottoDraw(lottoNumbers, drawNumbers);
+            PerformLottoDrawMatch(lottoNumbers, drawNumbers);
 
             ThankYouMessage();
 
@@ -60,12 +60,14 @@ namespace Gold_Lotto_Checker {
         /// </summary>
         /// <param name="lottoNumbers">2 dimensional array of lotto numbers.</param>
         static void DisplayLottoNumbers(int[,] lottoNumbers) {
+            int gameNum = 0;
+
             Console.Write("\nYour Lotto numbers are");
 
             // loops through lotto games... game 1, game 2, game 3...
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-                Console.Write("\n\nGame \t{0}: ", row + 1);
-
+                gameNum++;
+                Console.Write("\n\nGame \t{0}: ", gameNum);
                 // loops through numbers in a lotto game... num 1, num 2, num 3...
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
                     Console.Write("\t{0,2}", lottoNumbers[row, column]);
@@ -74,10 +76,10 @@ namespace Gold_Lotto_Checker {
         }//end DisplayLottoNumbers
 
         /// <summary>
-        /// Loops through single dimension array of lotto draw numbers passed as param
+        /// Loops through array of lotto draw numbers passed as param
         /// to output lotto draw numbers to console in tabular format.
         /// </summary>
-        /// <param name="drawNumbers">Single dimension array of lotto draw numbers</param>
+        /// <param name="drawNumbers">Array of lotto draw numbers</param>
         static void DisplayDrawNumbers(int[] drawNumbers) {
             Console.WriteLine("\n\nLotto Draw Numbers are:\n");
 
@@ -87,39 +89,43 @@ namespace Gold_Lotto_Checker {
         }//end DisplayDrawNumbers
 
         /// <summary>
-        /// 
+        /// Loops through array of lotto numbers (game by game) and draw numbers (number by number). 
+        /// If matching value found respective counter for winning or supplementary number incremented.
+        /// Calls DisplayGameResults() method to output formatted results to console.
         /// </summary>
-        /// <param name="lottoNumbers"></param>
-        /// <param name="drawNumbers"></param>
-        static void PerformLottoDraw(int[,] lottoNumbers, int[] drawNumbers) {
+        /// <param name="lottoNumbers">2 dimensional array of lotto numbers.</param>
+        /// <param name="drawNumbers">Array of lotto draw numbers</param>
+        static void PerformLottoDrawMatch(int[,] lottoNumbers, int[] drawNumbers) {
 
             int winningNum = 0;
             int suppNum = 0;
+            int gameNum = 0;
 
+            // loops through lotto games... game 1, game 2, game 3...
             for (int row = 0; row < lottoNumbers.GetLength(0); row++) {
-
+                // loops through numbers in a lotto game... num 1, num 2, num 3...
                 for (int column = 0; column < lottoNumbers.GetLength(1); column++) {
-
+                    // Loop through each number in a lotto draw... num 1, num 2, num 3...
                     for (int drawNumber = 0; drawNumber < drawNumbers.Length; drawNumber++) {
-
                         if (drawNumber <= SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             winningNum++;
                         }
-
                         if (drawNumber > SUPP_THRESHOLD && lottoNumbers[row, column] == drawNumbers[drawNumber]) {
                             suppNum++;
                         }
                     }
                 }
 
-                DisplayGameResults(winningNum, suppNum, row + 1);
+                gameNum++;
+
+                DisplayGameResults(winningNum, suppNum, gameNum);
 
                 // Reset number of winning and supplementary numbers found
                 // before looping through next game.
                 winningNum = 0;
                 suppNum = 0;
             }
-        }// end PerformLottoDraw
+        }// end PerformLottoDrawMatch
 
         /// <summary>
         /// Outputs game results to console in formatted string.
