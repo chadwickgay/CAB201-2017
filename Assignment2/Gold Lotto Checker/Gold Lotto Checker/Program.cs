@@ -15,10 +15,6 @@ namespace Gold_Lotto_Checker {
     /// </summary>
     class Program {
 
-        // Sets the inclusive  range of numbers that can be drawn as part of the lotto.
-        const int DRAW_FIRST_NUMBER = 1;
-        const int DRAW_LAST_NUMBER = 45;
-
         // Threshold for standard number/supplementary number in draw numbers
         const int SUPP_THRESHOLD = 5;
 
