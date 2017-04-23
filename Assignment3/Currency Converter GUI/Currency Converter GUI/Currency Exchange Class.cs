@@ -35,9 +35,27 @@ namespace Currency_Converter_GUI {
                                     "Vietnam (VND)" };
 
             return countries;
-        } //end InitialiseComboBox()             
+        } //end InitialiseComboBox()   
+        
+        public static double ConvertToAud(int currencyIndex, int inputValue) {
+            double outputValue, rate;
 
+            rate = xRates[currencyIndex];
 
+            outputValue = inputValue / rate;
+
+            return outputValue;            
+        }
+        
+        public static double ConvertFromAud(int currencyIndex, int inputValue) {
+            double outputValue, rate;
+
+            rate = xRates[currencyIndex];
+
+            outputValue = inputValue * rate;
+
+            return outputValue;
+        }          
 
     }//end class
 }

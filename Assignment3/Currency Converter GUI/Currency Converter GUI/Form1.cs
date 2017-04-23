@@ -13,9 +13,88 @@ namespace Currency_Converter_GUI {
 
         public Form1() {
             InitializeComponent();
-            
+
+            cboCurrencyHave.DataSource = Currency_Exchange_Class.InitialiseComboBox();
+
+            cboCurrencyWant.DataSource = Currency_Exchange_Class.InitialiseComboBox();
+
+            cboCurrencyHave.SelectedIndexChanged += new EventHandler(cboCurrencyHave_SelectedIndexChanged);
+
+            cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
+
         }//end Form1
 
+        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
+            if (cboCurrencyHave.Text != "") {
+                cboCurrencyWant.Enabled = true;
+                cboCurrencyHave.Enabled = false;
+            }
+        }
 
+        private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
+            if (cboCurrencyWant.Text != "") {
+                txtAmountHave.Enabled = true;
+                cboCurrencyWant.Enabled = false;
+            }
+        }
+
+        private void txtAmountHave_TextChanged(object sender, EventArgs e) {
+            double amountHave;
+
+            bool okay = double.TryParse(txtAmountHave.Text, out amountHave);
+
+            if (txtAmountHave.Text != "") {
+                if (!okay) {
+                    cmdEquals.Enabled = false;
+                    MessageBox.Show("\"Amount I have\" must be a number.");
+                } else if (amountHave < 0) {
+                    cmdEquals.Enabled = false;
+                    MessageBox.Show("Amount entered cannot be less than $0.");
+                } else {
+                    cmdEquals.Enabled = true;
+                }
+            }         
+        }
+
+        private void cmdEquals_Click(object sender, EventArgs e) {
+            txtAmountHave.Enabled = false;
+
+            int inputCurrency, outputCurrency;
+
+            // Call conversion to AUD here
+
+            // Get index of input/output currencies
+            inputCurrency = cboCurrencyHave.SelectedIndex;
+            outputCurrency = cboCurrencyHave.SelectedIndex;
+
+            // Call conversion from AUD here
+
+            // Assign amount I want value here
+
+            cmdEquals.Enabled = false;
+
+            // Enable and Make visible Another Conversion group box
+            grpConversion.Enabled = true;
+            grpConversion.Visible = true;
+
+        }
+
+        private void optConversionYes_CheckedChanged(object sender, EventArgs e) {
+            // Reset dropdowns to default value;
+            cboCurrencyHave.Text = "";
+            cboCurrencyWant.Text = "";
+
+            // Reset amounts to empty input
+            txtAmountHave.Text = ""; 
+            txtAmountWant.Text = "";
+
+            // Enable CurrencyHave dropdown again for next conversion
+            cboCurrencyHave.Enabled = true; 
+        }
+
+        private void optConversionNo_CheckedChanged(object sender, EventArgs e) {
+            MessageBox.Show("Thank you for using the Currency Convertor");
+            Close();
+        }
     }//end class
 }
