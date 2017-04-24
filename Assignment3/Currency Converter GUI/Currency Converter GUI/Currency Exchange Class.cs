@@ -37,6 +37,23 @@ namespace Currency_Converter_GUI {
             return countries;
         } //end InitialiseComboBox()   
 
+        public static double ConvertCurrency(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
+            bool okay;
+            double inputAmount, amountAud, amountConverted, rate;
+            
+            okay = double.TryParse(inputValue, out inputAmount);
+
+            // Convert to AUD
+            rate = xRates[fromCurrencyIndex];
+            amountAud = inputAmount / rate;
+
+            // Convert to other currency
+            rate = xRates[toCurrencyIndex];
+            amountConverted = amountAud * rate;
+
+            return Math.Round(amountConverted, 4);
+        }
+
 
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;

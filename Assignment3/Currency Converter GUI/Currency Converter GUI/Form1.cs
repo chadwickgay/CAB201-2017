@@ -75,6 +75,10 @@ namespace Currency_Converter_GUI {
             // Make wanted currency code visible
             lblCurrencyCode2.Visible = true;
 
+            // Show converted amount
+            txtAmountWant.Text = Currency_Exchange_Class.ConvertCurrency(cboCurrencyHave.SelectedIndex,
+                cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString();
+
             // Make Another Conversion options visible
             grpConversion.Visible = true;       
         }
