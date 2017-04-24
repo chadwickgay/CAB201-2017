@@ -51,6 +51,7 @@ namespace Currency_Converter_GUI {
             rate = xRates[toCurrencyIndex];
             amountConverted = amountAud * rate;
 
+            // Round to 4 decimal places
             return Math.Round(amountConverted, 4);
         }
 
