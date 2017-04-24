@@ -54,7 +54,7 @@ namespace Currency_Converter_GUI {
             return Math.Round(amountConverted, 4);
         }
 
-
+        // Not currently used - revise
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -64,7 +64,8 @@ namespace Currency_Converter_GUI {
 
             return outputValue;            
         }
-        
+
+        // Not currently used - revise
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
