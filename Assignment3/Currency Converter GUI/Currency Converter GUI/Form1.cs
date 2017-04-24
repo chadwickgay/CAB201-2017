@@ -28,6 +28,9 @@ namespace Currency_Converter_GUI {
             if (cboCurrencyHave.Text != "") {
                 cboCurrencyWant.Enabled = true;
                 cboCurrencyHave.Enabled = false;
+
+                // Set currency code label based off selected value
+                lblCurrencyCode1.Text = Currency_Exchange_Class.GetCurrencyCode(cboCurrencyHave.SelectedIndex);
             }
         }
 
@@ -35,7 +38,13 @@ namespace Currency_Converter_GUI {
             if (cboCurrencyWant.Text != "") {
                 txtAmountHave.Enabled = true;
                 cboCurrencyWant.Enabled = false;
-            }
+
+                // Set currency code label based off selected value
+                lblCurrencyCode2.Text = Currency_Exchange_Class.GetCurrencyCode(cboCurrencyWant.SelectedIndex);
+
+                // Make have currency code visible
+                lblCurrencyCode1.Visible = true;
+            }        
         }
 
         private void txtAmountHave_TextChanged(object sender, EventArgs e) {
@@ -57,26 +66,17 @@ namespace Currency_Converter_GUI {
         }
 
         private void cmdEquals_Click(object sender, EventArgs e) {
+
             txtAmountHave.Enabled = false;
 
-            int inputCurrency, outputCurrency;
-
-            // Call conversion to AUD here
-
-            // Get index of input/output currencies
-            inputCurrency = cboCurrencyHave.SelectedIndex;
-            outputCurrency = cboCurrencyHave.SelectedIndex;
-
-            // Call conversion from AUD here
-
-            // Assign amount I want value here
-
+            // Make equals button clickable
             cmdEquals.Enabled = false;
 
-            // Enable and Make visible Another Conversion group box
-            grpConversion.Enabled = true;
-            grpConversion.Visible = true;
+            // Make wanted currency code visible
+            lblCurrencyCode2.Visible = true;
 
+            // Make Another Conversion options visible
+            grpConversion.Visible = true;       
         }
 
         private void optConversionYes_CheckedChanged(object sender, EventArgs e) {

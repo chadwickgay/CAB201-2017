@@ -36,8 +36,9 @@ namespace Currency_Converter_GUI {
 
             return countries;
         } //end InitialiseComboBox()   
-        
-        public static double ConvertToAud(int currencyIndex, int inputValue) {
+
+
+        public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
             rate = xRates[currencyIndex];
@@ -47,7 +48,7 @@ namespace Currency_Converter_GUI {
             return outputValue;            
         }
         
-        public static double ConvertFromAud(int currencyIndex, int inputValue) {
+        public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
             rate = xRates[currencyIndex];
@@ -55,6 +56,14 @@ namespace Currency_Converter_GUI {
             outputValue = inputValue * rate;
 
             return outputValue;
+        }
+        
+        public static string GetCurrencyCode(int currencyIndex) {
+            string currencyCode;
+
+            currencyCode = ((Currencies)currencyIndex).ToString();
+
+            return currencyCode;
         }          
 
     }//end class
