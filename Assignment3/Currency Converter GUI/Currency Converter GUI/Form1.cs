@@ -80,7 +80,8 @@ namespace Currency_Converter_GUI {
                 cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString();
 
             // Make Another Conversion options visible
-            grpConversion.Visible = true;       
+            grpConversion.Visible = true;
+  
         }
 
         private void optConversionYes_CheckedChanged(object sender, EventArgs e) {
@@ -92,8 +93,16 @@ namespace Currency_Converter_GUI {
             txtAmountHave.Text = ""; 
             txtAmountWant.Text = "";
 
+            // Reset currency code labels 
+            lblCurrencyCode1.Visible = false;
+            lblCurrencyCode2.Visible = false;
+
             // Enable CurrencyHave dropdown again for next conversion
-            cboCurrencyHave.Enabled = true; 
+            cboCurrencyHave.Enabled = true;
+
+            // Reset another conversion to unchecked state
+            optConversionYes.Checked = false;
+
         }
 
         private void optConversionNo_CheckedChanged(object sender, EventArgs e) {

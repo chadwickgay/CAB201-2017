@@ -39,23 +39,27 @@ namespace Currency_Converter_GUI {
 
         public static double ConvertCurrency(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
             bool okay;
-            double inputAmount, amountAud, amountConverted, rate;
+            double inputAmount, audAmount, convertedAmount;
+            int decimalPlaces;
+
+            decimalPlaces = 4;
             
             okay = double.TryParse(inputValue, out inputAmount);
 
             // Convert to AUD
-            rate = xRates[fromCurrencyIndex];
-            amountAud = inputAmount / rate;
+            audAmount = ConvertToAud(fromCurrencyIndex, inputAmount);
 
-            // Convert to other currency
-            rate = xRates[toCurrencyIndex];
-            amountConverted = amountAud * rate;
+            // Convert from Aud to other currency
+            convertedAmount = ConvertFromAud(toCurrencyIndex, audAmount);
 
-            // Round to 4 decimal places
-            return Math.Round(amountConverted, 4);
+            // Round to specified decimal places
+            return RoundCurrency(convertedAmount, decimalPlaces);
         }
 
-        // Not currently used - revise
+        public static double RoundCurrency(double currencyAmount, int decimalPlaces) {
+            return Math.Round(currencyAmount, decimalPlaces);
+        }
+
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -66,7 +70,6 @@ namespace Currency_Converter_GUI {
             return outputValue;            
         }
 
-        // Not currently used - revise
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
