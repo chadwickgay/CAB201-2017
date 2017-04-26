@@ -109,6 +109,8 @@ namespace Currency_Converter_GUI {
 
         // Make RadioButtons single method w/ if, else statements
 
+        // Make ResetForm() method
+
         private void optConversionNo_CheckedChanged(object sender, EventArgs e) {
             MessageBox.Show("Thank you for using the Currency Convertor");
             Close();
