@@ -22,7 +22,7 @@ namespace Currency_Converter_GUI {
 
             cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
 
-        }//end Form1
+        }//end Form1()
 
         private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
             if (cboCurrencyHave.Text != "") {
@@ -32,7 +32,7 @@ namespace Currency_Converter_GUI {
                 // Set currency code label based off selected value
                 lblCurrencyCode1.Text = Currency_Exchange_Class.GetCurrencyCode(cboCurrencyHave.SelectedIndex);
             }
-        }
+        } // end cboCurrencyHave_SelectedIndexChanged()
 
         private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
             if (cboCurrencyWant.Text != "") {
@@ -44,8 +44,8 @@ namespace Currency_Converter_GUI {
 
                 // Make have currency code visible
                 lblCurrencyCode1.Visible = true;
-            }        
-        }
+            }
+        } // end cboCurrencyWant_SelectedIndexChanged()
 
         private void txtAmountHave_TextChanged(object sender, EventArgs e) {
             double amountHave;
@@ -62,8 +62,8 @@ namespace Currency_Converter_GUI {
                 } else {
                     cmdEquals.Enabled = true;
                 }
-            }         
-        }
+            }
+        } // end txtAmountHave_TextChanged()
 
         private void cmdEquals_Click(object sender, EventArgs e) {
 
@@ -76,44 +76,54 @@ namespace Currency_Converter_GUI {
             lblCurrencyCode2.Visible = true;
 
             // Show converted amount
-            txtAmountWant.Text = Currency_Exchange_Class.ConvertCurrency(cboCurrencyHave.SelectedIndex,
+            txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
                 cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString();
 
             // Make Another Conversion options visible
             grpConversion.Visible = true;
-  
-        }
 
-        private void optConversionYes_CheckedChanged(object sender, EventArgs e) {
+        } // end cmdEquals_Click()
+
+        private void optConversion_CheckedChanged(object sender, EventArgs e) {
+            if (optConversionYes.Checked) {
+                // Clear form of entered values
+                ResetConversionForm();
+
+                // Reset another conversion to unchecked state
+                ClearConversionRadio();
+            } else if (optConversionNo.Checked) {
+                ExitProgram();
+            }
+        } // end optConversion_CheckedChanged()
+
+        private void ClearConversionRadio() {
+            optConversionYes.Checked = false;
+        } // end ClearConversionRadio
+
+        private void ResetConversionForm() {
             // Reset dropdowns to default value;
             cboCurrencyHave.Text = "";
             cboCurrencyWant.Text = "";
 
             // Reset amounts to empty input
-            txtAmountHave.Text = ""; 
+            txtAmountHave.Text = "";
             txtAmountWant.Text = "";
 
-            // Reset currency code labels 
+            // Reset currency code labels to placegholder value
+            lblCurrencyCode1.Text = "XXX";
+            lblCurrencyCode2.Text = "XXX";
+
+            // Hide currency code labels
             lblCurrencyCode1.Visible = false;
             lblCurrencyCode2.Visible = false;
 
             // Enable CurrencyHave dropdown again for next conversion
             cboCurrencyHave.Enabled = true;
+        } // end ResetConversionForm()
 
-            // Reset another conversion to unchecked state
-            optConversionYes.Checked = false;
-
-        }
-
-        // ClearRadioButton()
-
-        // Make RadioButtons single method w/ if, else statements
-
-        // Make ResetForm() method
-
-        private void optConversionNo_CheckedChanged(object sender, EventArgs e) {
+        private void ExitProgram() {
             MessageBox.Show("Thank you for using the Currency Convertor");
             Close();
-        }
+        } // end ExitProgram()
     }//end class
 }

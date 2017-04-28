@@ -114,7 +114,7 @@
             this.optConversionNo.TabStop = true;
             this.optConversionNo.Text = "No";
             this.optConversionNo.UseVisualStyleBackColor = true;
-            this.optConversionNo.CheckedChanged += new System.EventHandler(this.optConversionNo_CheckedChanged);
+            this.optConversionNo.CheckedChanged += new System.EventHandler(this.optConversion_CheckedChanged);
             // 
             // optConversionYes
             // 
@@ -126,7 +126,7 @@
             this.optConversionYes.TabStop = true;
             this.optConversionYes.Text = "Yes";
             this.optConversionYes.UseVisualStyleBackColor = true;
-            this.optConversionYes.CheckedChanged += new System.EventHandler(this.optConversionYes_CheckedChanged);
+            this.optConversionYes.CheckedChanged += new System.EventHandler(this.optConversion_CheckedChanged);
             // 
             // txtAmountHave
             // 

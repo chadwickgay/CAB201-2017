@@ -37,13 +37,13 @@ namespace Currency_Converter_GUI {
             return countries;
         } //end InitialiseComboBox()   
 
-        public static double ConvertCurrency(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
+        public static double PerformCurrencyConversion(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
+            const int DECIMAL_PLACES = 4;
+
             bool okay;
             double inputAmount, audAmount, convertedAmount;
-            int decimalPlaces;
 
-            decimalPlaces = 4;
-            
+            // Convert string input to double
             okay = double.TryParse(inputValue, out inputAmount);
 
             // Convert to AUD
@@ -53,12 +53,12 @@ namespace Currency_Converter_GUI {
             convertedAmount = ConvertFromAud(toCurrencyIndex, audAmount);
 
             // Round to specified decimal places
-            return RoundCurrency(convertedAmount, decimalPlaces);
+            return RoundCurrency(convertedAmount, DECIMAL_PLACES);
         }
 
         public static double RoundCurrency(double currencyAmount, int decimalPlaces) {
             return Math.Round(currencyAmount, decimalPlaces);
-        }
+        } // end RoundCurrency()
 
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
@@ -67,8 +67,8 @@ namespace Currency_Converter_GUI {
 
             outputValue = inputValue / rate;
 
-            return outputValue;            
-        }
+            return outputValue;
+        } // end ConvertToAud()
 
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
@@ -78,15 +78,15 @@ namespace Currency_Converter_GUI {
             outputValue = inputValue * rate;
 
             return outputValue;
-        }
-        
+        } // end ConvertFromAud()
+
         public static string GetCurrencyCode(int currencyIndex) {
             string currencyCode;
 
             currencyCode = ((Currencies)currencyIndex).ToString();
 
             return currencyCode;
-        }          
+        } // end GetCurrencyCode()         
 
     }//end class
 }
