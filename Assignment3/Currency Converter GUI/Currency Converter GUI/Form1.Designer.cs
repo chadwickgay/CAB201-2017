@@ -168,9 +168,9 @@
             this.lblCurrencyCodeHave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrencyCodeHave.Location = new System.Drawing.Point(1, 158);
             this.lblCurrencyCodeHave.Name = "lblCurrencyCodeHave";
-            this.lblCurrencyCodeHave.Size = new System.Drawing.Size(33, 13);
+            this.lblCurrencyCodeHave.Size = new System.Drawing.Size(31, 13);
             this.lblCurrencyCodeHave.TabIndex = 10;
-            this.lblCurrencyCodeHave.Text = "CUR";
+            this.lblCurrencyCodeHave.Text = "XXX";
             this.lblCurrencyCodeHave.Visible = false;
             // 
             // lblCurrencyCodeWant
@@ -179,9 +179,9 @@
             this.lblCurrencyCodeWant.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrencyCodeWant.Location = new System.Drawing.Point(249, 161);
             this.lblCurrencyCodeWant.Name = "lblCurrencyCodeWant";
-            this.lblCurrencyCodeWant.Size = new System.Drawing.Size(33, 13);
+            this.lblCurrencyCodeWant.Size = new System.Drawing.Size(31, 13);
             this.lblCurrencyCodeWant.TabIndex = 11;
-            this.lblCurrencyCodeWant.Text = "CUR";
+            this.lblCurrencyCodeWant.Text = "XXX";
             this.lblCurrencyCodeWant.Visible = false;
             // 
             // Form1

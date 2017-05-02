@@ -9,12 +9,16 @@ namespace Currency_Converter_GUI {
 
     enum Currencies { AUD = 1, CNY, DKK, EUR, INR, NZD, AED, GBP, USD, VND };
     /// <summary>
-    /// Name: Chadwick Gay
-    /// Student Number: 9410392
+    /// GUI driven program that allows user to convert from 
+    /// one selected currency to another selected currency.
+    /// 
+    /// Upon completetion of conversion user can reset form 
+    /// and perform multiple currency conversions.
+    /// 
+    /// Author Chadwick Gay May 2017 - Student Number: 9410392
     /// </summary>
     static class Currency_Exchange_Class {
 
-        // Number of decimal places for program output
         private static double[] xRates = { 0, 1, 4.2681, 5.0844, 0.6849, 43.5921, 0.9705, 2.7094, 0.4963, 0.7382, 19115.5547 };
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace Currency_Converter_GUI {
         /// <param name="fromCurrencyIndex">Index of the currency the user has - 'amount have'.</param>
         /// <param name="toCurrencyIndex">Index of the currency the user wants - 'amount wanted'.</param>
         /// <param name="inputValue">Amount to be converted from the 'from' to the 'to' currency</param>
-        /// <returns></returns>
+        /// <returns>Converted amount in selected 'amount wanted' currency</returns>
         public static double PerformCurrencyConversion(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
 
             bool okay;
@@ -85,7 +89,7 @@ namespace Currency_Converter_GUI {
         /// </summary>
         /// <param name="currencyIndex">Index of the currency the user has - 'amount wanted'.</param>
         /// <param name="inputValue">Amount in AUD to be converted to the 'to' currency</param>
-        /// <returns>Amount converted to the selected 'to' currency</returns>
+        /// <returns>Converted amount in selected 'amount wanted' currency</returns>
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 

@@ -10,8 +10,13 @@ using System.Windows.Forms;
 
 namespace Currency_Converter_GUI {
     /// <summary>
-    /// Name: Chadwick Gay
-    /// Student Number: 9410392
+    /// GUI driven program that allows user to convert from 
+    /// one selected currency to another selected currency.
+    /// 
+    /// Upon completetion of conversion user can reset form 
+    /// and perform multiple currency conversions.
+    /// 
+    /// Author Chadwick Gay May 2017 - Student Number: 9410392
     /// </summary>
     public partial class Form1 : Form {
 
@@ -55,7 +60,7 @@ namespace Currency_Converter_GUI {
         } // end txtAmountHave_TextChanged()
 
         private void btnEquals_Click(object sender, EventArgs e) {
-            // Call PerformCurrencyConversion in Currency_Exchange_Class
+            // Call PerformCurrencyConversion to convert amount according to currency provided
             txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
                 cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
 
@@ -81,7 +86,7 @@ namespace Currency_Converter_GUI {
         } // end optConversion_CheckedChanged()
 
         /// <summary>
-        /// Validates Amount input by the user. Shows relevant error message with MessageBox.
+        /// Validates Amount input by the user. Shows relevant error message with MessageBox on invalid input.
         /// Only enables user to proceed if value entered is a non-negative  number.
         /// If amount entered is non-negative number, equals button is enabled for the user.
         /// </summary>
@@ -94,11 +99,11 @@ namespace Currency_Converter_GUI {
 
             // Error handling for invalid input
             if (inputValue != "") {
-                // Number entered not numeric
+                // If value entered not numeric
                 if (!okay) {
                     btnEquals.Enabled = false;
                     MessageBox.Show("\"Amount I have\" must be a number.");
-                    // Negative number entered
+                // If negative number entered
                 } else if (amountHave < 0) {
                     btnEquals.Enabled = false;
                     MessageBox.Show("Amount entered cannot be less than 0.");
@@ -134,7 +139,8 @@ namespace Currency_Converter_GUI {
         } // end ResetConversionForm()
 
         /// <summary>
-        /// Prompts user to exit the program gracefully. 
+        /// Prompts user to exit the program gracefully.
+        /// User asked to confirm exit with MessageBox.
         /// </summary>
         private void ExitProgram() {
             string message = "Thank you for using the Currency Convertor.\n\n Are you sure you want to exit?";
