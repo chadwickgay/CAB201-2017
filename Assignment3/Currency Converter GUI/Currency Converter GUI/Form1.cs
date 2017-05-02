@@ -55,7 +55,7 @@ namespace Currency_Converter_GUI {
         } // end txtAmountHave_TextChanged()
 
         private void btnEquals_Click(object sender, EventArgs e) {
-            // Perform currency conversion
+            // Call PerformCurrencyConversion in Currency_Exchange_Class
             txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
                 cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
 
@@ -67,7 +67,7 @@ namespace Currency_Converter_GUI {
 
             grpConversion.Visible = true;
 
-        } // end cmdEquals_Click()
+        } // end btnEquals_Click()
 
         private void optConversion_CheckedChanged(object sender, EventArgs e) {
             if (optConversionYes.Checked) {

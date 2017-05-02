@@ -80,11 +80,11 @@
             this.lblAmountWant.TabIndex = 3;
             this.lblAmountWant.Text = "Amount I want";
             // 
-            // cmdEquals
+            // btnEquals
             // 
             this.btnEquals.Enabled = false;
             this.btnEquals.Location = new System.Drawing.Point(162, 138);
-            this.btnEquals.Name = "cmdEquals";
+            this.btnEquals.Name = "btnEquals";
             this.btnEquals.Size = new System.Drawing.Size(75, 23);
             this.btnEquals.TabIndex = 4;
             this.btnEquals.Text = "equals";
@@ -168,9 +168,9 @@
             this.lblCurrencyCodeHave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrencyCodeHave.Location = new System.Drawing.Point(1, 158);
             this.lblCurrencyCodeHave.Name = "lblCurrencyCodeHave";
-            this.lblCurrencyCodeHave.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrencyCodeHave.Size = new System.Drawing.Size(33, 13);
             this.lblCurrencyCodeHave.TabIndex = 10;
-            this.lblCurrencyCodeHave.Text = "XXX";
+            this.lblCurrencyCodeHave.Text = "CUR";
             this.lblCurrencyCodeHave.Visible = false;
             // 
             // lblCurrencyCodeWant
@@ -179,9 +179,9 @@
             this.lblCurrencyCodeWant.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCurrencyCodeWant.Location = new System.Drawing.Point(249, 161);
             this.lblCurrencyCodeWant.Name = "lblCurrencyCodeWant";
-            this.lblCurrencyCodeWant.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrencyCodeWant.Size = new System.Drawing.Size(33, 13);
             this.lblCurrencyCodeWant.TabIndex = 11;
-            this.lblCurrencyCodeWant.Text = "XXX";
+            this.lblCurrencyCodeWant.Text = "CUR";
             this.lblCurrencyCodeWant.Visible = false;
             // 
             // Form1
