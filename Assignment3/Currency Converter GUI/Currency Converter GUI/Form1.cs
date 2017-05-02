@@ -21,14 +21,17 @@ namespace Currency_Converter_GUI {
             // Inserted according to assignement specifications
             cboCurrencyHave.DataSource = Currency_Exchange_Class.InitialiseComboBox();
             cboCurrencyWant.DataSource = Currency_Exchange_Class.InitialiseComboBox();
-        }//end Form1()
 
-        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
             // Inserted according to assignement specifications
             cboCurrencyHave.SelectedIndexChanged += new EventHandler(cboCurrencyHave_SelectedIndexChanged);
             cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
 
+        }//end Form1()
+
+        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
+            
             if (cboCurrencyHave.Text != "") {
+                //
                 cboCurrencyWant.Enabled = true;
                 cboCurrencyHave.Enabled = false;
 
@@ -39,6 +42,7 @@ namespace Currency_Converter_GUI {
 
         private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
             if (cboCurrencyWant.Text != "") {
+                //
                 txtAmountHave.Enabled = true;
                 cboCurrencyWant.Enabled = false;
 
@@ -51,18 +55,26 @@ namespace Currency_Converter_GUI {
         } // end cboCurrencyWant_SelectedIndexChanged()
 
         private void txtAmountHave_TextChanged(object sender, EventArgs e) {
+            ValidateAmountHave(txtAmountHave.Text);
+        } // end txtAmountHave_TextChanged()
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputValue"></param>
+        private void ValidateAmountHave(string inputValue) {
             double amountHave;
 
             // Test input is numeric
-            bool okay = double.TryParse(txtAmountHave.Text, out amountHave);
+            bool okay = double.TryParse(inputValue, out amountHave);
 
             // Error handling for invalid input
-            if (txtAmountHave.Text != "") {
+            if (inputValue != "") {
                 // Number entered not numeric
                 if (!okay) {
                     cmdEquals.Enabled = false;
                     MessageBox.Show("\"Amount I have\" must be a number.");
-                // Negative number entered
+                    // Negative number entered
                 } else if (amountHave < 0) {
                     cmdEquals.Enabled = false;
                     MessageBox.Show("Amount entered cannot be less than 0.");
@@ -70,9 +82,12 @@ namespace Currency_Converter_GUI {
                     cmdEquals.Enabled = true;
                 }
             }
-        } // end txtAmountHave_TextChanged()
+        }
 
         private void cmdEquals_Click(object sender, EventArgs e) {
+            // Perform currency conversion
+            txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
+                cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
 
             // Disable ability to change AmountHave
             txtAmountHave.Enabled = false;
@@ -82,10 +97,6 @@ namespace Currency_Converter_GUI {
 
             // Make wanted currency code visible
             lblCurrencyCodeWant.Visible = true;
-
-            // Show converted amount
-            txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
-                cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString();
 
             // Make Another Conversion options visible
             grpConversion.Visible = true;
@@ -98,16 +109,16 @@ namespace Currency_Converter_GUI {
                 ResetConversionForm();
 
                 // Reset another conversion to unchecked state
-                ClearConversionRadio();
+                optConversionYes.Checked = false;
             } else if (optConversionNo.Checked) {
                 ExitProgram();
             }
         } // end optConversion_CheckedChanged()
 
-        private void ClearConversionRadio() {
-            optConversionYes.Checked = false;
-        } // end ClearConversionRadio
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ResetConversionForm() {
             // Reset dropdowns to default value;
             cboCurrencyHave.Text = "";

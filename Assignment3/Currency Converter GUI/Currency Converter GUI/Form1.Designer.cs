@@ -152,7 +152,6 @@
             this.cboCurrencyHave.Name = "cboCurrencyHave";
             this.cboCurrencyHave.Size = new System.Drawing.Size(121, 21);
             this.cboCurrencyHave.TabIndex = 8;
-            this.cboCurrencyHave.SelectedIndexChanged += new System.EventHandler(this.cboCurrencyHave_SelectedIndexChanged);
             // 
             // cboCurrencyWant
             // 
@@ -162,7 +161,6 @@
             this.cboCurrencyWant.Name = "cboCurrencyWant";
             this.cboCurrencyWant.Size = new System.Drawing.Size(121, 21);
             this.cboCurrencyWant.TabIndex = 9;
-            this.cboCurrencyWant.SelectedIndexChanged += new System.EventHandler(this.cboCurrencyWant_SelectedIndexChanged);
             // 
             // lblCurrencyCodeHave
             // 

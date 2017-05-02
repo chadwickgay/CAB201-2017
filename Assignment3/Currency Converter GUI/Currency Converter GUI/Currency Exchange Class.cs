@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Currency_Converter_GUI {
 
-    enum Currencies { AUD = 1, CYN, DKK, EUR, INR, NZD, AED, GBP, USD, VND };
+    enum Currencies { AUD = 1, CNY, DKK, EUR, INR, NZD, AED, GBP, USD, VND };
     /// <summary>
     /// Name: Chadwick Gay
     /// Student Number: 9410392
@@ -15,8 +15,6 @@ namespace Currency_Converter_GUI {
     static class Currency_Exchange_Class {
 
         // Number of decimal places for program output
-        const int DECIMAL_PLACES = 4;
-
         private static double[] xRates = { 0, 1, 4.2681, 5.0844, 0.6849, 43.5921, 0.9705, 2.7094, 0.4963, 0.7382, 19115.5547 };
 
         /// <summary>
@@ -62,22 +60,8 @@ namespace Currency_Converter_GUI {
             convertedAmount = ConvertFromAud(toCurrencyIndex, audAmount);
 
             // Round to specified decimal places
-            return RoundCurrency(convertedAmount, DECIMAL_PLACES);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="currencyAmount"></param>
-        /// <param name="decimalPlaces"></param>
-        /// <returns></returns>
-        public static double RoundCurrency(double currencyAmount, int decimalPlaces) {
-            double roundedAmount;
-
-            roundedAmount = Math.Round(currencyAmount, decimalPlaces);
-
-            return roundedAmount;
-        } // end RoundCurrency()
+            return convertedAmount;
+        } // end PerformCurrencyConversion()
 
         /// <summary>
         /// 
