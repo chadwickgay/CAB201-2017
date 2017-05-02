@@ -18,17 +18,16 @@ namespace Currency_Converter_GUI {
         public Form1() {
             InitializeComponent();
 
+            // Inserted according to assignement specifications
             cboCurrencyHave.DataSource = Currency_Exchange_Class.InitialiseComboBox();
-
             cboCurrencyWant.DataSource = Currency_Exchange_Class.InitialiseComboBox();
-
-            cboCurrencyHave.SelectedIndexChanged += new EventHandler(cboCurrencyHave_SelectedIndexChanged);
-
-            cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
-
         }//end Form1()
 
         private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
+            // Inserted according to assignement specifications
+            cboCurrencyHave.SelectedIndexChanged += new EventHandler(cboCurrencyHave_SelectedIndexChanged);
+            cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
+
             if (cboCurrencyHave.Text != "") {
                 cboCurrencyWant.Enabled = true;
                 cboCurrencyHave.Enabled = false;
@@ -66,7 +65,7 @@ namespace Currency_Converter_GUI {
                 // Negative number entered
                 } else if (amountHave < 0) {
                     cmdEquals.Enabled = false;
-                    MessageBox.Show("Amount entered cannot be less than $0.");
+                    MessageBox.Show("Amount entered cannot be less than 0.");
                 } else {
                     cmdEquals.Enabled = true;
                 }
