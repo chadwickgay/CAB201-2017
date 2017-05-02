@@ -27,7 +27,7 @@
             this.lblCurencyHave = new System.Windows.Forms.Label();
             this.lblAmountHave = new System.Windows.Forms.Label();
             this.lblAmountWant = new System.Windows.Forms.Label();
-            this.cmdEquals = new System.Windows.Forms.Button();
+            this.btnEquals = new System.Windows.Forms.Button();
             this.grpConversion = new System.Windows.Forms.GroupBox();
             this.optConversionNo = new System.Windows.Forms.RadioButton();
             this.optConversionYes = new System.Windows.Forms.RadioButton();
@@ -82,14 +82,14 @@
             // 
             // cmdEquals
             // 
-            this.cmdEquals.Enabled = false;
-            this.cmdEquals.Location = new System.Drawing.Point(162, 138);
-            this.cmdEquals.Name = "cmdEquals";
-            this.cmdEquals.Size = new System.Drawing.Size(75, 23);
-            this.cmdEquals.TabIndex = 4;
-            this.cmdEquals.Text = "equals";
-            this.cmdEquals.UseVisualStyleBackColor = true;
-            this.cmdEquals.Click += new System.EventHandler(this.cmdEquals_Click);
+            this.btnEquals.Enabled = false;
+            this.btnEquals.Location = new System.Drawing.Point(162, 138);
+            this.btnEquals.Name = "cmdEquals";
+            this.btnEquals.Size = new System.Drawing.Size(75, 23);
+            this.btnEquals.TabIndex = 4;
+            this.btnEquals.Text = "equals";
+            this.btnEquals.UseVisualStyleBackColor = true;
+            this.btnEquals.Click += new System.EventHandler(this.btnEquals_Click);
             // 
             // grpConversion
             // 
@@ -196,7 +196,7 @@
             this.Controls.Add(this.txtAmountWant);
             this.Controls.Add(this.txtAmountHave);
             this.Controls.Add(this.grpConversion);
-            this.Controls.Add(this.cmdEquals);
+            this.Controls.Add(this.btnEquals);
             this.Controls.Add(this.lblAmountWant);
             this.Controls.Add(this.lblAmountHave);
             this.Controls.Add(this.lblCurencyHave);
@@ -217,7 +217,7 @@
         private System.Windows.Forms.Label lblCurencyHave;
         private System.Windows.Forms.Label lblAmountHave;
         private System.Windows.Forms.Label lblAmountWant;
-        private System.Windows.Forms.Button cmdEquals;
+        private System.Windows.Forms.Button btnEquals;
         private System.Windows.Forms.GroupBox grpConversion;
         private System.Windows.Forms.RadioButton optConversionNo;
         private System.Windows.Forms.RadioButton optConversionYes;

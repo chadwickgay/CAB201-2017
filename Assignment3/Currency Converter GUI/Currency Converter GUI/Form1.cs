@@ -28,41 +28,66 @@ namespace Currency_Converter_GUI {
 
         }//end Form1()
 
-        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
-            
+        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {           
             if (cboCurrencyHave.Text != "") {
-                //
                 cboCurrencyWant.Enabled = true;
+
                 cboCurrencyHave.Enabled = false;
 
-                // Set currency code label based off selected currency
+                // Set currency have code label based off selected currency
                 lblCurrencyCodeHave.Text = Currency_Exchange_Class.GetCurrencyCode(cboCurrencyHave.SelectedIndex);
             }
         } // end cboCurrencyHave_SelectedIndexChanged()
 
         private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
             if (cboCurrencyWant.Text != "") {
-                //
+                
                 txtAmountHave.Enabled = true;
+
                 cboCurrencyWant.Enabled = false;
 
-                // Set currency code label based off selected currency 
+                // Set currency wanted code label based off selected currency 
                 lblCurrencyCodeWant.Text = Currency_Exchange_Class.GetCurrencyCode(cboCurrencyWant.SelectedIndex);
 
-                // Make have currency code visible
                 lblCurrencyCodeHave.Visible = true;
             }
         } // end cboCurrencyWant_SelectedIndexChanged()
 
         private void txtAmountHave_TextChanged(object sender, EventArgs e) {
-            ValidateAmountHave(txtAmountHave.Text);
+            ValidateAmountInput(txtAmountHave.Text);
         } // end txtAmountHave_TextChanged()
+
+        private void btnEquals_Click(object sender, EventArgs e) {
+            // Perform currency conversion
+            txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
+                cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
+
+            txtAmountHave.Enabled = false;
+
+            btnEquals.Enabled = false;
+
+            lblCurrencyCodeWant.Visible = true;
+
+            grpConversion.Visible = true;
+
+        } // end cmdEquals_Click()
+
+        private void optConversion_CheckedChanged(object sender, EventArgs e) {
+            if (optConversionYes.Checked) {
+                // Clear form of entered values
+                ResetConversionForm();
+                // Reset another conversion to unchecked state
+                optConversionYes.Checked = false;
+            } else if (optConversionNo.Checked) {
+                ExitProgram();
+            }
+        } // end optConversion_CheckedChanged()
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="inputValue"></param>
-        private void ValidateAmountHave(string inputValue) {
+        private void ValidateAmountInput(string inputValue) {
             double amountHave;
 
             // Test input is numeric
@@ -72,49 +97,17 @@ namespace Currency_Converter_GUI {
             if (inputValue != "") {
                 // Number entered not numeric
                 if (!okay) {
-                    cmdEquals.Enabled = false;
+                    btnEquals.Enabled = false;
                     MessageBox.Show("\"Amount I have\" must be a number.");
                     // Negative number entered
                 } else if (amountHave < 0) {
-                    cmdEquals.Enabled = false;
+                    btnEquals.Enabled = false;
                     MessageBox.Show("Amount entered cannot be less than 0.");
                 } else {
-                    cmdEquals.Enabled = true;
+                    btnEquals.Enabled = true;
                 }
             }
         }
-
-        private void cmdEquals_Click(object sender, EventArgs e) {
-            // Perform currency conversion
-            txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
-                cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
-
-            // Disable ability to change AmountHave
-            txtAmountHave.Enabled = false;
-
-            // Make equals button clickable
-            cmdEquals.Enabled = false;
-
-            // Make wanted currency code visible
-            lblCurrencyCodeWant.Visible = true;
-
-            // Make Another Conversion options visible
-            grpConversion.Visible = true;
-
-        } // end cmdEquals_Click()
-
-        private void optConversion_CheckedChanged(object sender, EventArgs e) {
-            if (optConversionYes.Checked) {
-                // Clear form of entered values
-                ResetConversionForm();
-
-                // Reset another conversion to unchecked state
-                optConversionYes.Checked = false;
-            } else if (optConversionNo.Checked) {
-                ExitProgram();
-            }
-        } // end optConversion_CheckedChanged()
-
 
         /// <summary>
         /// 
