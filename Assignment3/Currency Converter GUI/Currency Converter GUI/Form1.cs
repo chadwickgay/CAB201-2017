@@ -31,7 +31,6 @@ namespace Currency_Converter_GUI {
         private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {           
             if (cboCurrencyHave.Text != "") {
                 cboCurrencyWant.Enabled = true;
-
                 cboCurrencyHave.Enabled = false;
 
                 // Set currency have code label based off selected currency
@@ -41,9 +40,7 @@ namespace Currency_Converter_GUI {
 
         private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
             if (cboCurrencyWant.Text != "") {
-                
                 txtAmountHave.Enabled = true;
-
                 cboCurrencyWant.Enabled = false;
 
                 // Set currency wanted code label based off selected currency 
@@ -84,9 +81,11 @@ namespace Currency_Converter_GUI {
         } // end optConversion_CheckedChanged()
 
         /// <summary>
-        /// 
+        /// Validates Amount input by the user. Shows relevant error message with MessageBox.
+        /// Only enables user to proceed if value entered is a non-negative  number.
+        /// If amount entered is non-negative number, equals button is enabled for the user.
         /// </summary>
-        /// <param name="inputValue"></param>
+        /// <param name="inputValue">Value to to validated as non-negative number</param>
         private void ValidateAmountInput(string inputValue) {
             double amountHave;
 
@@ -110,7 +109,8 @@ namespace Currency_Converter_GUI {
         }
 
         /// <summary>
-        /// 
+        /// Resets the Currency Conversion to default state pre any user entry.
+        /// Allows user to perform multiple conversions.
         /// </summary>
         private void ResetConversionForm() {
             // Reset dropdowns to default value;

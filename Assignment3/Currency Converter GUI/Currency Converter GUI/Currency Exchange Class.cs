@@ -39,11 +39,12 @@ namespace Currency_Converter_GUI {
         } //end InitialiseComboBox()   
 
         /// <summary>
-        /// 
+        /// Performs conversion from one selected currency to the other selected currency.
+        /// Amount is converted to AUD before being converted to selected 'to' currency.
         /// </summary>
-        /// <param name="fromCurrencyIndex"></param>
-        /// <param name="toCurrencyIndex"></param>
-        /// <param name="inputValue"></param>
+        /// <param name="fromCurrencyIndex">Index of the currency the user has - 'amount have'.</param>
+        /// <param name="toCurrencyIndex">Index of the currency the user wants - 'amount wanted'.</param>
+        /// <param name="inputValue">Amount to be converted from the 'from' to the 'to' currency</param>
         /// <returns></returns>
         public static double PerformCurrencyConversion(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
 
@@ -64,11 +65,11 @@ namespace Currency_Converter_GUI {
         } // end PerformCurrencyConversion()
 
         /// <summary>
-        /// 
+        /// Converts amount in selected currency to amount in AUD and returns amount.
         /// </summary>
-        /// <param name="currencyIndex"></param>
-        /// <param name="inputValue"></param>
-        /// <returns></returns>
+        /// <param name="currencyIndex">Index of the currency the user wants - 'amount have'.</param>
+        /// <param name="inputValue">Amount to be converted from the 'from' to the 'to' currency</param>
+        /// <returns>Amount in AUD</returns>
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -80,11 +81,11 @@ namespace Currency_Converter_GUI {
         } // end ConvertToAud()
 
         /// <summary>
-        /// 
+        /// Converts amount in AUD to the selected currency and returns result.
         /// </summary>
-        /// <param name="currencyIndex"></param>
-        /// <param name="inputValue"></param>
-        /// <returns></returns>
+        /// <param name="currencyIndex">Index of the currency the user has - 'amount wanted'.</param>
+        /// <param name="inputValue">Amount in AUD to be converted to the 'to' currency</param>
+        /// <returns>Amount converted to the selected 'to' currency</returns>
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -96,10 +97,10 @@ namespace Currency_Converter_GUI {
         } // end ConvertFromAud()
 
         /// <summary>
-        /// 
+        /// Gets the currency code according to the index value provided.
         /// </summary>
-        /// <param name="currencyIndex"></param>
-        /// <returns></returns>
+        /// <param name="currencyIndex">Index of the currency selected in form selection</param>
+        /// <returns>Currency code of respective currency from passed index</returns>
         public static string GetCurrencyCode(int currencyIndex) {
             string currencyCode;
 
