@@ -30,10 +30,10 @@ namespace Currency_Converter_GUI {
             // Inserted according to assignement specifications
             cboCurrencyHave.SelectedIndexChanged += new EventHandler(cboCurrencyHave_SelectedIndexChanged);
             cboCurrencyWant.SelectedIndexChanged += new EventHandler(cboCurrencyWant_SelectedIndexChanged);
-
         }//end Form1()
 
-        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {           
+        private void cboCurrencyHave_SelectedIndexChanged(object sender, EventArgs e) {
+            // If a selection has been made from the cbo
             if (cboCurrencyHave.Text != "") {
                 cboCurrencyWant.Enabled = true;
                 cboCurrencyHave.Enabled = false;
@@ -44,6 +44,7 @@ namespace Currency_Converter_GUI {
         } // end cboCurrencyHave_SelectedIndexChanged()
 
         private void cboCurrencyWant_SelectedIndexChanged(object sender, EventArgs e) {
+            // If a selection has been made from the cbo
             if (cboCurrencyWant.Text != "") {
                 txtAmountHave.Enabled = true;
                 cboCurrencyWant.Enabled = false;
@@ -64,14 +65,17 @@ namespace Currency_Converter_GUI {
             txtAmountWant.Text = Currency_Exchange_Class.PerformCurrencyConversion(cboCurrencyHave.SelectedIndex,
                 cboCurrencyWant.SelectedIndex, txtAmountHave.Text).ToString("0.####");
 
+            // Lock input in amount have field from being changed
             txtAmountHave.Enabled = false;
 
+            // Make equals button unclickable
             btnEquals.Enabled = false;
 
+            // Show currency wanted currency code
             lblCurrencyCodeWant.Visible = true;
 
+            // Show another conversion options
             grpConversion.Visible = true;
-
         } // end btnEquals_Click()
 
         private void optConversion_CheckedChanged(object sender, EventArgs e) {
