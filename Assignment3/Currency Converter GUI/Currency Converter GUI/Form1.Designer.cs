@@ -35,8 +35,8 @@
             this.txtAmountWant = new System.Windows.Forms.TextBox();
             this.cboCurrencyHave = new System.Windows.Forms.ComboBox();
             this.cboCurrencyWant = new System.Windows.Forms.ComboBox();
-            this.lblCurrencyCode1 = new System.Windows.Forms.Label();
-            this.lblCurrencyCode2 = new System.Windows.Forms.Label();
+            this.lblCurrencyCodeHave = new System.Windows.Forms.Label();
+            this.lblCurrencyCodeWant = new System.Windows.Forms.Label();
             this.grpConversion.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,35 +164,35 @@
             this.cboCurrencyWant.TabIndex = 9;
             this.cboCurrencyWant.SelectedIndexChanged += new System.EventHandler(this.cboCurrencyWant_SelectedIndexChanged);
             // 
-            // lblCurrencyCode1
+            // lblCurrencyCodeHave
             // 
-            this.lblCurrencyCode1.AutoSize = true;
-            this.lblCurrencyCode1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrencyCode1.Location = new System.Drawing.Point(1, 158);
-            this.lblCurrencyCode1.Name = "lblCurrencyCode1";
-            this.lblCurrencyCode1.Size = new System.Drawing.Size(31, 13);
-            this.lblCurrencyCode1.TabIndex = 10;
-            this.lblCurrencyCode1.Text = "XXX";
-            this.lblCurrencyCode1.Visible = false;
+            this.lblCurrencyCodeHave.AutoSize = true;
+            this.lblCurrencyCodeHave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrencyCodeHave.Location = new System.Drawing.Point(1, 158);
+            this.lblCurrencyCodeHave.Name = "lblCurrencyCodeHave";
+            this.lblCurrencyCodeHave.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrencyCodeHave.TabIndex = 10;
+            this.lblCurrencyCodeHave.Text = "XXX";
+            this.lblCurrencyCodeHave.Visible = false;
             // 
-            // lblCurrencyCode2
+            // lblCurrencyCodeWant
             // 
-            this.lblCurrencyCode2.AutoSize = true;
-            this.lblCurrencyCode2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrencyCode2.Location = new System.Drawing.Point(249, 161);
-            this.lblCurrencyCode2.Name = "lblCurrencyCode2";
-            this.lblCurrencyCode2.Size = new System.Drawing.Size(31, 13);
-            this.lblCurrencyCode2.TabIndex = 11;
-            this.lblCurrencyCode2.Text = "XXX";
-            this.lblCurrencyCode2.Visible = false;
+            this.lblCurrencyCodeWant.AutoSize = true;
+            this.lblCurrencyCodeWant.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrencyCodeWant.Location = new System.Drawing.Point(249, 161);
+            this.lblCurrencyCodeWant.Name = "lblCurrencyCodeWant";
+            this.lblCurrencyCodeWant.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrencyCodeWant.TabIndex = 11;
+            this.lblCurrencyCodeWant.Text = "XXX";
+            this.lblCurrencyCodeWant.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 332);
-            this.Controls.Add(this.lblCurrencyCode2);
-            this.Controls.Add(this.lblCurrencyCode1);
+            this.Controls.Add(this.lblCurrencyCodeWant);
+            this.Controls.Add(this.lblCurrencyCodeHave);
             this.Controls.Add(this.cboCurrencyWant);
             this.Controls.Add(this.cboCurrencyHave);
             this.Controls.Add(this.txtAmountWant);
@@ -227,8 +227,8 @@
         private System.Windows.Forms.TextBox txtAmountWant;
         private System.Windows.Forms.ComboBox cboCurrencyHave;
         private System.Windows.Forms.ComboBox cboCurrencyWant;
-        private System.Windows.Forms.Label lblCurrencyCode1;
-        private System.Windows.Forms.Label lblCurrencyCode2;
+        private System.Windows.Forms.Label lblCurrencyCodeHave;
+        private System.Windows.Forms.Label lblCurrencyCodeWant;
     }
 }
 

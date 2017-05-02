@@ -9,12 +9,15 @@ namespace Currency_Converter_GUI {
 
     enum Currencies { AUD = 1, CYN, DKK, EUR, INR, NZD, AED, GBP, USD, VND };
     /// <summary>
-    /// 
+    /// Name: Chadwick Gay
+    /// Student Number: 9410392
     /// </summary>
     static class Currency_Exchange_Class {
 
-        private static double[] xRates = { 0, 1, 4.2681, 5.0844, 0.6849, 43.5921, 0.9705, 2.7094, 0.4963, 0.7382, 19115.5547 };
+        // Number of decimal places for program output
+        const int DECIMAL_PLACES = 4;
 
+        private static double[] xRates = { 0, 1, 4.2681, 5.0844, 0.6849, 43.5921, 0.9705, 2.7094, 0.4963, 0.7382, 19115.5547 };
 
         /// <summary>
         /// Provides country names and currency code which  can be used to initialise a Combo Box
@@ -37,8 +40,14 @@ namespace Currency_Converter_GUI {
             return countries;
         } //end InitialiseComboBox()   
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromCurrencyIndex"></param>
+        /// <param name="toCurrencyIndex"></param>
+        /// <param name="inputValue"></param>
+        /// <returns></returns>
         public static double PerformCurrencyConversion(int fromCurrencyIndex, int toCurrencyIndex, string inputValue) {
-            const int DECIMAL_PLACES = 4;
 
             bool okay;
             double inputAmount, audAmount, convertedAmount;
@@ -56,10 +65,26 @@ namespace Currency_Converter_GUI {
             return RoundCurrency(convertedAmount, DECIMAL_PLACES);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyAmount"></param>
+        /// <param name="decimalPlaces"></param>
+        /// <returns></returns>
         public static double RoundCurrency(double currencyAmount, int decimalPlaces) {
-            return Math.Round(currencyAmount, decimalPlaces);
+            double roundedAmount;
+
+            roundedAmount = Math.Round(currencyAmount, decimalPlaces);
+
+            return roundedAmount;
         } // end RoundCurrency()
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyIndex"></param>
+        /// <param name="inputValue"></param>
+        /// <returns></returns>
         public static double ConvertToAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -70,6 +95,12 @@ namespace Currency_Converter_GUI {
             return outputValue;
         } // end ConvertToAud()
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyIndex"></param>
+        /// <param name="inputValue"></param>
+        /// <returns></returns>
         public static double ConvertFromAud(int currencyIndex, double inputValue) {
             double outputValue, rate;
 
@@ -80,6 +111,11 @@ namespace Currency_Converter_GUI {
             return outputValue;
         } // end ConvertFromAud()
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currencyIndex"></param>
+        /// <returns></returns>
         public static string GetCurrencyCode(int currencyIndex) {
             string currencyCode;
 
