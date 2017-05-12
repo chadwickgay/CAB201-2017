@@ -13,11 +13,18 @@ namespace Games {
         public WhichCardGameForm() {
             InitializeComponent();
 
+            //Populate Card Games dropdown list
             cboCardGameSelect.DataSource = InitialiseComboBox();
         }
 
         private void cboCardGameSelect_SelectedIndexChanged(object sender, EventArgs e) {
+            // Finish this
 
+            /*
+            SolitaireGameForm SolitaireGameForm = new SolitaireGameForm();
+
+            TwentyOneGameForm TwentyOneGameForm = new TwentyOneGameForm();
+            */
         }
 
         private static string[] InitialiseComboBox() {
