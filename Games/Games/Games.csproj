@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Games Logic Library">
+      <HintPath>..\Games Logic Library\bin\Debug\Games Logic Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images.cs" />
     <Compile Include="Initial GUI Form.cs">
       <SubType>Form</SubType>
     </Compile>

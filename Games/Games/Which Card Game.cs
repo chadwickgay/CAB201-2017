@@ -18,17 +18,20 @@ namespace Games {
         }
 
         private void cboCardGameSelect_SelectedIndexChanged(object sender, EventArgs e) {
-            // Finish this
+            // Consider redoing this
 
-            /*
-            SolitaireGameForm SolitaireGameForm = new SolitaireGameForm();
+            if (cboCardGameSelect.SelectedItem.ToString() == "Solitaire") {
+                SolitaireGameForm SolitaireGameForm = new SolitaireGameForm();
 
-            TwentyOneGameForm TwentyOneGameForm = new TwentyOneGameForm();
-            */
+                SolitaireGameForm.Show();
+            } else if (cboCardGameSelect.SelectedItem.ToString() == "Twenty-One") {
+                TwentyOneGameForm TwentyOneGameForm = new TwentyOneGameForm();
+
+                TwentyOneGameForm.Show();
+            }
         }
 
         private static string[] InitialiseComboBox() {
-
             string[] games = {   "",
                                  "Solitaire",
                                  "Twenty-One",};

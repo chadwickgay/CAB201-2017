@@ -13,19 +13,28 @@ namespace Games {
         public WhichDiceGameForm() {
             InitializeComponent();
         }
-        
-        // Bug in this section - need to uncheck the state of the checkboxes
 
         private void optSingleDiePig_CheckedChanged(object sender, EventArgs e) {
-            PigGameForm PigGameForm = new PigGameForm();
 
-            PigGameForm.Show();            
+            if (optSingleDiePig.Checked) {
+                PigGameForm PigGameForm = new PigGameForm();
+
+                PigGameForm.Show();
+            }
+
+            // reset back to uncheck to allow re-selection on exit
+            optSingleDiePig.Checked = false;          
         }
 
         private void optTwoDicePig_CheckedChanged(object sender, EventArgs e) {
-            PigWithTwoDiceForm PigGameWithTwoDiceForm = new PigWithTwoDiceForm();
 
-            PigGameWithTwoDiceForm.Show();
+            if (optTwoDicePig.Checked) {
+                PigWithTwoDiceForm PigGameWithTwoDiceForm = new PigWithTwoDiceForm();
+
+                PigGameWithTwoDiceForm.Show();
+            }
+            // reset back to uncheck to allow re-selection on exit
+            optTwoDicePig.Checked = false;      
         }
 
         /// <summary>
