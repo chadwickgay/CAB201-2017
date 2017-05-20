@@ -53,11 +53,11 @@
             // 
             this.lblRollOrHold.AutoSize = true;
             this.lblRollOrHold.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRollOrHold.Location = new System.Drawing.Point(28, 89);
+            this.lblRollOrHold.Location = new System.Drawing.Point(19, 84);
             this.lblRollOrHold.Name = "lblRollOrHold";
-            this.lblRollOrHold.Size = new System.Drawing.Size(67, 13);
+            this.lblRollOrHold.Size = new System.Drawing.Size(74, 13);
             this.lblRollOrHold.TabIndex = 1;
-            this.lblRollOrHold.Text = "roll or hold";
+            this.lblRollOrHold.Text = "Roll or Hold";
             // 
             // btnRoll
             // 
@@ -80,6 +80,7 @@
             this.btnHold.TabIndex = 3;
             this.btnHold.Text = "Hold";
             this.btnHold.UseVisualStyleBackColor = false;
+            this.btnHold.Click += new System.EventHandler(this.btnHold_Click);
             // 
             // picDie
             // 
@@ -89,7 +90,6 @@
             this.picDie.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picDie.TabIndex = 4;
             this.picDie.TabStop = false;
-            this.picDie.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // lblPlayerOneTotal
             // 
@@ -110,26 +110,30 @@
             this.lblPlayerTwoTotal.Size = new System.Drawing.Size(86, 13);
             this.lblPlayerTwoTotal.TabIndex = 6;
             this.lblPlayerTwoTotal.Text = "Player 2 Total";
-            this.lblPlayerTwoTotal.Click += new System.EventHandler(this.lblPlayerTwoTotal_Click);
             // 
             // txtPlayerOneTotal
             // 
             this.txtPlayerOneTotal.Location = new System.Drawing.Point(338, 67);
             this.txtPlayerOneTotal.Name = "txtPlayerOneTotal";
+            this.txtPlayerOneTotal.ReadOnly = true;
             this.txtPlayerOneTotal.Size = new System.Drawing.Size(96, 20);
             this.txtPlayerOneTotal.TabIndex = 7;
+            this.txtPlayerOneTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtPlayerTwoTotal
             // 
             this.txtPlayerTwoTotal.Location = new System.Drawing.Point(338, 93);
             this.txtPlayerTwoTotal.Name = "txtPlayerTwoTotal";
+            this.txtPlayerTwoTotal.ReadOnly = true;
             this.txtPlayerTwoTotal.Size = new System.Drawing.Size(96, 20);
             this.txtPlayerTwoTotal.TabIndex = 8;
+            this.txtPlayerTwoTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // grpAnotherGame
             // 
             this.grpAnotherGame.Controls.Add(this.optAnotherGameNo);
             this.grpAnotherGame.Controls.Add(this.optAnotherGameYes);
+            this.grpAnotherGame.Enabled = false;
             this.grpAnotherGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpAnotherGame.Location = new System.Drawing.Point(301, 156);
             this.grpAnotherGame.Name = "grpAnotherGame";
@@ -148,6 +152,7 @@
             this.optAnotherGameNo.TabStop = true;
             this.optAnotherGameNo.Text = "No";
             this.optAnotherGameNo.UseVisualStyleBackColor = true;
+            this.optAnotherGameNo.CheckedChanged += new System.EventHandler(this.optAnotherGameNo_CheckedChanged);
             // 
             // optAnotherGameYes
             // 
@@ -159,6 +164,7 @@
             this.optAnotherGameYes.TabStop = true;
             this.optAnotherGameYes.Text = "Yes";
             this.optAnotherGameYes.UseVisualStyleBackColor = true;
+            this.optAnotherGameYes.CheckedChanged += new System.EventHandler(this.optAnotherGameYes_CheckedChanged);
             // 
             // PigGameForm
             // 

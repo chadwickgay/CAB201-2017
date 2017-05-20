@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Low_Level_Objects_Library {
 
     public class Die {
-        private static Random randomNumber = new Random(10);
+        private static Random randomNumber = new Random();
 
         private const int SIX_SIDED = 6;
         private const int DEFAULT_FACE_VALUE = 1;
