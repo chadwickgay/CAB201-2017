@@ -10,17 +10,21 @@ namespace Games_Logic_Library {
 
         static Die myDie = new Die();
 
-        // Should I even have this?
-        private const int NUM_OF_PLAYERS = 2;
-        private const int WINNING_SCORE = 30;
-
         private static int faceValue;
 
         private static int[] pointsTotal;
 
         private static string[] playersName;
 
+        // Added variables
+        // Should I even have this?
+        private const int NUM_OF_PLAYERS = 2;
+        private const int WINNING_SCORE = 30;
+
         private static int currentPlayer;
+
+        private static int previousScore;
+        private static bool firstRoll = true;
 
         /// <summary>
         /// Initializes class variables at start of a new game.
@@ -40,12 +44,13 @@ namespace Games_Logic_Library {
 
         public static bool PlayGame() {
             bool playGame = true;
-            int previousScore, gameOver;
+            int gameOver;
 
-            gameOver = 1;
+            gameOver = 1;    
 
-            // problem here
-            previousScore = pointsTotal[currentPlayer];
+            if (firstRoll) {
+                previousScore = pointsTotal[currentPlayer];
+            }
 
             myDie.RollDie();
 
@@ -57,12 +62,20 @@ namespace Games_Logic_Library {
             } else {
                 pointsTotal[currentPlayer] = pointsTotal[currentPlayer] + faceValue;
                 playGame = true;
-            }         
+            }
+
+            firstRoll = false;
+                    
             return playGame;
         }
 
         public static bool HasWon() {
             if (pointsTotal[currentPlayer] >= WINNING_SCORE) {
+
+                ResetPlayerScores();
+
+                ResetCurrentPlayer();
+
                 return true;
             } else {
                 return false;
@@ -101,12 +114,28 @@ namespace Games_Logic_Library {
             return faceValue;
         }
 
+        // Private methods
+
         private static void SwitchPlayers() {
             if (currentPlayer == 1) {
                 currentPlayer = 2;
             } else {
                 currentPlayer = 1;
             }
+
+            firstRoll = true;
+        }
+
+        private static void ResetPlayerScores() {
+            for (int i = 0; i < pointsTotal.Length; i++) {
+                pointsTotal[i] = 0;
+            }
+
+            firstRoll = true;
+        }
+
+        private static void ResetCurrentPlayer() {
+            currentPlayer = 1;
         }
     }
 }

@@ -147,13 +147,17 @@ namespace Games {
         }
 
         private void ResetGame() {
+            lblWhoseTurn.Text = Pig_Single_Die_Game.GetFirstPLayersName();
+
             EnableRollButton();
 
             DisableHoldButton();
 
-            //txtPlayerOneTotal.Text = "0";
+            txtPlayerOneTotal.Text = "0";
 
-            //txtPlayerTwoTotal.Text = "0";
+            txtPlayerTwoTotal.Text = "0";
+
+            optAnotherGameYes.Checked = false;
         }
 
         /// <summary>
