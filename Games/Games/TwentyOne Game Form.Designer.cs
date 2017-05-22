@@ -77,7 +77,7 @@
             this.tblPanelPlayer.Name = "tblPanelPlayer";
             this.tblPanelPlayer.RowCount = 1;
             this.tblPanelPlayer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tblPanelPlayer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tblPanelPlayer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
             this.tblPanelPlayer.Size = new System.Drawing.Size(576, 95);
             this.tblPanelPlayer.TabIndex = 1;
             // 
@@ -121,6 +121,7 @@
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnTest
             // 

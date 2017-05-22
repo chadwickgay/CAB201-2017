@@ -8,21 +8,27 @@ using Low_Level_Objects_Library;
 namespace Games_Logic_Library {
     public class Twenty_One_Game {
 
-        // Class variables
-
+        // Game parameters
         public const int NUM_OF_PLAYERS = 2;
         private const int INITIAL_HAND_SIZE = 2;
         private const int FACE_CARD_VALUE = 10;
         private const int ACE_VALUE = 11;
+
         private const int CARD_ENUM_VALUE_OFFSET = 2;
+
+        // Player and dealer index values
         private const int PLAYER = 0;
         private const int DEALER = 1;
-        private const int WIN = 21;
 
+        // Game thresholds
+        private const int WIN = 21;
+        private const int DEALER_HIT_TRESHOLD = 17;
+
+        // UML Variables
         private static CardPile cardPile;
         private static Hand[] hands;
         private static int[] totalPoints;
-        private static int[] numOfGamesWon;
+        private static int[] numOfGamesWon = new int[] {0,0};
         private static int numOfUserAcesWithValueOne;
 
         // Class methods
@@ -30,11 +36,10 @@ namespace Games_Logic_Library {
         public static void SetUpGame() {
 
             totalPoints = new int[] { 0, 0 };
-            numOfGamesWon = new int[] { 0, 0 };
+            // numOfGamesWon = new int[] { 0, 0 };
             numOfUserAcesWithValueOne = 0;
 
             cardPile = new CardPile(true);
-
             cardPile.Shuffle();
 
             Hand playerHand = new Hand();
@@ -64,6 +69,7 @@ namespace Games_Logic_Library {
 
         public static int CalculateHandTotal(int who) {
             int totalHand = 0;
+            int aceCounter = 0;
 
             foreach (Card card in hands[who]) {
                 FaceValue faceValue = card.GetFaceValue();
@@ -76,29 +82,42 @@ namespace Games_Logic_Library {
                         break;
                     case FaceValue.Ace:
                         totalHand += ACE_VALUE;
+                        aceCounter++;
                         break;
                     default:
                         totalHand += (int)faceValue + CARD_ENUM_VALUE_OFFSET;
                         break;
                 }
             }
-            // Subtract 10 points for every Ace in hand with value of 1. Dealer has no option to do this
+            // Subtract 10 points for every Ace in hand with value of 1. 
             if (who == PLAYER) {
                 totalHand -= (10 * numOfUserAcesWithValueOne);
             }
-            // need to check this section
+
+            // Dealer cannot input decision - where two Aces, one Ace is valued at 1.
+            if (who == DEALER && aceCounter == 2) {
+                // Value of 1 of Aces as 1 to avoid automatic bust
+                totalHand -= (10 * 1);
+            }
+
+            // need to check if this section is allowed/good idea
             totalPoints[who] = totalHand;
+
+            DeterminePlayerBust(who);
+
             return totalHand;
         }
 
         public static void PlayForDealer() {
             totalPoints[DEALER] = CalculateHandTotal(DEALER);
 
-            while (totalPoints[DEALER] < 17) {
+            while (totalPoints[DEALER] < DEALER_HIT_TRESHOLD) {
                 DealOneCardTo(DEALER);
 
                 totalPoints[DEALER] = CalculateHandTotal(DEALER);
             }
+
+           DetermineWinner(DEALER);
         } 
 
         public static Hand GetHand(int who) {
@@ -121,22 +140,29 @@ namespace Games_Logic_Library {
             numOfUserAcesWithValueOne++;
         }
 
-        private static void DetermineWinner() {
-            // Dealer gets 21
-            if (totalPoints[DEALER] == WIN) {
-                numOfGamesWon[DEALER]++;
-            }
+        private static void DetermineWinner(int who) {
             // Dealer busts
-            if (totalPoints[DEALER] > 21) {
+            if (totalPoints[DEALER] > WIN && totalPoints[PLAYER] < WIN) {
                 numOfGamesWon[PLAYER]++;
-            }
-            // Dealer score higher
-            if (totalPoints[DEALER] > totalPoints[PLAYER]) {
+            } // Player score higher than dealer - but not busted
+            else if (totalPoints[PLAYER] > totalPoints[DEALER] && totalPoints[PLAYER] <= WIN) {
+                numOfGamesWon[PLAYER]++;
+            } // Dealer scores higher than player - but not busted
+            else if (totalPoints[DEALER] > totalPoints[PLAYER]  && totalPoints[DEALER] <= WIN) {
                 numOfGamesWon[DEALER]++;
-            }
-            // Player score higher
-            if (totalPoints[PLAYER] > totalPoints[DEALER]) {
+            } // Dealer gets 21 and player does not
+            else if (totalPoints[DEALER] == WIN && totalPoints[PLAYER] != WIN) {
+                numOfGamesWon[DEALER]++;
+            } // Player gets 21 and player does not
+            else if (totalPoints[PLAYER] == WIN && totalPoints[DEALER] != WIN) {
                 numOfGamesWon[PLAYER]++;
+            } 
+        }
+
+        private static void DeterminePlayerBust(int who) {
+            // Player Bust
+            if (who == PLAYER && totalPoints[PLAYER] > WIN) {
+                numOfGamesWon[DEALER]++;
             }
         }
 

@@ -39,9 +39,14 @@ namespace Games {
 
             Twenty_One_Game.SetUpGame();
 
+            // Hide busted message(s)
+            HideBustedMessage();
+
+            // Display Aces with Value One after round reset
+            DisplayAcesValueOne();
+
             // Deal first two to the player and dealer
             for (int i = 0; i < NUM_INITIAL_CARDS; i++) {
-
                 Twenty_One_Game.DealOneCardTo(PLAYER);
                 Twenty_One_Game.DealOneCardTo(DEALER);
             }
@@ -59,9 +64,55 @@ namespace Games {
             // DisableDealButton();
 
             EnableHitButton();
-
             EnableStandButton();
+        }
 
+        private void btnHit_Click(object sender, EventArgs e) {
+            bool busted;
+
+            Card card = Twenty_One_Game.DealOneCardTo(PLAYER);
+
+            DisplayGuiHand(Twenty_One_Game.GetHand(PLAYER), tblPanelPlayer);
+
+            DetermineAceValue(card);
+
+            // Recalculate totals after each new card hit
+            Twenty_One_Game.CalculateHandTotal(PLAYER);
+
+            DisplayPoints();
+
+            busted = DetermineIfPlayerBusted(PLAYER);
+
+            if (busted) {
+                DisableHitButton();
+                DisableStandButton();
+            }
+
+            DisplayGamesWon();         
+        }
+
+        private void btnStand_Click(object sender, EventArgs e) {
+
+            Twenty_One_Game.PlayForDealer();
+
+            DisplayGuiHand(Twenty_One_Game.GetHand(DEALER), tblPanelDealer);
+
+            DisplayPoints();
+
+            DisplayGamesWon();
+
+            DetermineIfPlayerBusted(DEALER);
+
+            DisplayGamesWon();
+
+            DisableHitButton();
+            DisableStandButton();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e) {
+            ExitGameSummary();
+
+            Close();
         }
 
         private void btnTest_Click(object sender, EventArgs e) {
@@ -103,7 +154,7 @@ namespace Games {
                     Twenty_One_Game.IncrementNumOfUserAcesWithValueOne();
 
                     // Update displayed total to reflect decision
-                    lblNumberAcesValueOne.Text = Twenty_One_Game.GetNumOfUserAcesWithValueOfOne().ToString();
+                    DisplayAcesValueOne();
                 }
             }
         }
@@ -140,47 +191,49 @@ namespace Games {
             }
         }
 
-        private void btnHit_Click(object sender, EventArgs e) {
-            int playerScore;
-
-            Card card = Twenty_One_Game.DealOneCardTo(PLAYER);
-
-            DisplayGuiHand(Twenty_One_Game.GetHand(PLAYER), tblPanelPlayer);
-
-            DetermineAceValue(card);
-
-            // Recalculate totals after each new card hit
-            Twenty_One_Game.CalculateHandTotal(PLAYER);
-
-            DisplayPoints();
-
-            playerScore = Twenty_One_Game.GetTotalPoints(PLAYER);
-            if (playerScore > 21) {
-                bustedLabels[PLAYER].Visible = true;
-            }
-
+        private void DisplayAcesValueOne() {
+            lblNumberAcesValueOne.Text = Twenty_One_Game.GetNumOfUserAcesWithValueOfOne().ToString();
         }
 
-        private void btnStand_Click(object sender, EventArgs e) {
-            int dealerScore;
+        private bool DetermineIfPlayerBusted(int player) {
+            int score;
 
-            Twenty_One_Game.PlayForDealer();
+            score = Twenty_One_Game.GetTotalPoints(player);
+            if (score > 21) {
+                bustedLabels[player].Visible = true;
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-            DisplayGuiHand(Twenty_One_Game.GetHand(DEALER), tblPanelDealer);
+        private void HideBustedMessage() {
+            for (int i = 0; i < Twenty_One_Game.NUM_OF_PLAYERS; i++) {
+                bustedLabels[i].Visible = false;
+            }
+        }
 
-            DisplayPoints();
+        // minor bug here - if no game selected. unhandled excep
+        private void ExitGameSummary() {
+            string message;
+            int dealerScore, playerScore;
 
-            DisplayGamesWon();
+            dealerScore = Twenty_One_Game.GetNumOfGamesWon(DEALER);
+            playerScore = Twenty_One_Game.GetNumOfGamesWon(PLAYER);
 
-            dealerScore = Twenty_One_Game.GetTotalPoints(DEALER);
-            if (dealerScore > 21) {
-                bustedLabels[DEALER].Visible = true;
+            // determine message to display on exit
+            if (dealerScore > playerScore) {
+                message = "House Won. Better luck next time!";
+            } else if (playerScore > dealerScore) {
+                message = "You won. Well done!";
+            } else {
+                message = "It was a draw!";
             }
 
-            DisableHitButton();
-
-            DisableStandButton();
-            
+            // output message via MessageBox
+            MessageBox.Show(message);
         }
+
+
     }
 }
