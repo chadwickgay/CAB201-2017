@@ -36,8 +36,8 @@ namespace Games {
             if (playGame == false) {
                  EndTurn();           
             } else {
-                
-                btnHold.Enabled = true;
+
+                EnableHoldButton();
 
                 SetRollOrHoldMessage();
 
@@ -96,6 +96,10 @@ namespace Games {
 
         private void DisableHoldButton() {
             btnHold.Enabled = false;
+        }
+
+        private void EnableHoldButton() {
+            btnHold.Enabled = true;
         }
 
         private void SetPlayerScores() {
