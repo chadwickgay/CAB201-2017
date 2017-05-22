@@ -9,20 +9,15 @@ namespace Games_Logic_Library {
     public class Pig_Single_Die_Game {
 
         static Die myDie = new Die();
-
         private static int faceValue;
-
         private static int[] pointsTotal;
-
         private static string[] playersName;
 
         // Added variables
         // Should I even have this?
         private const int NUM_OF_PLAYERS = 2;
         private const int WINNING_SCORE = 30;
-
         private static int currentPlayer;
-
         private static int previousScore;
         private static bool firstRoll = true;
 

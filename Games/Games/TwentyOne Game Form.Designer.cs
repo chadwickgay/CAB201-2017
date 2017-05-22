@@ -40,6 +40,8 @@
             this.lblPointsDealer = new System.Windows.Forms.Label();
             this.lblGamesWonDealer = new System.Windows.Forms.Label();
             this.lblNumberWonDealer = new System.Windows.Forms.Label();
+            this.lblAcesWithValueOne = new System.Windows.Forms.Label();
+            this.lblNumberAcesValueOne = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tblPanelDealer
@@ -91,21 +93,25 @@
             // 
             // btnHit
             // 
+            this.btnHit.Enabled = false;
             this.btnHit.Location = new System.Drawing.Point(145, 369);
             this.btnHit.Name = "btnHit";
             this.btnHit.Size = new System.Drawing.Size(75, 23);
             this.btnHit.TabIndex = 3;
             this.btnHit.Text = "Hit";
             this.btnHit.UseVisualStyleBackColor = true;
+            this.btnHit.Click += new System.EventHandler(this.btnHit_Click);
             // 
             // btnStand
             // 
+            this.btnStand.Enabled = false;
             this.btnStand.Location = new System.Drawing.Point(246, 369);
             this.btnStand.Name = "btnStand";
             this.btnStand.Size = new System.Drawing.Size(75, 23);
             this.btnStand.TabIndex = 4;
             this.btnStand.Text = "Stand";
             this.btnStand.UseVisualStyleBackColor = true;
+            this.btnStand.Click += new System.EventHandler(this.btnStand_Click);
             // 
             // btnCancel
             // 
@@ -136,6 +142,7 @@
             this.lblBustedPlayer.Size = new System.Drawing.Size(85, 24);
             this.lblBustedPlayer.TabIndex = 7;
             this.lblBustedPlayer.Text = "BUSTED";
+            this.lblBustedPlayer.Visible = false;
             // 
             // lblPlayer
             // 
@@ -186,6 +193,7 @@
             this.lblBustedDealer.Size = new System.Drawing.Size(85, 24);
             this.lblBustedDealer.TabIndex = 12;
             this.lblBustedDealer.Text = "BUSTED";
+            this.lblBustedDealer.Visible = false;
             // 
             // lblDealer
             // 
@@ -226,11 +234,32 @@
             this.lblNumberWonDealer.TabIndex = 16;
             this.lblNumberWonDealer.Text = "0";
             // 
+            // lblAcesWithValueOne
+            // 
+            this.lblAcesWithValueOne.AutoSize = true;
+            this.lblAcesWithValueOne.Location = new System.Drawing.Point(289, 350);
+            this.lblAcesWithValueOne.Name = "lblAcesWithValueOne";
+            this.lblAcesWithValueOne.Size = new System.Drawing.Size(91, 13);
+            this.lblAcesWithValueOne.TabIndex = 17;
+            this.lblAcesWithValueOne.Text = "Aces with value 1";
+            // 
+            // lblNumberAcesValueOne
+            // 
+            this.lblNumberAcesValueOne.AutoSize = true;
+            this.lblNumberAcesValueOne.BackColor = System.Drawing.Color.White;
+            this.lblNumberAcesValueOne.Location = new System.Drawing.Point(270, 350);
+            this.lblNumberAcesValueOne.Name = "lblNumberAcesValueOne";
+            this.lblNumberAcesValueOne.Size = new System.Drawing.Size(13, 13);
+            this.lblNumberAcesValueOne.TabIndex = 18;
+            this.lblNumberAcesValueOne.Text = "0";
+            // 
             // TwentyOneGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 421);
+            this.Controls.Add(this.lblNumberAcesValueOne);
+            this.Controls.Add(this.lblAcesWithValueOne);
             this.Controls.Add(this.lblNumberWonDealer);
             this.Controls.Add(this.lblGamesWonDealer);
             this.Controls.Add(this.lblPointsDealer);
@@ -274,5 +303,7 @@
         private System.Windows.Forms.Label lblPointsDealer;
         private System.Windows.Forms.Label lblGamesWonDealer;
         private System.Windows.Forms.Label lblNumberWonDealer;
+        private System.Windows.Forms.Label lblAcesWithValueOne;
+        private System.Windows.Forms.Label lblNumberAcesValueOne;
     }
 }
