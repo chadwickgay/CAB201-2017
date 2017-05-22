@@ -69,7 +69,6 @@ namespace Games_Logic_Library {
 
         public static int CalculateHandTotal(int who) {
             int totalHand = 0;
-            int aceCounter = 0;
 
             foreach (Card card in hands[who]) {
                 FaceValue faceValue = card.GetFaceValue();
@@ -82,7 +81,6 @@ namespace Games_Logic_Library {
                         break;
                     case FaceValue.Ace:
                         totalHand += ACE_VALUE;
-                        aceCounter++;
                         break;
                     default:
                         totalHand += (int)faceValue + CARD_ENUM_VALUE_OFFSET;
@@ -92,12 +90,6 @@ namespace Games_Logic_Library {
             // Subtract 10 points for every Ace in hand with value of 1. 
             if (who == PLAYER) {
                 totalHand -= (10 * numOfUserAcesWithValueOne);
-            }
-
-            // Dealer cannot input decision - where two Aces, one Ace is valued at 1.
-            if (who == DEALER && aceCounter == 2) {
-                // Value of 1 of Aces as 1 to avoid automatic bust
-                totalHand -= (10 * 1);
             }
 
             // need to check if this section is allowed/good idea
@@ -163,6 +155,9 @@ namespace Games_Logic_Library {
             // Player Bust
             if (who == PLAYER && totalPoints[PLAYER] > WIN) {
                 numOfGamesWon[DEALER]++;
+            } // Dealer bust - avoids double increment from DetermineWinner
+            else if (who == DEALER && totalPoints[DEALER] > WIN && totalPoints[PLAYER] != WIN) {
+                numOfGamesWon[PLAYER]++;
             }
         }
 

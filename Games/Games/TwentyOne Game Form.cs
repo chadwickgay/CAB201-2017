@@ -12,11 +12,13 @@ using Games_Logic_Library;
 
 namespace Games {
     public partial class TwentyOneGameForm : Form {
+        // class variables
+
         private const int PLAYER = 0;
         private const int DEALER = 1;
         private const int NUM_INITIAL_CARDS = 2;
-
-        // class variables
+        private const int WIN = 21;
+    
         TableLayoutPanel[] tableLayoutPanels;
 
         Label[] bustedLabels;
@@ -36,18 +38,19 @@ namespace Games {
         }
 
         private void btnDeal_Click(object sender, EventArgs e) {
+            Card[] initialDraw = new Card[NUM_INITIAL_CARDS];
+            bool isAce = false;
 
             Twenty_One_Game.SetUpGame();
 
             // Hide busted message(s)
-            HideBustedMessage();
-
-            // Display Aces with Value One after round reset
-            DisplayAcesValueOne();
+            HideBustedMessage(); 
 
             // Deal first two to the player and dealer
             for (int i = 0; i < NUM_INITIAL_CARDS; i++) {
-                Twenty_One_Game.DealOneCardTo(PLAYER);
+                // Store cards drawn by player to check for Aces
+                initialDraw[i] = Twenty_One_Game.DealOneCardTo(PLAYER);
+
                 Twenty_One_Game.DealOneCardTo(DEALER);
             }
 
@@ -59,36 +62,68 @@ namespace Games {
             Twenty_One_Game.CalculateHandTotal(PLAYER);
             Twenty_One_Game.CalculateHandTotal(DEALER);
 
+            // Display points for player and dealer
             DisplayPoints();
 
-            // DisableDealButton();
+            // Check through intially drawn cards for Aces
+            foreach (Card drawnCard in initialDraw) {
+                isAce = DetermineAceValue(drawnCard);
 
+                if (isAce) {
+                    // Recalculate points total
+                    Twenty_One_Game.CalculateHandTotal(PLAYER);
+
+                    // Update points display
+                    DisplayPoints();
+                }
+            }
+           
+            // Display Aces with Value One after round reset
+            DisplayAcesValueOne();
+
+            //DisableDealButton();
+
+            // Enable buttons for next stage of game
             EnableHitButton();
             EnableStandButton();
+
+            // Check for dual ace automatic dealer bust
+            AutomaticDealerBust();
         }
 
         private void btnHit_Click(object sender, EventArgs e) {
             bool busted;
+            Card card;
 
-            Card card = Twenty_One_Game.DealOneCardTo(PLAYER);
+            card = Twenty_One_Game.DealOneCardTo(PLAYER);
 
+            // Display players hand
             DisplayGuiHand(Twenty_One_Game.GetHand(PLAYER), tblPanelPlayer);
 
+            // If Ace drawn - prompt user for value
             DetermineAceValue(card);
 
-            // Recalculate totals after each new card hit
+            // Recalculate totals for player after each new card hit
             Twenty_One_Game.CalculateHandTotal(PLAYER);
 
+            // Update points disply to reflect new calculation
             DisplayPoints();
 
+            // Test if player busted on each new hit
             busted = DetermineIfPlayerBusted(PLAYER);
 
             if (busted) {
                 DisableHitButton();
                 DisableStandButton();
-            }
 
-            DisplayGamesWon();         
+                // Reset for next game
+                EnableDealButton();
+                // Update Games won totals on player bust
+                DisplayGamesWon();
+            } else {
+                EnableHitButton();
+                EnableStandButton();
+            }          
         }
 
         private void btnStand_Click(object sender, EventArgs e) {
@@ -103,10 +138,13 @@ namespace Games {
 
             DetermineIfPlayerBusted(DEALER);
 
+            // Update Game results
             DisplayGamesWon();
 
+            // Reset for next game
             DisableHitButton();
-            DisableStandButton();
+            DisableStandButton();           
+            EnableDealButton();
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {
@@ -141,7 +179,8 @@ namespace Games {
             }
         }// End DisplayGuiHand
 
-        public void DetermineAceValue(Card card) {
+        public bool DetermineAceValue(Card card) {
+            bool isAce = false;
 
             string message = "Count Ace as one?";
             string caption = "You got an Ace!";
@@ -155,12 +194,33 @@ namespace Games {
 
                     // Update displayed total to reflect decision
                     DisplayAcesValueOne();
-                }
+                    isAce = true;
+                } else {
+                    isAce = false;
+                }                
+            } 
+            return isAce;
+        }
+
+        private void AutomaticDealerBust() {
+            bool busted;
+            busted = DetermineIfPlayerBusted(DEALER);
+
+            if (busted) {
+                DisableHitButton();
+                DisableStandButton();
+
+                // Update Games won to reflect automatic bust
+                DisplayGamesWon();
             }
         }
 
         private void DisableDealButton() {
             btnDeal.Enabled = false;
+        }
+
+        private void EnableDealButton() {
+            btnDeal.Enabled = true;
         }
 
         private void EnableHitButton() {
@@ -195,12 +255,12 @@ namespace Games {
             lblNumberAcesValueOne.Text = Twenty_One_Game.GetNumOfUserAcesWithValueOfOne().ToString();
         }
 
-        private bool DetermineIfPlayerBusted(int player) {
+        private bool DetermineIfPlayerBusted(int person) {
             int score;
 
-            score = Twenty_One_Game.GetTotalPoints(player);
-            if (score > 21) {
-                bustedLabels[player].Visible = true;
+            score = Twenty_One_Game.GetTotalPoints(person);
+            if (score > WIN) {
+                bustedLabels[person].Visible = true;
                 return true;
             } else {
                 return false;
