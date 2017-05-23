@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
-    public class Twenty_One_Game {
+    public static class Twenty_One_Game {
 
         // Game parameters
         public const int NUM_OF_PLAYERS = 2;
@@ -25,10 +25,10 @@ namespace Games_Logic_Library {
         private const int DEALER_HIT_TRESHOLD = 17;
 
         // UML Variables
-        private static CardPile cardPile;
-        private static Hand[] hands;
+        private static CardPile cardPile = new CardPile(true);
+        private static Hand[] hands = new Hand[NUM_OF_PLAYERS];
         private static int[] totalPoints;
-        private static int[] numOfGamesWon = new int[] {0,0};
+        private static int[] numOfGamesWon = new int[] {0,0}; // INITIAL BUG STILL EXISTS
         private static int numOfUserAcesWithValueOne;
 
         // Class methods
@@ -36,21 +36,27 @@ namespace Games_Logic_Library {
         public static void SetUpGame() {
 
             totalPoints = new int[] { 0, 0 };
-            // numOfGamesWon = new int[] { 0, 0 };
             numOfUserAcesWithValueOne = 0;
 
-            cardPile = new CardPile(true);
+            // Create new deck of cards if the pile is empty
+            if (cardPile.GetCount() < (NUM_OF_PLAYERS * INITIAL_HAND_SIZE)) {
+                cardPile = new CardPile(true);
+                cardPile.Shuffle();
+            }
+
+            // Shuffle cards
             cardPile.Shuffle();
 
-            Hand playerHand = new Hand();
-            Hand dealerHand = new Hand();
+            // Deal intital hand for player and dealer
+            Hand playerHand = new Hand(cardPile.DealCards(INITIAL_HAND_SIZE));
+            Hand dealerHand = new Hand(cardPile.DealCards(INITIAL_HAND_SIZE));
 
-            hands = new Hand[NUM_OF_PLAYERS] { playerHand, dealerHand };
-
+            // Store dealt cards in hands arrays
+            hands[PLAYER] = playerHand;
+            hands[DEALER] = dealerHand;      
         }
 
         public static Card DealOneCardTo(int who) {
-
             Card card;
 
             // Create new deck of cards if the pile is empty
@@ -64,7 +70,6 @@ namespace Games_Logic_Library {
             hands[who].Add(card);
 
             return card;
-
         }
 
         public static int CalculateHandTotal(int who) {
