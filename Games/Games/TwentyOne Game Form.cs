@@ -72,50 +72,17 @@ namespace Games {
             
         }
 
-        private void CheckForAce(int who) {
-            Hand hand = Twenty_One_Game.GetHand(who);
-
-            if (hand.GetCount() <= NUM_INITIAL_CARDS) {
-                foreach (Card card in hand) {
-                    if (card.GetFaceValue() == FaceValue.Ace) {
-
-                        // Ask user what value the want the Ace to be
-                        DetermineAceValue();
-
-                        // Update hand calculation
-                        Twenty_One_Game.CalculateHandTotal(PLAYER);
-
-                        // Update displayed hand total
-                        DisplayPoints();
-                    }
-                }
-            } else {
-                if (hand.GetCard(hand.GetCount() - 1).GetFaceValue() == FaceValue.Ace) {
-                    // Ask user what value the want the Ace to be
-                    DetermineAceValue();
-
-                    // Update hand calculation
-                    Twenty_One_Game.CalculateHandTotal(PLAYER);
-
-                    // Update displayed hand total
-                    DisplayPoints();
-                }
-            }
-
-
-        }
+        
 
         private void btnHit_Click(object sender, EventArgs e) {
             bool busted;
-            Card card;
 
-            card = Twenty_One_Game.DealOneCardTo(PLAYER); // NEED TO FIX THIS!
+            Twenty_One_Game.DealOneCardTo(PLAYER);
 
             // Display players hand
             DisplayGuiHand(Twenty_One_Game.GetHand(PLAYER), tblPanelPlayer);
 
             // If Ace drawn - prompt user for value
-            //DetermineAceValue(card);
             CheckForAce(PLAYER);
 
             // Recalculate totals for player after each new card hit
@@ -194,6 +161,41 @@ namespace Games {
                 tableLayoutPanel.Controls.Add(pictureBox);
             }
         }// End DisplayGuiHand
+
+        private void CheckForAce(int who) {
+            Hand hand = Twenty_One_Game.GetHand(who);
+
+            // Checks entire hand for Ace
+            if (hand.GetCount() <= NUM_INITIAL_CARDS) {
+                foreach (Card card in hand) {
+                    if (card.GetFaceValue() == FaceValue.Ace) {
+
+                        // Ask user what value the want the Ace to be
+                        DetermineAceValue();
+
+                        // Update hand calculation
+                        Twenty_One_Game.CalculateHandTotal(PLAYER);
+
+                        // Update displayed hand total
+                        DisplayPoints();
+                    }
+                }
+            } else {
+                // Checks the last drawn card for an Ace
+                if (hand.GetCard(hand.GetCount() - 1).GetFaceValue() == FaceValue.Ace) {
+                    // Ask user what value the want the Ace to be
+                    DetermineAceValue();
+
+                    // Update hand calculation
+                    Twenty_One_Game.CalculateHandTotal(PLAYER);
+
+                    // Update displayed hand total
+                    DisplayPoints();
+                }
+            }
+
+
+        }
 
         public void DetermineAceValue() {
 
