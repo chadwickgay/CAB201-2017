@@ -38,6 +38,7 @@ namespace Games_Logic_Library {
             totalPoints = new int[] { 0, 0 };
             numOfUserAcesWithValueOne = 0;
 
+            //Move this to a method of its own
             // Create new deck of cards if the pile is empty
             if (cardPile.GetCount() < (NUM_OF_PLAYERS * INITIAL_HAND_SIZE)) {
                 cardPile = new CardPile(true);
@@ -59,12 +60,13 @@ namespace Games_Logic_Library {
         public static Card DealOneCardTo(int who) {
             Card card;
 
+            // Move this to method of its own
             // Create new deck of cards if the pile is empty
             if (cardPile.GetCount() == 0) {
                 cardPile = new CardPile(true);
                 cardPile.Shuffle();
             }
-
+            
             // Deal card to person
             card = cardPile.DealOneCard();
             hands[who].Add(card);

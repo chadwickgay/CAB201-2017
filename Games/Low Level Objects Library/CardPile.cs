@@ -30,6 +30,17 @@ namespace Low_Level_Objects_Library {
 
         private static Random randomValue = new Random(10);
 
+
+        /// <summary>
+        /// Removes last card in the pile.
+        /// 
+        /// If pile is empty and IndexOutOfRangeException will occur.
+        /// </summary>
+        public void RemoveLastCard() {
+
+            pile.RemoveAt(pile.Count - 1);
+
+        }
         
         /// <summary>
         /// initialises a pile of cards with a full deck of 52 playing cards

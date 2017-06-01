@@ -29,7 +29,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(884, 804);
             this.Name = "SolitaireGameForm";
             this.Text = "Solitaire";
             this.ResumeLayout(false);

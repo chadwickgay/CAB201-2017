@@ -70,9 +70,7 @@ namespace Games {
             // Check for dual ace automatic dealer bust
             AutomaticDealerBust();
             
-        }
-
-        
+        }      
 
         private void btnHit_Click(object sender, EventArgs e) {
             bool busted;

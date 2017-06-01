@@ -34,6 +34,7 @@ namespace Games_Logic_Library {
             // Index 0 unused to make player numbering more intuitive
             pointsTotal = new int[] { 0, 0, 0 };
 
+            // Setup the first player as the current player for first round
             currentPlayer = 1;            
         }
 
