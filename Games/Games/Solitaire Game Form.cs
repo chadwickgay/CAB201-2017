@@ -12,8 +12,23 @@ using Games_Logic_Library;
 
 namespace Games {
     public partial class SolitaireGameForm : Form {
+
+        const string LOCATION_DISCARD = "discard";
+        const string LOCATION_SUIT = "suit";
+        const string LOCATION_TABLE = "table";
+
+        private bool firstClick = false;
+
+        PictureBox[] suitPiles;
+
+        Card firstCard;
+        Card secondCard;
+
         public SolitaireGameForm() {
+
             InitializeComponent();
+
+            suitPiles = new PictureBox[Solitaire.NUM_OF_SUITS] { pbSuitPile1, pbSuitPile2, pbSuitPile3, pbSuitPile4 };
 
             Solitaire.SetupGame();
 
@@ -52,7 +67,7 @@ namespace Games {
                 // If card face up
                 if (i >= hand.GetCount() - numCardsFaceUp) {
                     pictureBox.Image = Images.GetCardImage(card);
-                    
+
                     // set event-handler for Click on this PictureBox.
                     pictureBox.Click += new EventHandler(pictureBox_Click);
                     // tell the PictureBox which Card object it has the picture of.
@@ -91,9 +106,18 @@ namespace Games {
             if (Solitaire.GetNumDrawCards() != 0) {
                 Solitaire.DrawCard();
                 DisplayDiscard();
+
+                // If last card is drawn, make image blank to show end of deck
+                if (Solitaire.GetNumDrawCards() == 0) {
+
+                    // consider showing outline of empty card
+                    pbDrawPile.Image = null;
+                }
+
             } else {
                 Solitaire.ResetDrawPile();
                 DisplayDiscard();
+                pbDrawPile.Image = Images.GetBackOfCardImage();
             }
         }
 
@@ -102,7 +126,26 @@ namespace Games {
             PictureBox clickedPictureBox = (PictureBox)sender;
             // get a reference to the card
             Card clickedCard = (Card)clickedPictureBox.Tag;
-            TryToPlayCard(clickedCard);
+
+            TryToPlayCard(clickedCard, LOCATION_DISCARD);
+
+            UpdateSuitPiles();
+
+            pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
+        }
+
+        private void UpdateSuitPiles() {
+
+            for (int suitPile = 0; suitPile < Solitaire.NUM_OF_SUITS; suitPile++) {
+
+                Card card;
+                
+                if (Solitaire.GetSuitPileCount(suitPile) != 0) {
+
+                    card = Solitaire.GetLastCardSuitPile(suitPile);
+                    suitPiles[suitPile].Image = Images.GetCardImage(card);
+                }
+            }     
         }
 
         /*   Click events for suit piles            */
@@ -132,15 +175,23 @@ namespace Games {
             PictureBox clickedPictureBox = (PictureBox)sender;
             // get a reference to the card
             Card clickedCard = (Card)clickedPictureBox.Tag;
-            TryToPlayCard(clickedCard);
+            //TryToPlayCard(clickedCard);
         }
 
-        private void TryToPlayCard(Card clickedCard) {
+        private void TryToPlayCard(Card clickedCard, string location) {
             // This MessageBox.Show is for debugging purposes only.
             // comment out line, once sure you can click on a card in a tableau
             MessageBox.Show(clickedCard.ToString(false, true), "Clicked");
             
             // Add code to do something with the clicked card.
+
+            if (clickedCard.GetFaceValue() == FaceValue.Ace) {
+
+                Solitaire.PlayAce(clickedCard, location);
+
+                firstClick = false;
+
+            }
         }
     }
 }

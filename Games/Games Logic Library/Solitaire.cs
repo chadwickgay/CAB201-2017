@@ -21,7 +21,7 @@ namespace Games_Logic_Library {
         private const int NUM_OF_TABLEAU = 7;
 
         // number of suits
-        private const int NUM_OF_SUITS = 7;
+        public  const int NUM_OF_SUITS = 4;
 
         // Number of face up cards per pile
         private static int[] numCardsFaceUp = new int[] {1, 1, 1, 1, 1, 1, 1};
@@ -33,21 +33,30 @@ namespace Games_Logic_Library {
         private static CardPile discardPile;
 
         private static Hand[] tableauPiles = new Hand[NUM_OF_TABLEAU];
-        private static CardPile[] suitPiles;
+        private static CardPile[] suitPiles = new CardPile[NUM_OF_SUITS];
+
+        private const string LOCATION_DISCARD = "discard";
+        private const string LOCATION_SUIT = "suit";
+        private const string LOCATION_TABLE = "table";
+
+        private const int PILE_ONE = 0;
+        private const int PILE_TWO = 1;
+        private const int PILE_THREE = 2;
+        private const int PILE_FOUR = 3;
 
         public static void SetupGame() {
 
             drawPile = new CardPile(true);
+            discardPile = new CardPile();
+
+            // Shuffle drawPile
             drawPile.Shuffle();
 
-            // Add cards 
-            for (int i = 0; i < NUM_OF_SUITS; i++) {
-                suitPiles[i] = new CardPile();
-            }
+            // Create piles of cards for each suit
+            SetupSuitPiles();
 
-            // Add card from drawPile to the discardPile
-            discardPile = new CardPile();
-            discardPile.Add(drawPile.DealOneCard());
+            // Draw initial card from drawPile to discardPile
+            DrawCard();
 
             // Setup each tableau
             // do in loop
@@ -60,24 +69,41 @@ namespace Games_Logic_Library {
             SetupTableau(TABLEAU_SEVEN, 7);
         }
 
-        public static void PlayAce(Card card) {
-            // Checks each cardpile if
-            for (int i = 0; i < NUM_OF_SUITS; i++) {
+        public static void PlayAce(Card ace, string startLocation){
 
-                if (suitPiles[i].GetCount() == 0) {
+            if (startLocation == LOCATION_DISCARD) {
 
+                if (suitPiles[PILE_ONE].GetCount() == 0) {
+                    suitPiles[PILE_ONE].Add(ace);
+                } else if (suitPiles[PILE_TWO].GetCount() == 0) {
+                    suitPiles[PILE_TWO].Add(ace);
+                } else if (suitPiles[PILE_THREE].GetCount() == 0) {
+                    suitPiles[PILE_THREE].Add(ace);
+                } else if (suitPiles[PILE_FOUR].GetCount() == 0) {
+                    suitPiles[PILE_FOUR].Add(ace);
                 }
 
+                RemoveLastDiscard();
             }
-              
+
+        }
+
+
+
+        public static Card GetLastCardSuitPile(int whichSuit) {
+            return suitPiles[whichSuit].GetLastCardInPile();
+        }
+
+        public static int GetSuitPileCount(int whichSuit) {
+            return suitPiles[whichSuit].GetCount();
         }
 
         public static int GetNumCardsFaceUp(int whichTableau) {
             return numCardsFaceUp[whichTableau];
         }
 
-        public static Hand GetTableau(int whichTableau) {
-            return tableauPiles[whichTableau];
+        public static Hand GetTableau(int TableauNum) {
+            return tableauPiles[TableauNum];
         }
 
         //Sets a single table at the start of the game
@@ -91,12 +117,23 @@ namespace Games_Logic_Library {
             return tableau;
         }
 
+        private static void SetupSuitPiles() {
+            // Add new CardPile to each position in suitPiles array
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
+                suitPiles[i] = new CardPile();
+            }
+        }
+
         public static void DrawCard() {
             discardPile.Add(drawPile.DealOneCard());
         }
 
         public static Card GetLastDiscard() {
             return discardPile.GetLastCardInPile();
+        }
+
+        public static void RemoveLastDiscard() {
+            discardPile.RemoveLastCard();
         }
 
         public static int GetNumDrawCards() {
@@ -112,7 +149,5 @@ namespace Games_Logic_Library {
             discardPile = new CardPile();
             discardPile.Add(drawPile.DealOneCard());
         }
-
-
     }
 }
