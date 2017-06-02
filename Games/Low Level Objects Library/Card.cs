@@ -52,6 +52,10 @@ namespace Low_Level_Objects_Library {
             return suit;
         }
 
+        public Colour GetColour() {
+            return colour;
+        }
+
         public FaceValue GetFaceValue() {
             return faceValue;
         }

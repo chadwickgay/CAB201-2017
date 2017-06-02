@@ -101,7 +101,6 @@
             // 
             // tblPlayBoard2
             // 
-            this.tblPlayBoard2.AutoScroll = true;
             this.tblPlayBoard2.AutoSize = true;
             this.tblPlayBoard2.ColumnCount = 1;
             this.tblPlayBoard2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -156,6 +155,7 @@
             // 
             // tblPlayBoard4
             // 
+            this.tblPlayBoard4.AutoSize = true;
             this.tblPlayBoard4.ColumnCount = 1;
             this.tblPlayBoard4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tblPlayBoard4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -209,6 +209,7 @@
             // 
             // tblPlayBoard6
             // 
+            this.tblPlayBoard6.AutoSize = true;
             this.tblPlayBoard6.ColumnCount = 1;
             this.tblPlayBoard6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tblPlayBoard6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -235,6 +236,7 @@
             // 
             // tblPlayBoard7
             // 
+            this.tblPlayBoard7.AutoSize = true;
             this.tblPlayBoard7.ColumnCount = 1;
             this.tblPlayBoard7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tblPlayBoard7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -329,7 +331,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(884, 891);
+            this.ClientSize = new System.Drawing.Size(884, 804);
             this.Controls.Add(this.pbSuitPile4);
             this.Controls.Add(this.pbSuitPile3);
             this.Controls.Add(this.pbSuitPile2);

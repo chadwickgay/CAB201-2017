@@ -20,6 +20,9 @@ namespace Games_Logic_Library {
         // number of tableau
         private const int NUM_OF_TABLEAU = 7;
 
+        // number of suits
+        private const int NUM_OF_SUITS = 7;
+
         // Number of face up cards per pile
         private static int[] numCardsFaceUp = new int[] {1, 1, 1, 1, 1, 1, 1};
 
@@ -30,18 +33,24 @@ namespace Games_Logic_Library {
         private static CardPile discardPile;
 
         private static Hand[] tableauPiles = new Hand[NUM_OF_TABLEAU];
-        private static Card[] suitPiles;
+        private static CardPile[] suitPiles;
 
         public static void SetupGame() {
 
             drawPile = new CardPile(true);
             drawPile.Shuffle();
 
+            // Add cards 
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
+                suitPiles[i] = new CardPile();
+            }
+
             // Add card from drawPile to the discardPile
             discardPile = new CardPile();
             discardPile.Add(drawPile.DealOneCard());
 
             // Setup each tableau
+            // do in loop
             SetupTableau(TABLEAU_ONE, 1);
             SetupTableau(TABLEAU_TWO, 2);
             SetupTableau(TABLEAU_THREE, 3);
@@ -49,8 +58,18 @@ namespace Games_Logic_Library {
             SetupTableau(TABLEAU_FIVE, 5);
             SetupTableau(TABLEAU_SIX, 6);
             SetupTableau(TABLEAU_SEVEN, 7);
+        }
 
+        public static void PlayAce(Card card) {
+            // Checks each cardpile if
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
 
+                if (suitPiles[i].GetCount() == 0) {
+
+                }
+
+            }
+              
         }
 
         public static int GetNumCardsFaceUp(int whichTableau) {

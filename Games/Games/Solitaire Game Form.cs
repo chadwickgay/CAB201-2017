@@ -21,7 +21,7 @@ namespace Games {
             pbDrawPile.Image = Images.GetBackOfCardImage();
 
             // Discard Pile image
-            pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
+            DisplayDiscard();
 
             // Display the cards in each tableau
             DisplayGuiHand(Solitaire.GetTableau(0), tblPlayBoard1, Solitaire.GetNumCardsFaceUp(0));
@@ -45,14 +45,14 @@ namespace Games {
                 pictureBox.Dock = DockStyle.Fill;
                 // Remove spacing around the PictureBox. (Default is 3 pixels.)
                 pictureBox.Margin = new Padding(0);
+                pictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
 
                 card = hand.GetCard(i);
 
                 // If card face up
                 if (i >= hand.GetCount() - numCardsFaceUp) {
                     pictureBox.Image = Images.GetCardImage(card);
-
-                    // Added from assignment instructions
+                    
                     // set event-handler for Click on this PictureBox.
                     pictureBox.Click += new EventHandler(pictureBox_Click);
                     // tell the PictureBox which Card object it has the picture of.
@@ -61,7 +61,6 @@ namespace Games {
                 } else {
                     pictureBox.Image = Images.GetBackOfCardImage();
 
-                    // Added from assignment instructions
                     pictureBox.Tag = card;
                 }
                 // Add the PictureBox object to the tableLayoutPanel.
@@ -69,24 +68,41 @@ namespace Games {
             }
         }// End DisplayGuiHand
 
-        /*   Click events for draw and discard piles            */ 
+        // passs card and picturebox... make general method
+        private void DisplayDiscard() {
+            Card lastCard;
+
+            lastCard = Solitaire.GetLastDiscard();
+
+            if (Solitaire.GetNumDiscardCards() != 0) {
+                pbDiscardPile.Image = Images.GetCardImage(lastCard);
+
+                // Tag to know what card was clicked
+                pbDiscardPile.Tag = lastCard;
+            } else {
+                pbDiscardPile.Image = null;
+            }
+        }
+
+        /*   Click events for draw and discard piles            */
 
         private void pbDrawPile_Click(object sender, EventArgs e) {
             //
             if (Solitaire.GetNumDrawCards() != 0) {
-
                 Solitaire.DrawCard();
-
                 DisplayDiscard();
             } else {
                 Solitaire.ResetDrawPile();
-
                 DisplayDiscard();
             }
         }
 
         private void pbDiscardPile_Click(object sender, EventArgs e) {
-            //
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+            TryToPlayCard(clickedCard);
         }
 
         /*   Click events for suit piles            */
@@ -108,15 +124,6 @@ namespace Games {
         }
 
         /*   private helper methods       */
-
-        private void DisplayDiscard() {
-
-            if (Solitaire.GetNumDiscardCards() != 0) {
-                pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
-            } else {
-                pbDiscardPile.Image = null;
-            }       
-        }
 
         /*   Events & methods for picture boxes - from Assignment instructions       */
 
