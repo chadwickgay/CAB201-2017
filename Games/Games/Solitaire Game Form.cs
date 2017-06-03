@@ -17,6 +17,9 @@ namespace Games {
         const string LOCATION_SUIT = "suit";
         const string LOCATION_TABLE = "table";
 
+        private string startLocation;
+        private string destLocation;
+
         private bool firstClick = false;
 
         PictureBox[] suitPiles;
@@ -46,6 +49,43 @@ namespace Games {
             DisplayGuiHand(Solitaire.GetTableau(4), tblPlayBoard5, Solitaire.GetNumCardsFaceUp(4));
             DisplayGuiHand(Solitaire.GetTableau(5), tblPlayBoard6, Solitaire.GetNumCardsFaceUp(5));
             DisplayGuiHand(Solitaire.GetTableau(6), tblPlayBoard7, Solitaire.GetNumCardsFaceUp(6));
+        }
+
+
+
+        /*   Click events for draw and discard piles            */
+
+        private void pbDrawPile_Click(object sender, EventArgs e) {
+            //
+            if (Solitaire.GetNumDrawCards() != 0) {
+                Solitaire.DrawCard();
+                DisplayDiscard();
+
+                // If last card is drawn, make image blank to show end of deck
+                if (Solitaire.GetNumDrawCards() == 0) {
+
+                    // consider showing outline of empty card
+                    pbDrawPile.Image = null;
+                }
+
+            } else {
+                Solitaire.ResetDrawPile();
+                DisplayDiscard();
+                pbDrawPile.Image = Images.GetBackOfCardImage();
+            }
+        }
+
+        private void pbDiscardPile_Click(object sender, EventArgs e) {
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_DISCARD);
+
+            UpdateSuitPiles();
+
+            UpdateDiscardPile();
         }
 
         private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp) {
@@ -99,74 +139,21 @@ namespace Games {
             }
         }
 
-        /*   Click events for draw and discard piles            */
-
-        private void pbDrawPile_Click(object sender, EventArgs e) {
-            //
-            if (Solitaire.GetNumDrawCards() != 0) {
-                Solitaire.DrawCard();
-                DisplayDiscard();
-
-                // If last card is drawn, make image blank to show end of deck
-                if (Solitaire.GetNumDrawCards() == 0) {
-
-                    // consider showing outline of empty card
-                    pbDrawPile.Image = null;
-                }
-
-            } else {
-                Solitaire.ResetDrawPile();
-                DisplayDiscard();
-                pbDrawPile.Image = Images.GetBackOfCardImage();
-            }
-        }
-
-        private void pbDiscardPile_Click(object sender, EventArgs e) {
-            // which card was clicked?
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_DISCARD);
-
-            UpdateSuitPiles();
-
-            pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
-        }
-
         private void UpdateSuitPiles() {
 
             for (int suitPile = 0; suitPile < Solitaire.NUM_OF_SUITS; suitPile++) {
-
                 Card card;
                 
                 if (Solitaire.GetSuitPileCount(suitPile) != 0) {
-
                     card = Solitaire.GetLastCardSuitPile(suitPile);
                     suitPiles[suitPile].Image = Images.GetCardImage(card);
                 }
             }     
         }
 
-        /*   Click events for suit piles            */
-
-        private void pbSuitPile1_Click(object sender, EventArgs e) {
-            //
+        private void UpdateDiscardPile() {
+            pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
         }
-
-        private void pbSuitPile2_Click(object sender, EventArgs e) {
-            //
-        }
-
-        private void pbSuitPile3_Click(object sender, EventArgs e) {
-            //
-        }
-
-        private void pbSuitPile4_Click(object sender, EventArgs e) {
-            //
-        }
-
-        /*   private helper methods       */
 
         /*   Events & methods for picture boxes - from Assignment instructions       */
 
@@ -185,13 +172,43 @@ namespace Games {
             
             // Add code to do something with the clicked card.
 
+            // Not yet working
             if (clickedCard.GetFaceValue() == FaceValue.Ace) {
-
                 Solitaire.PlayAce(clickedCard, location);
-
                 firstClick = false;
+            } else {
+                // If start of new move
+                if (firstClick == false) {
 
+                    firstCard = clickedCard;
+                    startLocation = location;
+                    firstClick = true;
+
+                } else {
+                    secondCard = clickedCard;
+                    destLocation = location;
+
+                    // Check if valid move here...
+                }
             }
+        }
+
+        /*   Click events for suit piles            */
+
+        private void pbSuitPile1_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void pbSuitPile2_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void pbSuitPile3_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void pbSuitPile4_Click(object sender, EventArgs e) {
+            //
         }
     }
 }

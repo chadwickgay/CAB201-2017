@@ -8,7 +8,7 @@ using Low_Level_Objects_Library;
 namespace Games_Logic_Library {
     public class Pig_Single_Die_Game {
 
-        static Die myDie = new Die();
+        static Die die = new Die();
         private static int faceValue;
         private static int[] pointsTotal;
         private static string[] playersName;
@@ -17,6 +17,8 @@ namespace Games_Logic_Library {
         // Should I even have this?
         private const int NUM_OF_PLAYERS = 2;
         private const int WINNING_SCORE = 30;
+        private const int GAME_OVER = 1;
+
         private static int currentPlayer;
         private static int previousScore;
         private static bool firstRoll = true;
@@ -40,19 +42,16 @@ namespace Games_Logic_Library {
 
         public static bool PlayGame() {
             bool playGame = true;
-            int gameOver;
-
-            gameOver = 1;    
 
             if (firstRoll) {
                 previousScore = pointsTotal[currentPlayer];
             }
 
-            myDie.RollDie();
+            die.RollDie();
 
             faceValue = GetFaceValue();
 
-            if (faceValue == gameOver) {
+            if (faceValue == GAME_OVER) {
                 pointsTotal[currentPlayer] = previousScore;
                 return playGame = false;
             } else {
@@ -105,7 +104,7 @@ namespace Games_Logic_Library {
         public static int GetFaceValue() {
             int faceValue;
 
-            faceValue = myDie.GetFaceValue();
+            faceValue = die.GetFaceValue();
 
             return faceValue;
         }

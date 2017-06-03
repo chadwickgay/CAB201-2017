@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pig Single Die Game.cs" />
+    <Compile Include="Pig Two Die Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solitaire.cs" />
     <Compile Include="Twenty One Game.cs" />
