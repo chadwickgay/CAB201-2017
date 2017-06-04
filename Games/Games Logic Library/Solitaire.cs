@@ -59,18 +59,13 @@ namespace Games_Logic_Library {
             DrawCard();
 
             // Setup each tableau
-            // do in loop
-            SetupTableau(TABLEAU_ONE, 1);
-            SetupTableau(TABLEAU_TWO, 2);
-            SetupTableau(TABLEAU_THREE, 3);
-            SetupTableau(TABLEAU_FOUR, 4);
-            SetupTableau(TABLEAU_FIVE, 5);
-            SetupTableau(TABLEAU_SIX, 6);
-            SetupTableau(TABLEAU_SEVEN, 7);
+            SetupTableau();
+
         }
 
         public static void PlayAce(Card ace, string startLocation){
 
+            // If the card selected is an Ace
             if (startLocation == LOCATION_DISCARD) {
 
                 if (suitPiles[PILE_ONE].GetCount() == 0) {
@@ -88,7 +83,64 @@ namespace Games_Logic_Library {
 
         }
 
+        public static bool TryMakeMove(Card firstCard, Card secondCard, string startLocation, string destLocation) {
 
+            // If the card is in 1 of 7 the seven tables
+            if (startLocation == LOCATION_TABLE && destLocation == LOCATION_TABLE) {
+
+                // Check if the move is a valid move
+
+                // Checks colour of the card first
+                if (firstCard.GetColour() != secondCard.GetColour()) {
+
+                    // Check if card is one less in the cards enum
+                    if ((int)secondCard.GetFaceValue() - (int)firstCard.GetFaceValue() == 1) {
+
+                        // Move is vaid
+
+                        // Need to locate which table the card has come from & which card it is going to
+
+                        Hand fromTable;
+                        Hand toTable;
+
+                        fromTable = GetTableauContainingCard(firstCard);
+                        toTable = GetTableauContainingCard(secondCard);
+
+                        //Remove card from table
+                        RemoveCardFromTableau(fromTable, firstCard);
+
+                        //Add card to table
+                        AddCardToTable(toTable, firstCard);
+
+                        return true;
+
+                    } else {
+                        return false;
+                    }
+                }           
+            }
+            return false;
+        }
+
+        private static void AddCardToTable(Hand tableau, Card card) {
+            tableau.Add(card);
+        }
+
+        private static void RemoveCardFromTableau(Hand tableau, Card card) {
+            tableau.Remove(card);
+        }
+
+        private static Hand GetTableauContainingCard(Card card) {
+            Hand tableau = new Hand();
+
+            for (int tableauNo = 0; tableauNo < NUM_OF_TABLEAU; tableauNo++) {
+                if (tableauPiles[tableauNo].Contains(card)) {
+                    tableau = tableauPiles[tableauNo];
+                }
+            }
+
+            return tableau;
+        }
 
         public static Card GetLastCardSuitPile(int whichSuit) {
             return suitPiles[whichSuit].GetLastCardInPile();
@@ -107,14 +159,10 @@ namespace Games_Logic_Library {
         }
 
         //Sets a single table at the start of the game
-        private static Hand SetupTableau(int tableauNo, int amountOfCards) {
-            Hand tableau;
-
-            tableau = new Hand(drawPile.DealCards(amountOfCards));
-
-            tableauPiles[tableauNo] = tableau;
-
-            return tableau;
+        private static void SetupTableau() {
+            for (int tableauNo = 0; tableauNo < NUM_OF_TABLEAU; tableauNo++) {
+                tableauPiles[tableauNo] = new Hand(drawPile.DealCards(tableauNo + 1));
+            }
         }
 
         private static void SetupSuitPiles() {

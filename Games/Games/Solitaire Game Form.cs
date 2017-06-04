@@ -162,7 +162,8 @@ namespace Games {
             PictureBox clickedPictureBox = (PictureBox)sender;
             // get a reference to the card
             Card clickedCard = (Card)clickedPictureBox.Tag;
-            //TryToPlayCard(clickedCard);
+
+            TryToPlayCard(clickedCard, LOCATION_TABLE);
         }
 
         private void TryToPlayCard(Card clickedCard, string location) {
@@ -172,7 +173,6 @@ namespace Games {
             
             // Add code to do something with the clicked card.
 
-            // Not yet working
             if (clickedCard.GetFaceValue() == FaceValue.Ace) {
                 Solitaire.PlayAce(clickedCard, location);
                 firstClick = false;
@@ -188,7 +188,24 @@ namespace Games {
                     secondCard = clickedCard;
                     destLocation = location;
 
-                    // Check if valid move here...
+                    // Check if valid move here
+                    if (!Solitaire.TryMakeMove(firstCard, secondCard, startLocation, destLocation)) {
+                        // Some error code here
+
+                    //Update all screens
+
+
+                    }
+
+                    DisplayGuiHand(Solitaire.GetTableau(0), tblPlayBoard1, Solitaire.GetNumCardsFaceUp(0));
+                    DisplayGuiHand(Solitaire.GetTableau(1), tblPlayBoard2, Solitaire.GetNumCardsFaceUp(1));
+                    DisplayGuiHand(Solitaire.GetTableau(2), tblPlayBoard3, Solitaire.GetNumCardsFaceUp(2));
+                    DisplayGuiHand(Solitaire.GetTableau(3), tblPlayBoard4, Solitaire.GetNumCardsFaceUp(3));
+                    DisplayGuiHand(Solitaire.GetTableau(4), tblPlayBoard5, Solitaire.GetNumCardsFaceUp(4));
+                    DisplayGuiHand(Solitaire.GetTableau(5), tblPlayBoard6, Solitaire.GetNumCardsFaceUp(5));
+                    DisplayGuiHand(Solitaire.GetTableau(6), tblPlayBoard7, Solitaire.GetNumCardsFaceUp(6));
+
+                    // Need to increment the array of cards to display
                 }
             }
         }

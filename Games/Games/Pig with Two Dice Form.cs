@@ -206,7 +206,7 @@ namespace Games {
             } else {
                 timer.Stop();
 
-                PlayGame();
+                PlayGameRound();
             }
         }
     }
