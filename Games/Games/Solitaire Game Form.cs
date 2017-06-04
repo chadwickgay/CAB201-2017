@@ -13,16 +13,19 @@ using Games_Logic_Library;
 namespace Games {
     public partial class SolitaireGameForm : Form {
 
-        const string LOCATION_DISCARD = "discard";
-        const string LOCATION_SUIT = "suit";
-        const string LOCATION_TABLE = "table";
+        private const string LOCATION_DISCARD = "discard";
+        private const string LOCATION_SUIT = "suit";
+        private const string LOCATION_TABLE = "table";
+
+        private const int NUM_OF_TABLEAU = 7;
 
         private string startLocation;
         private string destLocation;
 
         private bool firstClick = false;
 
-        PictureBox[] suitPiles;
+        private PictureBox[] suitPiles;
+        private TableLayoutPanel[] tableauPiles;
 
         Card firstCard;
         Card secondCard;
@@ -32,6 +35,8 @@ namespace Games {
             InitializeComponent();
 
             suitPiles = new PictureBox[Solitaire.NUM_OF_SUITS] { pbSuitPile1, pbSuitPile2, pbSuitPile3, pbSuitPile4 };
+            tableauPiles = new TableLayoutPanel[NUM_OF_TABLEAU] { tblPlayBoard1, tblPlayBoard2, tblPlayBoard3, tblPlayBoard4, 
+                                                                    tblPlayBoard5, tblPlayBoard6, tblPlayBoard7 };
 
             Solitaire.SetupGame();
 
@@ -42,13 +47,7 @@ namespace Games {
             DisplayDiscard();
 
             // Display the cards in each tableau
-            DisplayGuiHand(Solitaire.GetTableau(0), tblPlayBoard1, Solitaire.GetNumCardsFaceUp(0));
-            DisplayGuiHand(Solitaire.GetTableau(1), tblPlayBoard2, Solitaire.GetNumCardsFaceUp(1));
-            DisplayGuiHand(Solitaire.GetTableau(2), tblPlayBoard3, Solitaire.GetNumCardsFaceUp(2));
-            DisplayGuiHand(Solitaire.GetTableau(3), tblPlayBoard4, Solitaire.GetNumCardsFaceUp(3));
-            DisplayGuiHand(Solitaire.GetTableau(4), tblPlayBoard5, Solitaire.GetNumCardsFaceUp(4));
-            DisplayGuiHand(Solitaire.GetTableau(5), tblPlayBoard6, Solitaire.GetNumCardsFaceUp(5));
-            DisplayGuiHand(Solitaire.GetTableau(6), tblPlayBoard7, Solitaire.GetNumCardsFaceUp(6));
+            UpdateTableauPiles();
         }
 
 
@@ -82,10 +81,13 @@ namespace Games {
             Card clickedCard = (Card)clickedPictureBox.Tag;
 
             TryToPlayCard(clickedCard, LOCATION_DISCARD);
-
-            UpdateSuitPiles();
-
             UpdateDiscardPile();
+        }
+
+        private void UpdateTableauPiles() {
+            for (int tableau = 0; tableau < NUM_OF_TABLEAU; tableau++) {
+                DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau));
+            }
         }
 
         private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp) {
@@ -147,6 +149,8 @@ namespace Games {
                 if (Solitaire.GetSuitPileCount(suitPile) != 0) {
                     card = Solitaire.GetLastCardSuitPile(suitPile);
                     suitPiles[suitPile].Image = Images.GetCardImage(card);
+
+                    suitPiles[suitPile].Tag = card;
                 }
             }     
         }
@@ -170,16 +174,18 @@ namespace Games {
             // This MessageBox.Show is for debugging purposes only.
             // comment out line, once sure you can click on a card in a tableau
             MessageBox.Show(clickedCard.ToString(false, true), "Clicked");
-            
-            // Add code to do something with the clicked card.
 
-            if (clickedCard.GetFaceValue() == FaceValue.Ace) {
+            if (clickedCard.GetFaceValue() == FaceValue.Ace && location != LOCATION_SUIT) {
                 Solitaire.PlayAce(clickedCard, location);
                 firstClick = false;
+
+                UpdateSuitPiles();
+
+                UpdateTableauPiles();
             } else {
+
                 // If start of new move
                 if (firstClick == false) {
-
                     firstCard = clickedCard;
                     startLocation = location;
                     firstClick = true;
@@ -190,22 +196,23 @@ namespace Games {
 
                     // Check if valid move here
                     if (!Solitaire.TryMakeMove(firstCard, secondCard, startLocation, destLocation)) {
-                        // Some error code here
-
-                    //Update all screens
-
-
+                        // Error messages for invalid moves
+                        if (destLocation == LOCATION_DISCARD) {
+                            MessageBox.Show("Cannot place card onto Discard Pile");
+                            firstClick = false;
+                        } else if (destLocation == LOCATION_TABLE) {
+                            MessageBox.Show("ERROR - Move not allowed - Cannot place card onto this pile");
+                            firstClick = false;
+                        }
+                    } else if (Solitaire.CheckGameVictory()) {
+                        MessageBox.Show("Congratulations, you won!");
                     }
 
-                    DisplayGuiHand(Solitaire.GetTableau(0), tblPlayBoard1, Solitaire.GetNumCardsFaceUp(0));
-                    DisplayGuiHand(Solitaire.GetTableau(1), tblPlayBoard2, Solitaire.GetNumCardsFaceUp(1));
-                    DisplayGuiHand(Solitaire.GetTableau(2), tblPlayBoard3, Solitaire.GetNumCardsFaceUp(2));
-                    DisplayGuiHand(Solitaire.GetTableau(3), tblPlayBoard4, Solitaire.GetNumCardsFaceUp(3));
-                    DisplayGuiHand(Solitaire.GetTableau(4), tblPlayBoard5, Solitaire.GetNumCardsFaceUp(4));
-                    DisplayGuiHand(Solitaire.GetTableau(5), tblPlayBoard6, Solitaire.GetNumCardsFaceUp(5));
-                    DisplayGuiHand(Solitaire.GetTableau(6), tblPlayBoard7, Solitaire.GetNumCardsFaceUp(6));
+                    firstClick = false;
 
-                    // Need to increment the array of cards to display
+                    UpdateDiscardPile();
+                    UpdateSuitPiles();
+                    UpdateTableauPiles();
                 }
             }
         }
@@ -213,19 +220,39 @@ namespace Games {
         /*   Click events for suit piles            */
 
         private void pbSuitPile1_Click(object sender, EventArgs e) {
-            //
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_SUIT);
         }
 
         private void pbSuitPile2_Click(object sender, EventArgs e) {
-            //
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_SUIT);
         }
 
         private void pbSuitPile3_Click(object sender, EventArgs e) {
-            //
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_SUIT);
         }
 
         private void pbSuitPile4_Click(object sender, EventArgs e) {
-            //
+            // which card was clicked?
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_SUIT);
         }
     }
 }
