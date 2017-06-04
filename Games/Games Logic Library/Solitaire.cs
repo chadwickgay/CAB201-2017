@@ -39,6 +39,8 @@ namespace Games_Logic_Library {
         private const string LOCATION_SUIT = "suit";
         private const string LOCATION_TABLE = "table";
 
+        private const int ONE_LESS = 1;
+
         private const int PILE_ONE = 0;
         private const int PILE_TWO = 1;
         private const int PILE_THREE = 2;
@@ -62,11 +64,10 @@ namespace Games_Logic_Library {
 
             // Setup each tableau
             SetupTableau();
-
         }
 
         public static bool TryMakeMove(Card firstCard, Card secondCard, string startLocation, string destLocation) {
-            // If the card is from 1 of 7 the seven tables
+            // If the card is from 1 of 7 the seven tables to another table
             if (startLocation == LOCATION_TABLE && destLocation == LOCATION_TABLE) {
                 // Checks if the colour of the cards is opposite
                 if (!CheckSameColour(firstCard, secondCard)) {
@@ -79,24 +80,38 @@ namespace Games_Logic_Library {
                         return false;
                     }
                 }
-                // If card is from the discard pile
+                // If card is from the discard pile moving to table
             } else if (startLocation == LOCATION_DISCARD && destLocation == LOCATION_TABLE) {
                 // Checks if the colour of the cards is opposite
                 if (!CheckSameColour(firstCard, secondCard)) {
                     // Check if card is one less in the cards enum
                     if (CheckValidMove(firstCard, secondCard, destLocation)) {
-                        MoveToTable(firstCard, secondCard);
                         MoveFromDiscard();
+                        MoveToTable(firstCard, secondCard);                     
+                        return true;
+                    }
+                }
+                // If the card is in the discard pile moving to the suitpile
+            } else if (startLocation == LOCATION_DISCARD && destLocation == LOCATION_SUIT) {
+                // Checks if the cards of the same suit
+                if (CheckSameSuit(firstCard, secondCard)) {
+                    // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
+                    if (CheckValidMove(firstCard, secondCard, destLocation)) {
+                        MoveFromDiscard();
+                        MoveToSuitPile(firstCard, secondCard);                 
                         return true;
                     }
                 }
             } else if (startLocation == LOCATION_TABLE && destLocation == LOCATION_SUIT) {
-                // Checks colour of the card first
+                // Checks if the cards of the same suit
                 if (CheckSameSuit(firstCard, secondCard)) {
-
+                    // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
+                    if (CheckValidMove(firstCard, secondCard, destLocation)) {
+                        MoveToSuitPile(firstCard, secondCard);
+                        MoveFromTable(firstCard);
+                        return true;
+                    }
                 }
-
-                return true;
             } else {
                 return false;
             }
@@ -104,7 +119,6 @@ namespace Games_Logic_Library {
             // unreacable code - inserted to satisfy compiler
             return false;
         }
-
 
         // Helper methods to move cards between areas on board
 
@@ -130,6 +144,11 @@ namespace Games_Logic_Library {
 
             //Remove card from table
             RemoveCardFromTableau(fromTable, firstCard);
+
+            //Decrement number of cards visible
+            if (numCardsFaceUp[tableauNo] > 1) {
+                numCardsFaceUp[tableauNo]--;
+            }           
         }
 
         private static void MoveToTable(Card firstCard, Card secondCard) {
@@ -147,10 +166,23 @@ namespace Games_Logic_Library {
 
         private static void MoveFromDiscard() {
             // Remove last card from discard
-            RemoveLastDiscard();
-
+            //RemoveLastDiscard();
+            discardPile.RemoveLastCard();
+           
             // Draw card
             DrawCard();
+        }
+
+        private static void MoveToSuitPile(Card firstCard, Card secondCard) {
+
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
+
+                if (suitPiles[i].GetCount() != 0) {
+                    if (suitPiles[i].GetLastCardInPile() == secondCard) {
+                        suitPiles[i].Add(firstCard);
+                    }
+                }
+            }
         }
 
         private static void AddCardToTable(Hand tableau, Card card) {
@@ -164,7 +196,7 @@ namespace Games_Logic_Library {
         // Methods for dealing with Aces
 
         public static void PlayAce(Card ace, string startLocation){
-            int tableauNo = -1; //set to value out of range of arrays
+            int tableauNo;
 
             // If the card selected is an Ace
             if (startLocation == LOCATION_DISCARD) {
@@ -172,6 +204,8 @@ namespace Games_Logic_Library {
                 AddAceEmptySuitPile(ace);
 
                 RemoveLastDiscard();
+
+                DrawCard();
             } else if (startLocation == LOCATION_TABLE) {
 
                 AddAceEmptySuitPile(ace);
@@ -204,10 +238,15 @@ namespace Games_Logic_Library {
             bool validMove = false;
 
             if (destLocation == LOCATION_TABLE) {
-                if ((int)secondCard.GetFaceValue() - (int)firstCard.GetFaceValue() == 1) {
+                if ((int)secondCard.GetFaceValue() - (int)firstCard.GetFaceValue() == ONE_LESS) {
                     validMove = true;
                 }
-            } else if (destLocation == LOCATION_SUIT) {
+            } else if (destLocation == LOCATION_SUIT && secondCard.GetFaceValue() == FaceValue.Ace) {
+                if (firstCard.GetFaceValue() == FaceValue.Two) {
+                    return true;
+                }
+            }
+            else if (destLocation == LOCATION_SUIT) {
                 if ((int)firstCard.GetFaceValue() - (int)secondCard.GetFaceValue() == 1) {
                     validMove = true;
                 }

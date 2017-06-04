@@ -48,9 +48,8 @@ namespace Games {
 
             // Display the cards in each tableau
             UpdateTableauPiles();
+
         }
-
-
 
         /*   Click events for draw and discard piles            */
 
@@ -81,7 +80,7 @@ namespace Games {
             Card clickedCard = (Card)clickedPictureBox.Tag;
 
             TryToPlayCard(clickedCard, LOCATION_DISCARD);
-            UpdateDiscardPile();
+
         }
 
         private void UpdateTableauPiles() {
@@ -103,21 +102,22 @@ namespace Games {
                 // Remove spacing around the PictureBox. (Default is 3 pixels.)
                 pictureBox.Margin = new Padding(0);
                 pictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
-
                 card = hand.GetCard(i);
 
                 // If card face up
                 if (i >= hand.GetCount() - numCardsFaceUp) {
                     pictureBox.Image = Images.GetCardImage(card);
-
-                    // set event-handler for Click on this PictureBox.
-                    pictureBox.Click += new EventHandler(pictureBox_Click);
-                    // tell the PictureBox which Card object it has the picture of.
-                    pictureBox.Tag = card;
+                                      
+                    // Only set event handler + tag for last card in the hand 
+                    if (i == hand.GetCount() - 1) {
+                        // set event-handler for Click on this PictureBox.
+                        pictureBox.Click += new EventHandler(pictureBox_Click);
+                        // tell the PictureBox which Card object it has the picture of.
+                        pictureBox.Tag = card;
+                    }              
 
                 } else {
                     pictureBox.Image = Images.GetBackOfCardImage();
-
                     pictureBox.Tag = card;
                 }
                 // Add the PictureBox object to the tableLayoutPanel.
@@ -157,6 +157,8 @@ namespace Games {
 
         private void UpdateDiscardPile() {
             pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
+
+            pbDiscardPile.Tag = Solitaire.GetLastDiscard();
         }
 
         /*   Events & methods for picture boxes - from Assignment instructions       */
@@ -179,8 +181,8 @@ namespace Games {
                 Solitaire.PlayAce(clickedCard, location);
                 firstClick = false;
 
+                UpdateDiscardPile();
                 UpdateSuitPiles();
-
                 UpdateTableauPiles();
             } else {
 
