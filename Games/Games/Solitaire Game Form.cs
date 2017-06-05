@@ -54,7 +54,7 @@ namespace Games {
             pbDrawPile.Image = Images.GetBackOfCardImage();
 
             // Discard Pile image
-            DisplayDiscard();
+            UpdateDiscardPile();
 
             // Display the cards in each tableau
             UpdateTableauPiles();
@@ -63,6 +63,12 @@ namespace Games {
 
         // Created methods
 
+        /// <summary>
+        /// Displays a blank picture box image to allow King to be placed onto the board.
+        /// </summary>
+        /// <param name="hand">Tableau (column) of cards to be displayed</param>
+        /// <param name="tableLayoutPanel">Which tableLayoutPanel to display the cards in</param>
+        /// <param name="tableauNo">index of the tableau in underlying game logic class</param>
         private void DisplayBlankPictureBox(Hand hand, TableLayoutPanel tableLayoutPanel, int tableauNo) {
             if (hand.GetCount() == 0) {
                 PictureBox blankPictureBox = new PictureBox();
@@ -83,6 +89,14 @@ namespace Games {
             }
         } // DisplayBlankPictureBox
 
+        /// <summary>
+        /// Displays each of the cards in the tableau pile on the play board.
+        /// Utilizes numCardsFaceUp array to determine how many cards should be placed face up on the board
+        /// </summary>
+        /// <param name="hand">Tableau (column) of cards to be displayed</param>
+        /// <param name="tableLayoutPanel">Which tableLayoutPanel to display the cards in</param>
+        /// <param name="numCardsFaceUp">Number of cards that shoul de displayed face up</param>
+        /// <param name="tableauNo">index of the tableau in underlying game logic class</param>
         private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp, int tableauNo) {
             tableLayoutPanel.Controls.Clear(); // Remove any cards already being shown.
 
@@ -122,21 +136,9 @@ namespace Games {
             }
         }// End DisplayGuiHand
 
-        private void DisplayDiscard() {
-            Card lastCard;
-
-            lastCard = Solitaire.GetLastDiscard();
-
-            if (Solitaire.GetNumDiscardCards() != 0) {
-                pbDiscardPile.Image = Images.GetCardImage(lastCard);
-
-                // Tag to know what card was clicked
-                pbDiscardPile.Tag = lastCard;
-            } else {
-                pbDiscardPile.Image = null;
-            }
-        }// end DisplayDiscard
-
+        /// <summary>
+        /// Updates the cards displayed in the suit piles.
+        /// </summary>
         private void UpdateSuitPiles() {
 
             for (int suitPile = 0; suitPile < Solitaire.NUM_OF_SUITS; suitPile++) {
@@ -151,18 +153,31 @@ namespace Games {
             }
         }// end UpdateSuitPiles
 
+        /// <summary>
+        /// Updates the cards displayed in the discard pile.
+        /// </summary>
         private void UpdateDiscardPile() {
             pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
 
             pbDiscardPile.Tag = Solitaire.GetLastDiscard();
         }// end UpdateDiscardPile
 
+        /// <summary>
+        /// Calls DisplayGuiHand to update the cards displayed in all of the seven tableaus. 
+        /// </summary>
         private void UpdateTableauPiles() {
             for (int tableau = 0; tableau < NUM_OF_TABLEAU; tableau++) {
                 DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau), tableau);
             }
         }// end UpdateTableauPiles
 
+        /// <summary>
+        /// Gets location of where Card has come from and where the user wants to place the card
+        /// Calls game logic functions to attempt to place card according to user selection
+        /// Updates disply on successful placement or displays error message
+        /// </summary>
+        /// <param name="clickedCard">Card the user has selected to move or move card to</param>
+        /// <param name="location">Location from where the user selected the card</param>
         private void TryToPlayCard(Card clickedCard, string location) {
 
             // Moves card directly to 1 of the suitPiles without needing addition click
@@ -203,6 +218,10 @@ namespace Games {
             }
         }// end TryToPlayCard
 
+        /// <summary>
+        /// Displays contextual errors messages to user on invalid move request.
+        /// </summary>
+        /// <param name="destLocation">Location where the Card is trying to be added to - suit or table</param>
         private void InvalidMoveError(string destLocation) {
             if (destLocation == LOCATION_DISCARD) {
                 MessageBox.Show("Cannot place card onto Discard Pile");
@@ -221,7 +240,7 @@ namespace Games {
             //
             if (Solitaire.GetNumDrawCards() != 0) {
                 Solitaire.DrawCard();
-                DisplayDiscard();
+                UpdateDiscardPile();
 
                 // If last card is drawn, make image blank to show end of deck
                 if (Solitaire.GetNumDrawCards() == 0) {
@@ -232,7 +251,7 @@ namespace Games {
 
             } else {
                 Solitaire.ResetDrawPile();
-                DisplayDiscard();
+                UpdateDiscardPile();
                 pbDrawPile.Image = Images.GetBackOfCardImage();
             }
         }// end pbDrawPile_Click
