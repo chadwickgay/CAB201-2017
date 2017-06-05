@@ -203,7 +203,7 @@ namespace Games {
 
             // This MessageBox.Show is for debugging purposes only.
             // comment out line, once sure you can click on a card in a tableau
-            MessageBox.Show(clickedCardTableauNo.ToString(), "Clicked");
+            //MessageBox.Show(clickedCardTableauNo.ToString(), "Clicked");
 
             if (firstClick = true && firstCard.GetFaceValue() == FaceValue.King) {
 
@@ -220,8 +220,6 @@ namespace Games {
             UpdateSuitPiles();
             UpdateTableauPiles();
         }
-
-
 
         private void TryToPlayCard(Card clickedCard, string location) {
             // This MessageBox.Show is for debugging purposes only.
@@ -265,6 +263,7 @@ namespace Games {
                 }
             }
         }
+
 
         private void InvalidMoveError(string destLocation) {
             if (destLocation == LOCATION_DISCARD) {

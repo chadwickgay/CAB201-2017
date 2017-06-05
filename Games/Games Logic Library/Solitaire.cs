@@ -44,6 +44,8 @@ namespace Games_Logic_Library {
 
         // Public methods
 
+        // Setup methods
+
         public static void SetupGame() {
 
             drawPile = new CardPile(true);
@@ -61,6 +63,8 @@ namespace Games_Logic_Library {
             // Setup each tableau
             SetupTableau();
         }
+
+        // Moving card methods
 
         public static bool TryMakeMove(Card firstCard, Card secondCard, string startLocation, string destLocation) {
             // If the card is from 1 of 7 the seven tables to another table
@@ -175,6 +179,8 @@ namespace Games_Logic_Library {
             }
         } 
 
+        // Getters
+
         public static Card GetLastCardSuitPile(int whichSuit) {
             return suitPiles[whichSuit].GetLastCardInPile();
         }
@@ -189,24 +195,11 @@ namespace Games_Logic_Library {
 
         public static Hand GetTableau(int tableauNum) {
             return tableauPiles[tableauNum];
-        }   
-
-        public static void DrawCard() {
-
-            if (drawPile.GetCount() == 0) {
-                ResetDrawPile();
-            }
-
-            discardPile.Add(drawPile.DealOneCard());
-        }
+        }        
 
         public static Card GetLastDiscard() {
             return discardPile.GetLastCardInPile();
-        }
-
-        public static void RemoveLastDiscard() {
-            discardPile.RemoveLastCard();
-        }
+        }       
 
         public static int GetNumDrawCards() {
             return drawPile.GetCount();
@@ -215,6 +208,8 @@ namespace Games_Logic_Library {
         public static int GetNumDiscardCards() {
             return discardPile.GetCount();
         }
+
+        // Basic gameplay methods
 
         public static void ResetDrawPile() {
             drawPile = discardPile;
@@ -237,7 +232,21 @@ namespace Games_Logic_Library {
                 return false;
             }
         }
- 
+
+        public static void DrawCard() {
+
+            if (drawPile.GetCount() == 0) {
+                ResetDrawPile();
+            }
+
+            discardPile.Add(drawPile.DealOneCard());
+        }
+
+        public static void RemoveLastDiscard() {
+            discardPile.RemoveLastCard();
+        }
+
+        // Private methods
 
         // Helper methods to move cards between areas on board
 
