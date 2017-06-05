@@ -40,7 +40,10 @@ namespace Games_Logic_Library {
         private const int PILE_TWO = 1;
         private const int PILE_THREE = 2;
         private const int PILE_FOUR = 3;
-       
+
+
+        // Public methods
+
         public static void SetupGame() {
 
             drawPile = new CardPile(true);
@@ -80,7 +83,7 @@ namespace Games_Logic_Library {
                     // Check if card is one less in the cards enum
                     if (CheckValidMove(firstCard, secondCard, destLocation)) {
                         MoveFromDiscard();
-                        MoveToTable(firstCard, secondCard);                     
+                        MoveToTable(firstCard, secondCard);
                         return true;
                     }
                 }
@@ -101,7 +104,6 @@ namespace Games_Logic_Library {
                 }
 
             } else if (startLocation == LOCATION_TABLE && destLocation == LOCATION_SUIT) {
-
                 if (secondCard != null) {
                     // Checks if the cards of the same suit
                     if (CheckSameSuit(firstCard, secondCard)) {
@@ -120,46 +122,6 @@ namespace Games_Logic_Library {
             // unreacable code - inserted to satisfy compiler
             return false;
         }
-
-        // Methods for dealing with Aces
-
-        public static void PlayAce(Card ace, string startLocation) {
-            int tableauNo;
-
-            // If the from location is the discard pile
-            if (startLocation == LOCATION_DISCARD) {
-
-                MoveAceToEmptySuitPile(ace);
-
-                RemoveLastDiscard();
-
-                DrawCard();
-            // If the from location is one of the tables
-            } else if (startLocation == LOCATION_TABLE) {
-
-                MoveAceToEmptySuitPile(ace);
-
-                Hand fromTable;
-
-                fromTable = GetTableauContainingCard(ace, out tableauNo);
-
-                RemoveCardFromTableau(fromTable, ace);
-            }
-        }
-
-        private static void MoveAceToEmptySuitPile(Card ace) {
-            if (suitPiles[PILE_ONE].GetCount() == 0) {
-                suitPiles[PILE_ONE].Add(ace);
-            } else if (suitPiles[PILE_TWO].GetCount() == 0) {
-                suitPiles[PILE_TWO].Add(ace);
-            } else if (suitPiles[PILE_THREE].GetCount() == 0) {
-                suitPiles[PILE_THREE].Add(ace);
-            } else if (suitPiles[PILE_FOUR].GetCount() == 0) {
-                suitPiles[PILE_FOUR].Add(ace);
-            }
-        }
-
-        // Methods for dealing with Kings
 
         public static void PlayKing(string startLocation, Card king, int tableauNo) {
 
@@ -189,137 +151,29 @@ namespace Games_Logic_Library {
             }
         }
 
-        // Helper methods to move cards between areas on board
-
-        private static Hand GetTableauContainingCard(Card card, out int tableauNo) {
-            Hand tableau = new Hand();
-            // assigned to prevent compiler error
-            tableauNo = 0;
-
-            for (int i = 0; i < NUM_OF_TABLEAU; i++) {
-                if (tableauPiles[i].Contains(card)) {
-                    tableau = tableauPiles[i];
-                    tableauNo = i;
-                }
-            }
-            return tableau;
-        }
-
-        private static void MoveFromTable(Card firstCard) {
-            Hand fromTable;
+        public static void PlayAce(Card ace, string startLocation) {
             int tableauNo;
 
-            fromTable = GetTableauContainingCard(firstCard, out tableauNo);
+            // If the from location is the discard pile
+            if (startLocation == LOCATION_DISCARD) {
 
-            //Remove card from table
-            RemoveCardFromTableau(fromTable, firstCard);
+                MoveAceToEmptySuitPile(ace);
 
-            //Decrement number of cards visible
-            if (numCardsFaceUp[tableauNo] > 1) {
-                numCardsFaceUp[tableauNo]--;
-            }           
-        }
+                RemoveLastDiscard();
 
-        private static void MoveToTable(Card firstCard, Card secondCard) {
-            Hand toTable;
-            int tableauNo;
+                DrawCard();
+                // If the from location is one of the tables
+            } else if (startLocation == LOCATION_TABLE) {
 
-            toTable = GetTableauContainingCard(secondCard, out tableauNo);
+                MoveAceToEmptySuitPile(ace);
 
-            //Add card to table
-            AddCardToTable(toTable, firstCard);
+                Hand fromTable;
 
-            //Increment number of cards face up
-            numCardsFaceUp[tableauNo]++;
-        }
+                fromTable = GetTableauContainingCard(ace, out tableauNo);
 
-        private static void MoveFromDiscard() {
-            // Remove last card from discard
-            //RemoveLastDiscard();
-            discardPile.RemoveLastCard();
-           
-            // Draw card
-            DrawCard();
-        }
-
-        private static void MoveToSuitPile(Card firstCard, Card secondCard) {
-
-            for (int i = 0; i < NUM_OF_SUITS; i++) {
-
-                if (suitPiles[i].GetCount() != 0) {
-                    if (suitPiles[i].GetLastCardInPile() == secondCard) {
-                        suitPiles[i].Add(firstCard);
-                    }
-                }
+                RemoveCardFromTableau(fromTable, ace);
             }
-        }
-
-        private static void AddCardToTable(Hand tableau, Card card) {
-            tableau.Add(card);
-        }
-
-        private static void RemoveCardFromTableau(Hand tableau, Card card) {
-            tableau.Remove(card);
-        }
-
-
-
-        // Helper methods to do validation of moves
-
-        private static bool CheckValidMove(Card firstCard, Card secondCard, string destLocation) {
-            bool validMove = false;
-
-            if (destLocation == LOCATION_TABLE) {
-                if ((int)secondCard.GetFaceValue() - (int)firstCard.GetFaceValue() == ONE_LESS) {
-                    validMove = true;
-                }
-            } else if (destLocation == LOCATION_SUIT && secondCard.GetFaceValue() == FaceValue.Ace) {
-                if (firstCard.GetFaceValue() == FaceValue.Two) {
-                    return true;
-                }
-            }
-            else if (destLocation == LOCATION_SUIT) {
-                if ((int)firstCard.GetFaceValue() - (int)secondCard.GetFaceValue() == ONE_HIGHER) {
-                    validMove = true;
-                }
-            }
-
-            return validMove;
-        }
-
-        private static bool CheckSameColour(Card firstCard, Card secondCard) {
-            if (firstCard.GetColour() == secondCard.GetColour()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        private static bool CheckSameSuit(Card firstCard, Card secondCard) {
-            if (firstCard.GetSuit() == secondCard.GetSuit()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        // Private helper methods to setup the game
-
-        //Sets a single table at the start of the game
-        private static void SetupTableau() {
-            for (int tableauNo = 0; tableauNo < NUM_OF_TABLEAU; tableauNo++) {
-                tableauPiles[tableauNo] = new Hand(drawPile.DealCards(tableauNo + 1));
-            }
-        }
-
-        private static void SetupSuitPiles() {
-            // Add new CardPile to each position in suitPiles array
-            for (int i = 0; i < NUM_OF_SUITS; i++) {
-                suitPiles[i] = new CardPile();
-            }
-        }
-
-        // Public methods
+        } 
 
         public static Card GetLastCardSuitPile(int whichSuit) {
             return suitPiles[whichSuit].GetLastCardInPile();
@@ -381,6 +235,145 @@ namespace Games_Logic_Library {
                 return true;
             } else {
                 return false;
+            }
+        }
+ 
+
+        // Helper methods to move cards between areas on board
+
+        private static void MoveAceToEmptySuitPile(Card ace) {
+            if (suitPiles[PILE_ONE].GetCount() == 0) {
+                suitPiles[PILE_ONE].Add(ace);
+            } else if (suitPiles[PILE_TWO].GetCount() == 0) {
+                suitPiles[PILE_TWO].Add(ace);
+            } else if (suitPiles[PILE_THREE].GetCount() == 0) {
+                suitPiles[PILE_THREE].Add(ace);
+            } else if (suitPiles[PILE_FOUR].GetCount() == 0) {
+                suitPiles[PILE_FOUR].Add(ace);
+            }
+        }
+
+        private static void MoveFromTable(Card firstCard) {
+            Hand fromTable;
+            int tableauNo;
+
+            fromTable = GetTableauContainingCard(firstCard, out tableauNo);
+
+            //Remove card from table
+            RemoveCardFromTableau(fromTable, firstCard);
+
+            //Decrement number of cards visible
+            if (numCardsFaceUp[tableauNo] > 1) {
+                numCardsFaceUp[tableauNo]--;
+            }
+        }
+
+        private static void MoveToTable(Card firstCard, Card secondCard) {
+            Hand toTable;
+            int tableauNo;
+
+            toTable = GetTableauContainingCard(secondCard, out tableauNo);
+
+            //Add card to table
+            AddCardToTable(toTable, firstCard);
+
+            //Increment number of cards face up
+            numCardsFaceUp[tableauNo]++;
+        }
+
+        private static void MoveFromDiscard() {
+            // Remove last card from discard
+            //RemoveLastDiscard();
+            discardPile.RemoveLastCard();
+
+            // Draw card
+            DrawCard();
+        }
+
+        private static void MoveToSuitPile(Card firstCard, Card secondCard) {
+
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
+
+                if (suitPiles[i].GetCount() != 0) {
+                    if (suitPiles[i].GetLastCardInPile() == secondCard) {
+                        suitPiles[i].Add(firstCard);
+                    }
+                }
+            }
+        }
+
+        private static Hand GetTableauContainingCard(Card card, out int tableauNo) {
+            Hand tableau = new Hand();
+            // assigned to prevent compiler error
+            tableauNo = 0;
+
+            for (int i = 0; i < NUM_OF_TABLEAU; i++) {
+                if (tableauPiles[i].Contains(card)) {
+                    tableau = tableauPiles[i];
+                    tableauNo = i;
+                }
+            }
+            return tableau;
+        }
+
+        private static void AddCardToTable(Hand tableau, Card card) {
+            tableau.Add(card);
+        }
+
+        private static void RemoveCardFromTableau(Hand tableau, Card card) {
+            tableau.Remove(card);
+        }
+
+        // Helper methods to do validation of moves
+
+        private static bool CheckValidMove(Card firstCard, Card secondCard, string destLocation) {
+            bool validMove = false;
+
+            if (destLocation == LOCATION_TABLE) {
+                if ((int)secondCard.GetFaceValue() - (int)firstCard.GetFaceValue() == ONE_LESS) {
+                    validMove = true;
+                }
+            } else if (destLocation == LOCATION_SUIT && secondCard.GetFaceValue() == FaceValue.Ace) {
+                if (firstCard.GetFaceValue() == FaceValue.Two) {
+                    return true;
+                }
+            } else if (destLocation == LOCATION_SUIT) {
+                if ((int)firstCard.GetFaceValue() - (int)secondCard.GetFaceValue() == ONE_HIGHER) {
+                    validMove = true;
+                }
+            }
+
+            return validMove;
+        }
+
+        private static bool CheckSameColour(Card firstCard, Card secondCard) {
+            if (firstCard.GetColour() == secondCard.GetColour()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        private static bool CheckSameSuit(Card firstCard, Card secondCard) {
+            if (firstCard.GetSuit() == secondCard.GetSuit()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Private helper methods to setup the game
+
+        private static void SetupTableau() {
+            for (int tableauNo = 0; tableauNo < NUM_OF_TABLEAU; tableauNo++) {
+                tableauPiles[tableauNo] = new Hand(drawPile.DealCards(tableauNo + 1));
+            }
+        }
+
+        private static void SetupSuitPiles() {
+            // Add new CardPile to each position in suitPiles array
+            for (int i = 0; i < NUM_OF_SUITS; i++) {
+                suitPiles[i] = new CardPile();
             }
         }
     }
