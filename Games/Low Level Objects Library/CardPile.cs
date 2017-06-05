@@ -28,7 +28,7 @@ namespace Low_Level_Objects_Library {
         public static int NUM_CARDS_PER_SUIT = 13;
         private List<Card> pile;
 
-        private static Random randomValue = new Random(10);
+        private static Random randomValue = new Random();
 
 
         /// <summary>

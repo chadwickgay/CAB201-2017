@@ -13,6 +13,8 @@ namespace Games {
     public partial class PigWithTwoDiceForm : Form {
 
         private const int NUM_OF_DICE = 2;
+        private const int MIN_DICE_VALUE = 1;
+        private const int MAX_DICE_VALUE = 6;
         int timerCounter = 0;
         private static PictureBox[] diceImages;
 
@@ -75,7 +77,7 @@ namespace Games {
         }//end SwitchPlayer  
 
         /// <summary>
-        /// Displays player scores from the Game class in the GUI
+        /// Displays player scores from the Game class on the form
         /// </summary>
         private void SetPlayerScores() {
             txtPlayerOneTotal.Text = Pig_Two_Die_Game.GetPointsTotal("Player 1").ToString();
@@ -165,14 +167,14 @@ namespace Games {
         } // DisplayFirstPlayerName
 
         /// <summary>
-        /// Sets roll message instruction in GUI
+        /// Sets roll message instruction on form
         /// </summary>
         private void SetRollMessage() {
             lblRollOrHold.Text = "Roll Die";
         }//end SetRollMessage
 
         /// <summary>
-        /// Sets roll or hold message instruction in GUI
+        /// Sets roll or hold message instruction on form
         /// </summary>
         private void SetRollOrHoldMessage() {
             lblRollOrHold.Text = "Roll or Hold";
@@ -245,13 +247,14 @@ namespace Games {
         } // end optAnotherGameYes_CheckedChanged
 
         private void timer_Tick(object sender, EventArgs e) {
-            int dieOne, dieTwo;
+            int dieOne, dieTwo, numOfTicks;
             Random random = new Random();
+            numOfTicks = 11;
             timerCounter++;
 
-            if (timerCounter < 11) {
-                dieOne = random.Next(1, 6);
-                dieTwo = random.Next(1, 6);
+            if (timerCounter < numOfTicks) {
+                dieOne = random.Next(MIN_DICE_VALUE, MAX_DICE_VALUE);
+                dieTwo = random.Next(MIN_DICE_VALUE, MAX_DICE_VALUE);
 
                 picDie1.Image = Images.GetDieImage(dieOne);
                 picDie2.Image = Images.GetDieImage(dieTwo);

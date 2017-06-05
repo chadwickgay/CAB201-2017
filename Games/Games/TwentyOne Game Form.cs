@@ -12,8 +12,6 @@ using Games_Logic_Library;
 
 namespace Games {
     public partial class TwentyOneGameForm : Form {
-        // class variables
-
         private const int PLAYER = 0;
         private const int DEALER = 1;
         private const int NUM_INITIAL_CARDS = 2;
@@ -60,7 +58,7 @@ namespace Games {
             // Check if initial player hand includes an Ace
             CheckPlayerHandForAce();
 
-            //DisableDealButton();
+            DisableDealButton();
 
             // Enable buttons for next stage of game
             EnableHitButton();

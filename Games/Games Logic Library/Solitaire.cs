@@ -18,7 +18,8 @@ namespace Games_Logic_Library {
         private const int TOTAL_CARDS_SUIT = 13;
 
         // Number of face up cards per pile
-        private static int[] numCardsFaceUp = new int[] {1, 1, 1, 1, 1, 1, 1};
+        private static int[] numCardsFaceUp = new int[NUM_OF_TABLEAU];
+        private const int DEFAULT_FACE_UP = 1;
 
         // Pile for discard pile
         static CardPile drawPile;
@@ -48,8 +49,6 @@ namespace Games_Logic_Library {
 
         // Public methods
 
-        // Setup methods
-
         /// <summary>
         /// Initializes all class variabless at start of a new game
         /// </summary>
@@ -57,6 +56,8 @@ namespace Games_Logic_Library {
 
             drawPile = new CardPile(true);
             discardPile = new CardPile();
+
+            ResetNumFaceUp();
 
             // Shuffle drawPile
             drawPile.Shuffle();
@@ -71,7 +72,7 @@ namespace Games_Logic_Library {
             SetupTableau();
         }
 
-        // Moving card methods
+        // Methods to move cards on the board
 
         /// <summary>
         /// Performs move of card from table or discardPile to table or suitPile if validMove is possible
@@ -205,7 +206,7 @@ namespace Games_Logic_Library {
             }
         }
 
-        // Getters
+        // Methods to return class variables
 
         /// <summary>
         /// Returns the last card in specified suitPile in suitPiles array
@@ -241,8 +242,12 @@ namespace Games_Logic_Library {
         /// <returns>Returns tableau at specified location in tableauPiles array</returns>
         public static Hand GetTableau(int tableauNum) {
             return tableauPiles[tableauNum];
-        }        
+        }
 
+        /// <summary>
+        /// Returns last card in the discardPile
+        /// </summary>
+        /// <returns>Returns last card in the discardPile</returns>
         public static Card GetLastDiscard() {
             return discardPile.GetLastCardInPile();
         }
@@ -533,6 +538,15 @@ namespace Games_Logic_Library {
             // Add new CardPile to each position in suitPiles array
             for (int i = 0; i < NUM_OF_SUITS; i++) {
                 suitPiles[i] = new CardPile();
+            }
+        }
+
+        /// <summary>
+        /// Resets number of fards faceup for each table in numCardsFaceUp back to the default value
+        /// </summary>
+        private static void ResetNumFaceUp() {
+            for (int i = 0; i < NUM_OF_TABLEAU; i++) {
+                numCardsFaceUp[i] = DEFAULT_FACE_UP;
             }
         }
     }

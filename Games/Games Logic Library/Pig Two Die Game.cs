@@ -8,7 +8,6 @@ using Low_Level_Objects_Library;
 namespace Games_Logic_Library {
     public static class Pig_Two_Die_Game {
 
-        // UML variables
         private static Die[] dice = new Die[NUM_OF_DICE];
         private static int[] faceValue = new int[NUM_OF_DICE];
         private static int[] pointsTotal;
@@ -21,12 +20,13 @@ namespace Games_Logic_Library {
         private const int DOUBLE_ONE_ROLL = 25;
         private const int DOUBLE_SCORE = 2;
         private const int NUM_OF_DICE = 2;
+
         private const int DIE_ONE = 0;
         private const int DIE_TWO = 1;
         private const int PLAYER_ONE = 1;
         private const int PLAYER_TWO = 2;
 
-        // Helper functions
+        // Helper variables
         private static int currentPlayer;
         private static int previousScore;
         private static bool firstRoll = true;
@@ -140,6 +140,9 @@ namespace Games_Logic_Library {
             return faceValue;
         }
 
+        /// <summary>
+        /// Switches the current player to the other player
+        /// </summary>
         private static void SwitchPlayers() {
             if (currentPlayer == PLAYER_ONE) {
                 currentPlayer = PLAYER_TWO;

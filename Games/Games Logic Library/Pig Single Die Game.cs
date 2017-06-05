@@ -13,11 +13,12 @@ namespace Games_Logic_Library {
         private static int[] pointsTotal;
         private static string[] playersName;
 
-        // Added variables
-        // Should I even have this?
         private const int NUM_OF_PLAYERS = 2;
         private const int WINNING_SCORE = 30;
         private const int GAME_OVER = 1;
+
+        private const int PLAYER_ONE = 1;
+        private const int PLAYER_TWO = 2;
 
         private static int currentPlayer;
         private static int previousScore;
@@ -40,6 +41,11 @@ namespace Games_Logic_Library {
             currentPlayer = 1;            
         }
 
+        /// <summary>
+        /// Rolls the die once for the current player, updating the player’s score
+        /// appropriately according to the faceValue just rolled.
+        /// </summary>
+        /// <returns> returns true if the player has rolled a “1”, otherwise it returns false.</returns>
         public static bool PlayGame() {
             bool playGame = true;
 
@@ -64,6 +70,10 @@ namespace Games_Logic_Library {
             return playGame;
         }
 
+        /// <summary>
+        /// Returns true if player has won this game else returns false
+        /// </summary>
+        /// <returns>Returns true if player has won this game else returns false</returns>
         public static bool HasWon() {
             if (pointsTotal[currentPlayer] >= WINNING_SCORE) {
 
@@ -77,30 +87,42 @@ namespace Games_Logic_Library {
             }
         }
 
+        /// <summary>
+        /// Returns the name of the player going first
+        /// </summary>
+        /// <returns>Returns the name of the player going first</returns>
         public static string GetFirstPLayersName() {
             return playersName[currentPlayer];
         }
 
+        /// <summary>
+        /// Returns the name of the next player
+        /// </summary>
+        /// <returns>Returns the name of the next player</returns>
         public static string GetNextPlayersName() {
            SwitchPlayers();
 
            return playersName[currentPlayer];
         }
 
+        /// <summary>
+        /// Returns the specified player’s current points totals
+        /// </summary>
+        /// <param name="nameOfPlayer">Name of player to return points for</param>
+        /// <returns>Returns the specified player’s current points totals</returns>
         public static int GetPointsTotal(string nameOfPlayer) {
 
-            int playerOne, playerTwo;
-
-            playerOne = 1;
-            playerTwo = 2;
-
             if (nameOfPlayer == "Player 1") {
-                return pointsTotal[playerOne];
+                return pointsTotal[PLAYER_ONE];
             } else {
-                return pointsTotal[playerTwo];
+                return pointsTotal[PLAYER_TWO];
             }
         }
 
+        /// <summary>
+        /// Returns the current faceValue of the die
+        /// </summary>
+        /// <returns>Returns the current faceValue of the die</returns>
         public static int GetFaceValue() {
             int faceValue;
 
@@ -111,6 +133,9 @@ namespace Games_Logic_Library {
 
         // Private methods
 
+        /// <summary>
+        /// Switches the current player to the other player
+        /// </summary>
         private static void SwitchPlayers() {
             if (currentPlayer == 1) {
                 currentPlayer = 2;
@@ -121,6 +146,10 @@ namespace Games_Logic_Library {
             firstRoll = true;
         }
 
+        /// <summary>
+        /// Resets each of the player scores back to 0
+        /// so a new round can be played
+        /// </summary>
         private static void ResetPlayerScores() {
             for (int i = 0; i < pointsTotal.Length; i++) {
                 pointsTotal[i] = 0;
@@ -129,6 +158,9 @@ namespace Games_Logic_Library {
             firstRoll = true;
         }
 
+        /// <summary>
+        /// Resets the current player back to player 1
+        /// </summary>
         private static void ResetCurrentPlayer() {
             currentPlayer = 1;
         }
