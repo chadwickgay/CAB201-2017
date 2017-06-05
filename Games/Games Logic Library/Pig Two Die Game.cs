@@ -141,7 +141,8 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Switches the current player to the other player
+        /// Switches the value in currentPlayer to the other player
+        /// Used to keep track of player turns throughout the game
         /// </summary>
         private static void SwitchPlayers() {
             if (currentPlayer == PLAYER_ONE) {
@@ -167,6 +168,7 @@ namespace Games_Logic_Library {
 
         /// <summary>
         /// Resets the current player back to player 1
+        /// to begin a new round
         /// </summary>
         private static void ResetCurrentPlayer() {
             currentPlayer = 1;

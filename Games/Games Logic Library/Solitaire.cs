@@ -23,7 +23,7 @@ namespace Games_Logic_Library {
         private const int NUM_OF_TABLEAU = 7;
 
         // number of suits
-        public  const int NUM_OF_SUITS = 4;
+        private  const int NUM_OF_SUITS = 4;
 
         // Number of cards in suit pile for a complete suit pile
         private const int TOTAL_CARDS_SUIT = 13;
@@ -93,7 +93,7 @@ namespace Games_Logic_Library {
         /// <param name="secondCard">Card firstCard will be moved onto if valid move is possible</param>
         /// <param name="startLocation">Current location of the firstCard - discard or table</param>
         /// <param name="destLocation">Location where the Card is trying to be added to - suit or table</param>
-        /// <returns></returns>
+        /// <returns>Returns true if move is valid, otherwise returns false</returns>
         public static bool TryMakeMove(Card firstCard, Card secondCard, string startLocation, string destLocation) {
             // If the card is from 1 of 7 the seven tables to another table
             if (startLocation == LOCATION_TABLE && destLocation == LOCATION_TABLE) {
@@ -355,7 +355,7 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Removes firstCard from the 'giving' suitPile 
+        /// Removes firstCard from the suitPile from which user is attempting to move card from 
         /// Decrements number of numCardsFaceUp if number of cards in numCardsFaceUp is greater than 1
         /// Method paired with MoveToTable to move cards between tables
         /// </summary>
@@ -376,7 +376,7 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Adds firstCard contained in one suitPile to different receiving suitPile containing secondCard 
+        /// Adds firstCard contained in one suitPile to different user-selected suitPile containing secondCard 
         /// Increments numCardsFaceUp to reflect additional card in suitPile
         /// Method paired with MoveFromTable to move cards between tables
         /// </summary>
@@ -407,7 +407,7 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Adds firstCard to suitpile containing secondCard
+        /// Adds firstCard to suitpile to user-selected suitPile on top of secondCard
         /// Uses secondCard to identify which suitpile the firstCard should be added to
         /// </summary>
         /// <param name="firstCard">Card to be moved to other suitpile</param>
@@ -445,7 +445,7 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Adds card passed as parameter from  tableau passed as parameter
+        /// Adds card passed as parameter to tableau passed as parameter
         /// </summary>
         /// <param name="tableau">Tableau to add card to</param>
         /// <param name="card">Card to be added to tableau</param>
@@ -466,12 +466,12 @@ namespace Games_Logic_Library {
 
         /// <summary>
         /// Checks wheteher a move is a valid numerical move. Uses Cards enum to compare card values
-        /// Valid move returns true, otherwise returns false
+        /// Returns true if value move, otherwise returns false
         /// </summary>
         /// <param name="firstCard"></param>
         /// <param name="secondCard"></param>
         /// <param name="destLocation"></param>
-        /// <returns></returns>
+        /// <returns>Returns true if value move, otherwise returns false</returns>
         private static bool CheckValidNumericalMove(Card firstCard, Card secondCard, string destLocation) {
             bool validMove = false;
 
@@ -553,7 +553,7 @@ namespace Games_Logic_Library {
         }
 
         /// <summary>
-        /// Resets number of fards faceup for each table in numCardsFaceUp back to the default value
+        /// Resets number of cards faceup for each table in numCardsFaceUp back to the default value
         /// </summary>
         private static void ResetNumFaceUp() {
             for (int i = 0; i < NUM_OF_TABLEAU; i++) {

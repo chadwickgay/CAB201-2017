@@ -28,6 +28,7 @@ namespace Games {
         private const string LOCATION_TABLE = "table";
 
         private const int NUM_OF_TABLEAU = 7;
+        private const int NUM_OF_SUITS = 4;
 
         private string startLocation;
         private string destLocation;
@@ -44,7 +45,7 @@ namespace Games {
 
             InitializeComponent();
 
-            suitPiles = new PictureBox[Solitaire.NUM_OF_SUITS] { pbSuitPile1, pbSuitPile2, pbSuitPile3, pbSuitPile4 };
+            suitPiles = new PictureBox[NUM_OF_SUITS] { pbSuitPile1, pbSuitPile2, pbSuitPile3, pbSuitPile4 };
             tableauPiles = new TableLayoutPanel[NUM_OF_TABLEAU] { tblPlayBoard1, tblPlayBoard2, tblPlayBoard3, tblPlayBoard4, 
                                                                     tblPlayBoard5, tblPlayBoard6, tblPlayBoard7 };
 
@@ -141,7 +142,7 @@ namespace Games {
         /// </summary>
         private void UpdateSuitPiles() {
 
-            for (int suitPile = 0; suitPile < Solitaire.NUM_OF_SUITS; suitPile++) {
+            for (int suitPile = 0; suitPile < NUM_OF_SUITS; suitPile++) {
                 Card card;
                 
                 if (Solitaire.GetSuitPileCount(suitPile) != 0) {
