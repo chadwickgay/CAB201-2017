@@ -86,23 +86,31 @@ namespace Games_Logic_Library {
                 }
                 // If the card is in the discard pile moving to the suitpile
             } else if (startLocation == LOCATION_DISCARD && destLocation == LOCATION_SUIT) {
-                // Checks if the cards of the same suit
-                if (CheckSameSuit(firstCard, secondCard)) {
-                    // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
-                    if (CheckValidMove(firstCard, secondCard, destLocation)) {
-                        MoveFromDiscard();
-                        MoveToSuitPile(firstCard, secondCard);                 
-                        return true;
+                if (secondCard != null) {
+                    // Checks if the cards of the same suit
+                    if (CheckSameSuit(firstCard, secondCard)) {
+                        // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
+                        if (CheckValidMove(firstCard, secondCard, destLocation)) {
+                            MoveFromDiscard();
+                            MoveToSuitPile(firstCard, secondCard);
+                            return true;
+                        }
                     }
+                } else {
+                    return false;
                 }
+
             } else if (startLocation == LOCATION_TABLE && destLocation == LOCATION_SUIT) {
-                // Checks if the cards of the same suit
-                if (CheckSameSuit(firstCard, secondCard)) {
-                    // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
-                    if (CheckValidMove(firstCard, secondCard, destLocation)) {
-                        MoveToSuitPile(firstCard, secondCard);
-                        MoveFromTable(firstCard);
-                        return true;
+
+                if (secondCard != null) {
+                    // Checks if the cards of the same suit
+                    if (CheckSameSuit(firstCard, secondCard)) {
+                        // Checks whether there is a valid move for Two onto Ace or card is one more than the cards enum
+                        if (CheckValidMove(firstCard, secondCard, destLocation)) {
+                            MoveToSuitPile(firstCard, secondCard);
+                            MoveFromTable(firstCard);
+                            return true;
+                        }
                     }
                 }
             } else {
@@ -111,6 +119,74 @@ namespace Games_Logic_Library {
 
             // unreacable code - inserted to satisfy compiler
             return false;
+        }
+
+        // Methods for dealing with Aces
+
+        public static void PlayAce(Card ace, string startLocation) {
+            int tableauNo;
+
+            // If the from location is the discard pile
+            if (startLocation == LOCATION_DISCARD) {
+
+                MoveAceToEmptySuitPile(ace);
+
+                RemoveLastDiscard();
+
+                DrawCard();
+            // If the from location is one of the tables
+            } else if (startLocation == LOCATION_TABLE) {
+
+                MoveAceToEmptySuitPile(ace);
+
+                Hand fromTable;
+
+                fromTable = GetTableauContainingCard(ace, out tableauNo);
+
+                RemoveCardFromTableau(fromTable, ace);
+            }
+        }
+
+        private static void MoveAceToEmptySuitPile(Card ace) {
+            if (suitPiles[PILE_ONE].GetCount() == 0) {
+                suitPiles[PILE_ONE].Add(ace);
+            } else if (suitPiles[PILE_TWO].GetCount() == 0) {
+                suitPiles[PILE_TWO].Add(ace);
+            } else if (suitPiles[PILE_THREE].GetCount() == 0) {
+                suitPiles[PILE_THREE].Add(ace);
+            } else if (suitPiles[PILE_FOUR].GetCount() == 0) {
+                suitPiles[PILE_FOUR].Add(ace);
+            }
+        }
+
+        // Methods for dealing with Kings
+
+        public static void PlayKing(string startLocation, Card king, int tableauNo) {
+
+            if (startLocation == LOCATION_TABLE) {
+                Hand toTable;
+
+                MoveFromTable(king);
+
+                toTable = GetTableau(tableauNo);
+                //Add card to table
+                AddCardToTable(toTable, king);
+
+                //Increment number of cards face up
+                numCardsFaceUp[tableauNo]++;
+
+            } else if (startLocation == LOCATION_DISCARD) {
+                Hand toTable;
+
+                MoveFromDiscard();
+
+                toTable = GetTableau(tableauNo);
+                //Add card to table
+                AddCardToTable(toTable, king);
+
+                //Increment number of cards face up
+                numCardsFaceUp[tableauNo]++;
+            }
         }
 
         // Helper methods to move cards between areas on board
@@ -186,44 +262,7 @@ namespace Games_Logic_Library {
             tableau.Remove(card);
         }
 
-        // Methods for dealing with Aces
 
-        public static void PlayAce(Card ace, string startLocation){
-            int tableauNo;
-
-            // If the card selected is an Ace
-            if (startLocation == LOCATION_DISCARD) {
-
-                AddAceEmptySuitPile(ace);
-
-                RemoveLastDiscard();
-
-                DrawCard();
-            } else if (startLocation == LOCATION_TABLE) {
-
-                AddAceEmptySuitPile(ace);
-
-                Hand fromTable;
-
-                fromTable = GetTableauContainingCard(ace, out tableauNo);
-
-                RemoveCardFromTableau(fromTable, ace);
-
-            }
-
-        }
-
-        private static void AddAceEmptySuitPile(Card ace) {
-            if (suitPiles[PILE_ONE].GetCount() == 0) {
-                suitPiles[PILE_ONE].Add(ace);
-            } else if (suitPiles[PILE_TWO].GetCount() == 0) {
-                suitPiles[PILE_TWO].Add(ace);
-            } else if (suitPiles[PILE_THREE].GetCount() == 0) {
-                suitPiles[PILE_THREE].Add(ace);
-            } else if (suitPiles[PILE_FOUR].GetCount() == 0) {
-                suitPiles[PILE_FOUR].Add(ace);
-            }
-        }
 
         // Helper methods to do validation of moves
 
@@ -299,6 +338,11 @@ namespace Games_Logic_Library {
         }   
 
         public static void DrawCard() {
+
+            if (drawPile.GetCount() == 0) {
+                ResetDrawPile();
+            }
+
             discardPile.Add(drawPile.DealOneCard());
         }
 

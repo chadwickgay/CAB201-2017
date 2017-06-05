@@ -11,25 +11,29 @@ using Games_Logic_Library;
 
 namespace Games {
     public partial class PigWithTwoDiceForm : Form {
-        // Variables
+
         private const int NUM_OF_DICE = 2;
         int timerCounter = 0;
         private static PictureBox[] diceImages;
 
-        // Methods
         public PigWithTwoDiceForm() {
             InitializeComponent();
 
             diceImages = new PictureBox[] { picDie1, picDie2 };
 
-            Pig_Two_Die_Game.SetUpGame();      
+            // Calls Game class method to setup the initial game parameters
+            Pig_Two_Die_Game.SetUpGame();   
+               
             SetDieImages();
-            lblWhoseTurn.Text = Pig_Two_Die_Game.GetFirstPLayersName().ToString();
+            DisplayFirstPlayerName();
             SetRollMessage();
             SetPlayerScores();
         }
 
-        // Created Methods
+        /// <summary>
+        /// Calls PlayGame from Game class to play single round of rolls
+        /// Determinesif player has won after each roll by calling HasWon from Game class
+        /// </summary>
         private void PlayGameRound() {
             // Re-enable Roll button after timer
             EnableRollButton();
@@ -50,50 +54,39 @@ namespace Games {
                     VictoryMessage();
                 }
             }
-        } // end PlayGameRound()
+        } // end PlayGameRound
 
+        /// <summary>
+        /// Sets the die images based on the values rolled
+        /// </summary>
         private void SetDieImages() {
             for (int i = 0; i < NUM_OF_DICE; i++) {
                 diceImages[i].Image = Images.GetDieImage(Pig_Two_Die_Game.GetFaceValue(i));
             }
-        }// end SetDieImages()
+        }// end SetDieImages
 
+        /// <summary>
+        /// Switches between players - called after each turn
+        /// </summary>
         private void SwitchPlayers() {
             lblWhoseTurn.Text = Pig_Two_Die_Game.GetNextPlayersName();
 
             SetRollMessage();
-        }//end SwitchPlayers()
+        }//end SwitchPlayer  
 
-        private void SetRollMessage() {
-            lblRollOrHold.Text = "Roll Die";
-        }//end SetRollMessage()
-
-        private void SetRollOrHoldMessage() {
-            lblRollOrHold.Text = "Roll or Hold";
-        }//end SetRollOrHoldMessage()
-
-        private void EnableRollButton() {
-            btnRoll.Enabled = true;
-        }// end EnableRollButton()
-
-        private void DisableRollButton() {
-            btnRoll.Enabled = false;
-        }// end DisableRollButton()
-
-        private void DisableHoldButton() {
-            btnHold.Enabled = false;
-        }//end DisableHoldButton()
-
-        private void EnableHoldButton() {
-            btnHold.Enabled = true;
-        }//end EnableHoldButton()
-
+        /// <summary>
+        /// Displays player scores from the Game class in the GUI
+        /// </summary>
         private void SetPlayerScores() {
             txtPlayerOneTotal.Text = Pig_Two_Die_Game.GetPointsTotal("Player 1").ToString();
 
             txtPlayerTwoTotal.Text = Pig_Two_Die_Game.GetPointsTotal("Player 2").ToString();
-        }//end SetPlayerScores()
+        }//end SetPlayerScores
 
+        /// <summary>
+        /// Displays end turn message as messagebox.
+        /// Players reverted score is displayed.
+        /// </summary>
         private void EndTurn() {
 
             string currentPlayer, revertedScore;
@@ -111,8 +104,11 @@ namespace Games {
                             "\nYour score reverts to " + revertedScore);
 
             SwitchPlayers();
-        } //end EndTurn()
+        } //end EndTurn
 
+        /// <summary>
+        /// Displays message box announcing which player won
+        /// </summary>
         private void VictoryMessage() {
             string currentPlayer;
 
@@ -122,22 +118,13 @@ namespace Games {
 
             MessageBox.Show(currentPlayer + " has won!\nWell done.");
 
-        } //end VictoryMessage()
+        } //end VictoryMessage
 
-        private void EnableAnotherGame() {
-            grpAnotherGame.Enabled = true;
-        }//end EnableAnotherGame()
-
-        private void EndGameRound() {
-            DisableRollButton();
-
-            DisableHoldButton();
-
-            EnableAnotherGame();
-        }//end EndGameRound()
-
+        /// <summary>
+        /// Resets GUI controls/message for a new game
+        /// </summary>
         private void ResetGame() {
-            lblWhoseTurn.Text = Pig_Two_Die_Game.GetFirstPLayersName();
+            DisplayFirstPlayerName();
 
             EnableRollButton();
 
@@ -148,15 +135,15 @@ namespace Games {
             txtPlayerTwoTotal.Text = "0";
 
             optAnotherGameYes.Checked = false;
-        }//end ResetGame()
+        }//end ResetGame
 
         /// <summary>
         /// Prompts user to exit the program gracefully.
         /// User asked to confirm exit with MessageBox.
         /// </summary>
         private void ExitProgram() {
-            string message = "Thank you for playing Pig Single Die.\n\n Are you sure you want to exit?";
-            string caption = "\n\n Pig Single Die.";
+            string message = "Thank you for playing Pig Game with Two Die.\n\n Are you sure you want to exit?";
+            string caption = "\n\n Pig Game with Two Die.";
 
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
 
@@ -168,28 +155,94 @@ namespace Games {
             } else {
                 optAnotherGameNo.Checked = false;
             }
-        } // end ExitProgram()
+        } // end ExitProgram
 
-        // Event handler methods
+        /// <summary>
+        /// Displays the name of the first player - used at start of new game
+        /// </summary>
+        public void DisplayFirstPlayerName() {
+            lblWhoseTurn.Text = Pig_Two_Die_Game.GetFirstPLayersName();
+        } // DisplayFirstPlayerName
+
+        /// <summary>
+        /// Sets roll message instruction in GUI
+        /// </summary>
+        private void SetRollMessage() {
+            lblRollOrHold.Text = "Roll Die";
+        }//end SetRollMessage
+
+        /// <summary>
+        /// Sets roll or hold message instruction in GUI
+        /// </summary>
+        private void SetRollOrHoldMessage() {
+            lblRollOrHold.Text = "Roll or Hold";
+        }//end SetRollOrHoldMessage
+
+        /// <summary>
+        /// Enables the roll butoon
+        /// </summary>
+        private void EnableRollButton() {
+            btnRoll.Enabled = true;
+        }// end EnableRollButton
+
+        /// <summary>
+        /// Disables the roll butoon
+        /// </summary>
+        private void DisableRollButton() {
+            btnRoll.Enabled = false;
+        }// end DisableRollButton
+
+        /// <summary>
+        /// Enables the hold button
+        /// </summary>
+        private void EnableHoldButton() {
+            btnHold.Enabled = true;
+        }//end EnableHoldButton
+
+        /// <summary>
+        /// Diables the hold button
+        /// </summary>
+        private void DisableHoldButton() {
+            btnHold.Enabled = false;
+        }//end DisableHoldButton
+
+        /// <summary>
+        /// Enables the another game group box to allow selecting another game or not
+        /// </summary>
+        private void EnableAnotherGame() {
+            grpAnotherGame.Enabled = true;
+        }//end EnableAnotherGame
+
+        /// <summary>
+        /// Enables/disables set of GUI controls changes at end of round
+        /// </summary>
+        private void EndGameRound() {
+            DisableRollButton();
+
+            DisableHoldButton();
+
+            EnableAnotherGame();
+        }//end EndGameRound
+
         private void btnRoll_Click(object sender, EventArgs e) {
             timerCounter = 0;
             timer.Start();
             DisableRollButton();
-        }
+        } // end btnRoll_Click
 
         private void btnHold_Click(object sender, EventArgs e) {
             SwitchPlayers();
             SetRollMessage();
             DisableHoldButton();
-        }
+        } // end btnHold_Click
 
         private void optAnotherGameNo_CheckedChanged(object sender, EventArgs e) {
             ExitProgram();
-        }
+        } // end optAnotherGameNo_CheckedChanged
 
         private void optAnotherGameYes_CheckedChanged(object sender, EventArgs e) {
             ResetGame();
-        }
+        } // end optAnotherGameYes_CheckedChanged
 
         private void timer_Tick(object sender, EventArgs e) {
             int dieOne, dieTwo;
@@ -208,7 +261,7 @@ namespace Games {
 
                 PlayGameRound();
             }
-        }
+        } // end timer_Tick
     }
 }
 

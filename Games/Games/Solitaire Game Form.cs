@@ -85,12 +85,35 @@ namespace Games {
 
         private void UpdateTableauPiles() {
             for (int tableau = 0; tableau < NUM_OF_TABLEAU; tableau++) {
-                DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau));
+                DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau), tableau);
             }
         }
 
-        private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp) {
+        private void DisplayBlankPictureBox(Hand hand, TableLayoutPanel tableLayoutPanel, int tableauNo) {
+            if (hand.GetCount() == 0) {
+                PictureBox blankPictureBox = new PictureBox();
+
+                blankPictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
+                blankPictureBox.Dock = DockStyle.Fill;
+                blankPictureBox.Image = null;
+                blankPictureBox.BackColor = System.Drawing.Color.White;
+                blankPictureBox.Size = new System.Drawing.Size(65, 95);
+                blankPictureBox.Margin = new Padding(0);
+                blankPictureBox.Tag = tableauNo;
+
+                // Create mew event handler for blankPictureBox image
+                blankPictureBox.Click += new EventHandler(blankPictureBox_Click);
+
+                // Add the blankPictureBox to the tableLayoutPanel
+                tableLayoutPanel.Controls.Add(blankPictureBox);
+            }
+        }
+
+        private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp, int tableauNo) {
             tableLayoutPanel.Controls.Clear(); // Remove any cards already being shown.
+
+            // If the hand is empty, a blank picture box will be displayed
+            DisplayBlankPictureBox(hand, tableLayoutPanel, tableauNo);
 
             for (int i = 0; i < hand.GetCount(); i++) {
                 Card card;
@@ -164,7 +187,7 @@ namespace Games {
         /*   Events & methods for picture boxes - from Assignment instructions       */
 
         private void pictureBox_Click(object sender, EventArgs e) {
-            // which card was clicked?
+            // Determine which card was clicked
             PictureBox clickedPictureBox = (PictureBox)sender;
             // get a reference to the card
             Card clickedCard = (Card)clickedPictureBox.Tag;
@@ -172,12 +195,41 @@ namespace Games {
             TryToPlayCard(clickedCard, LOCATION_TABLE);
         }
 
+        private void blankPictureBox_Click(object sender, EventArgs e) {
+            // Determine which card was clicked
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // get a reference to the card
+            int clickedCardTableauNo = (int)clickedPictureBox.Tag;
+
+            // This MessageBox.Show is for debugging purposes only.
+            // comment out line, once sure you can click on a card in a tableau
+            MessageBox.Show(clickedCardTableauNo.ToString(), "Clicked");
+
+            if (firstClick = true && firstCard.GetFaceValue() == FaceValue.King) {
+
+                Solitaire.PlayKing(startLocation, firstCard, clickedCardTableauNo);
+
+            } else {
+
+                // Error handling here
+            }
+
+            firstClick = false;
+
+            UpdateDiscardPile();
+            UpdateSuitPiles();
+            UpdateTableauPiles();
+        }
+
+
+
         private void TryToPlayCard(Card clickedCard, string location) {
             // This MessageBox.Show is for debugging purposes only.
             // comment out line, once sure you can click on a card in a tableau
-            MessageBox.Show(clickedCard.ToString(false, true), "Clicked");
+            //MessageBox.Show(clickedCard.ToString(false, true), "Clicked");
 
-            if (clickedCard.GetFaceValue() == FaceValue.Ace && location != LOCATION_SUIT) {
+            // Moves card directly to 1 of the suitPiles without needing addition click
+            if (clickedCard != null && clickedCard.GetFaceValue() == FaceValue.Ace && location != LOCATION_SUIT) {
                 Solitaire.PlayAce(clickedCard, location);
                 firstClick = false;
 
@@ -185,27 +237,22 @@ namespace Games {
                 UpdateSuitPiles();
                 UpdateTableauPiles();
             } else {
-
                 // If start of new move
                 if (firstClick == false) {
                     firstCard = clickedCard;
                     startLocation = location;
                     firstClick = true;
-
+                // If second click in move
                 } else {
                     secondCard = clickedCard;
                     destLocation = location;
 
                     // Check if valid move here
                     if (!Solitaire.TryMakeMove(firstCard, secondCard, startLocation, destLocation)) {
+                        
                         // Error messages for invalid moves
-                        if (destLocation == LOCATION_DISCARD) {
-                            MessageBox.Show("Cannot place card onto Discard Pile");
-                            firstClick = false;
-                        } else if (destLocation == LOCATION_TABLE) {
-                            MessageBox.Show("ERROR - Move not allowed - Cannot place card onto this pile");
-                            firstClick = false;
-                        }
+                        InvalidMoveError(destLocation);
+
                     } else if (Solitaire.CheckGameVictory()) {
                         MessageBox.Show("Congratulations, you won!");
                     }
@@ -216,6 +263,18 @@ namespace Games {
                     UpdateSuitPiles();
                     UpdateTableauPiles();
                 }
+            }
+        }
+
+        private void InvalidMoveError(string destLocation) {
+            if (destLocation == LOCATION_DISCARD) {
+                MessageBox.Show("Cannot place card onto Discard Pile");
+                firstClick = false;
+            } else if (destLocation == LOCATION_TABLE) {
+                MessageBox.Show("ERROR - Move not allowed - Cannot place card onto this pile");
+                firstClick = false;
+            } else if (destLocation == LOCATION_SUIT) {
+                MessageBox.Show("ERROR - Move not allowed - Cannot place card onto this suit pile");
             }
         }
 

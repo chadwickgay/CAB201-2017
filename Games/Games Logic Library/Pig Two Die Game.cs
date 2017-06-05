@@ -35,14 +35,10 @@ namespace Games_Logic_Library {
         /// Initializes class variables at start of a new game.
         /// </summary>
         public static void SetUpGame() {
-
-            // New
             InitializeDice();
 
             // Get face values of each die
-            for (int i = 0; i < NUM_OF_DICE; i++) {
-                faceValue[i] = GetFaceValue(i);
-            }
+            StoreFaceValues();
 
             // Index 0 unused to make player numbering more intuitive
             playersName = new string[] { "", "Player 1", "Player 2" };
@@ -144,8 +140,6 @@ namespace Games_Logic_Library {
             return faceValue;
         }
 
-        // Need to comment these
-        // Private methods
         private static void SwitchPlayers() {
             if (currentPlayer == PLAYER_ONE) {
                 currentPlayer = PLAYER_TWO;
@@ -156,6 +150,10 @@ namespace Games_Logic_Library {
             firstRoll = true;
         }
 
+        /// <summary>
+        /// Resets each of the player scores back to 0
+        /// so a new round can be played
+        /// </summary>
         private static void ResetPlayerScores() {
             for (int i = 0; i < pointsTotal.Length; i++) {
                 pointsTotal[i] = 0;
@@ -164,48 +162,67 @@ namespace Games_Logic_Library {
             firstRoll = true;
         }
 
+        /// <summary>
+        /// Resets the current player back to player 1
+        /// </summary>
         private static void ResetCurrentPlayer() {
             currentPlayer = 1;
         }
 
+        /// <summary>
+        /// Initializes each of the die inside the dice array
+        /// </summary>
         private static void InitializeDice() {
             for (int i = 0; i < NUM_OF_DICE; i++) {
                 dice[i] = new Die();
             }
         }
 
+        /// <summary>
+        /// Rolls each of the die in the dice array
+        /// </summary>
         private static void RollDie() {
             for (int i = 0; i < NUM_OF_DICE; i++) {
                 dice[i].RollDie();
             }
         }
 
+        /// <summary>
+        /// Stores the facevalue of each of the die rolled
+        /// in the respective position in the faceValue array
+        /// </summary>
         private static void StoreFaceValues() {
             for (int i = 0; i < NUM_OF_DICE; i++) {
                 faceValue[i] = GetFaceValue(i);
             }
         }
 
+        /// <summary>
+        /// Calculates the totalPoints rolled by the player
+        /// Returns true if the player did not roll a single 1
+        /// Otherwise returns true for non-game ending rolls
+        /// </summary>
+        /// <returns></returns>
         private static bool CalculateScore() {
             bool playGame;
 
-            // Comment each of the if statements
+            // if the facevalue of the first die is a 1
             if (faceValue[DIE_ONE] == GAME_OVER && faceValue[DIE_TWO] != GAME_OVER) {
                 pointsTotal[currentPlayer] = previousScore;
-                playGame = false;
-
+                playGame = false;            
+            // if the facevalue of the second die is a 1
             } else if (faceValue[DIE_ONE] != GAME_OVER && faceValue[DIE_TWO] == GAME_OVER) {
                 pointsTotal[currentPlayer] = previousScore;
-                playGame = false;
-
+                playGame = false;           
+            // If the player rolls two 1s
             } else if (faceValue[DIE_ONE] == GAME_OVER && faceValue[DIE_TWO] == GAME_OVER) {
                 pointsTotal[currentPlayer] = pointsTotal[currentPlayer] + DOUBLE_ONE_ROLL;
                 playGame = true;
-
+            // If the player rolls two of the same facevalue
             } else if (faceValue[DIE_ONE] == faceValue[DIE_TWO]) {
                 pointsTotal[currentPlayer] = pointsTotal[currentPlayer] + ((faceValue[DIE_ONE] + faceValue[DIE_TWO]) * DOUBLE_SCORE);
                 playGame = true;
-
+            // If the player rolls two different facevalues
             } else {
                 pointsTotal[currentPlayer] = pointsTotal[currentPlayer] + (faceValue[DIE_ONE] + faceValue[DIE_TWO]);
                 playGame = true;
