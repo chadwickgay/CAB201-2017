@@ -11,6 +11,14 @@ using Low_Level_Objects_Library;
 using Games_Logic_Library;
 
 namespace Games {
+    /// <summary>
+    /// GUI driven application that allows a simplified version 
+    /// of Twenty One.
+    /// 
+    /// Utilizes underlying class library Twenty_One_Game.cs for game logic.
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public partial class TwentyOneGameForm : Form {
         private const int PLAYER = 0;
         private const int DEALER = 1;

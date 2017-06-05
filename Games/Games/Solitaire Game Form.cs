@@ -11,6 +11,16 @@ using Low_Level_Objects_Library;
 using Games_Logic_Library;
 
 namespace Games {
+
+    /// <summary>
+    /// GUI driven program that allows the user to play a 
+    /// simplified game of Solitaire.
+    /// 
+    /// Utilizes underlying game logic library of Solitaire.cs
+    /// for core game logic.
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public partial class SolitaireGameForm : Form {
 
         private const string LOCATION_DISCARD = "discard";

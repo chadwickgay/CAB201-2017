@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
+
+    /// <summary>
+    /// Underlying game logic to play a simplified version of Solitaire
+    /// 
+    /// Functionality allows for play of simplified version of Solitaire.
+    /// Can only move singular card at a time between discard, suit piles and tables.
+    /// 
+    /// Implimented in combination with Solitaire Game Form
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public static class Solitaire {
 
         // number of tableau

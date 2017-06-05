@@ -10,6 +10,13 @@ using System.Windows.Forms;
 using Games_Logic_Library;
 
 namespace Games {
+    /// <summary>
+    /// GUI driven application that allows user to play Pig with Two Dice
+    /// 
+    /// Utilizes underlying class library Pig_Two_Die_Game.cs for game logic.
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public partial class PigWithTwoDiceForm : Form {
 
         private const int NUM_OF_DICE = 2;

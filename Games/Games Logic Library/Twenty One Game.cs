@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
+    /// <summary>
+    /// Underlying game logic class to play simplified version of Twenty-One.
+    /// 
+    /// Functionality allows for play of multiple games of Twenty-One 
+    /// with calculation of player totals and determination of winner
+    /// after each round is played.
+    /// 
+    /// Implimented in combination with TwentyOne Game Form
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public static class Twenty_One_Game {
 
         // Game parameters

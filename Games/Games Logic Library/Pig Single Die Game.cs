@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
+
+    /// <summary>
+    /// Underlying game logic to play Pig with 2 Dice
+    /// 
+    /// Functionality includes rolling multiple dice, with score calculation
+    /// after each die roll and ability to play multiple rounds. 
+    /// Double scoring is implimented for double rolls along with increased 
+    /// score for double 1s.
+    /// 
+    /// Implimented in combination with Pig with To Dice Form
+    /// 
+    /// Author Chadwick Gay June 2017 - Student number n9410392
+    /// </summary>
     public static class Pig_Single_Die_Game {
 
         static Die die = new Die();
