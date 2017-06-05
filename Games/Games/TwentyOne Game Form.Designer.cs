@@ -29,7 +29,6 @@
             this.btnHit = new System.Windows.Forms.Button();
             this.btnStand = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnTest = new System.Windows.Forms.Button();
             this.lblBustedPlayer = new System.Windows.Forms.Label();
             this.lblPlayer = new System.Windows.Forms.Label();
             this.lblPointsPlayer = new System.Windows.Forms.Label();
@@ -122,16 +121,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(527, 347);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 6;
-            this.btnTest.Text = "Test";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // lblBustedPlayer
             // 
@@ -271,7 +260,6 @@
             this.Controls.Add(this.lblPointsPlayer);
             this.Controls.Add(this.lblPlayer);
             this.Controls.Add(this.lblBustedPlayer);
-            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnStand);
             this.Controls.Add(this.btnHit);
@@ -293,7 +281,6 @@
         private System.Windows.Forms.Button btnHit;
         private System.Windows.Forms.Button btnStand;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Label lblBustedPlayer;
         private System.Windows.Forms.Label lblPlayer;
         private System.Windows.Forms.Label lblPointsPlayer;

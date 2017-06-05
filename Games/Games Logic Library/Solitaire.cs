@@ -8,20 +8,14 @@ using Low_Level_Objects_Library;
 namespace Games_Logic_Library {
     public static class Solitaire {
 
-        // Play board index values
-        private const int TABLEAU_ONE = 0;
-        private const int TABLEAU_TWO = 1;
-        private const int TABLEAU_THREE = 2;
-        private const int TABLEAU_FOUR = 3;
-        private const int TABLEAU_FIVE = 4;
-        private const int TABLEAU_SIX = 5;
-        private const int TABLEAU_SEVEN = 6;
-
         // number of tableau
         private const int NUM_OF_TABLEAU = 7;
 
         // number of suits
         public  const int NUM_OF_SUITS = 4;
+
+        // Number of cards in suit pile for a complete suit pile
+        private const int TOTAL_CARDS_SUIT = 13;
 
         // Number of face up cards per pile
         private static int[] numCardsFaceUp = new int[] {1, 1, 1, 1, 1, 1, 1};
@@ -40,14 +34,13 @@ namespace Games_Logic_Library {
         private const string LOCATION_TABLE = "table";
 
         private const int ONE_LESS = 1;
+        private const int ONE_HIGHER = 1;
 
         private const int PILE_ONE = 0;
         private const int PILE_TWO = 1;
         private const int PILE_THREE = 2;
         private const int PILE_FOUR = 3;
-
-        private const int TOTAL_CARDS_SUIT = 13;
-
+       
         public static void SetupGame() {
 
             drawPile = new CardPile(true);
@@ -247,7 +240,7 @@ namespace Games_Logic_Library {
                 }
             }
             else if (destLocation == LOCATION_SUIT) {
-                if ((int)firstCard.GetFaceValue() - (int)secondCard.GetFaceValue() == 1) {
+                if ((int)firstCard.GetFaceValue() - (int)secondCard.GetFaceValue() == ONE_HIGHER) {
                     validMove = true;
                 }
             }

@@ -28,11 +28,14 @@ namespace Games_Logic_Library {
         private static CardPile cardPile = new CardPile(true);
         private static Hand[] hands = new Hand[NUM_OF_PLAYERS];
         private static int[] totalPoints;
-        private static int[] numOfGamesWon = new int[] {0,0}; // INITIAL BUG STILL EXISTS
+        private static int[] numOfGamesWon = new int[] {0,0}; 
         private static int numOfUserAcesWithValueOne;
 
         // Class methods
 
+        /// <summary>
+        /// Initializes the class variables at start of a new game.
+        /// </summary>
         public static void SetUpGame() {
 
             totalPoints = new int[] { 0, 0 };
@@ -54,9 +57,14 @@ namespace Games_Logic_Library {
 
             // Store dealt cards in hands arrays
             hands[PLAYER] = playerHand;
-            hands[DEALER] = dealerHand;      
-        }
+            hands[DEALER] = dealerHand;
+        } // end SetUpGame
 
+        /// <summary>
+        /// Deals one card from cardPile to the hand of who and returns that card.
+        /// </summary>
+        /// <param name="who">The index of the person in the hands array to be dealt to</param>
+        /// <returns>Returns the card dealt</returns>
         public static Card DealOneCardTo(int who) {
             Card card;
 
@@ -72,8 +80,15 @@ namespace Games_Logic_Library {
             hands[who].Add(card);
 
             return card;
-        }
+        } // end DealOneCardTo
 
+        /// <summary>
+        ///  Adds the faceValues of all cards in the hand of who and
+        ///  returns that total which is adjusted if who is the Player 
+        ///  and has one or more aces valued as 1
+        /// </summary>
+        /// <param name="who">The index of the person in the hands array for score to be caluclated</param>
+        /// <returns>returns that total which is adjusted if who is the Player and has one or more aces valued as 1</returns>
         public static int CalculateHandTotal(int who) {
             int totalHand = 0;
 
@@ -102,11 +117,14 @@ namespace Games_Logic_Library {
             // need to check if this section is allowed/good idea
             totalPoints[who] = totalHand;
 
-            DeterminePlayerBust(who);
+            DetermineBustOnPlayerTurn(who);
 
             return totalHand;
-        }
+        } // end CalculateHandTotal
 
+        /// <summary>
+        /// Plays the Dealer’s turn until the Dealer stands or goes bust
+        /// </summary>
         public static void PlayForDealer() {
             totalPoints[DEALER] = CalculateHandTotal(DEALER);
 
@@ -117,30 +135,68 @@ namespace Games_Logic_Library {
             }
 
            DetermineWinner(DEALER);
-        } 
+        } // end PlayForDealer
 
+        /// <summary>
+        /// Returns the hand of who
+        /// </summary>
+        /// <param name="who">The index of the person in the hands array</param>
+        /// <returns>Returns the hand of who</returns>
         public static Hand GetHand(int who) {
             return hands[who];
-        }
+        } // end GetHand
 
+        /// <summary>
+        ///  Returns the points total of who
+        /// </summary>
+        /// <param name="who">The index of the person in the totalpoints array</param>
+        /// <returns>Returns the points total of who</returns>
         public static int GetTotalPoints(int who) {
             return totalPoints[who];
-        }
+        } // end GetTotalPoints
 
+        /// <summary>
+        /// Returns number of games won by who
+        /// </summary>
+        /// <param name="who">The index of the person in the numOfGamesWon array</param>
+        /// <returns>Returns number of games won by who</returns>
         public static int GetNumOfGamesWon(int who) {
             return numOfGamesWon[who];
-        }
+        } // end GetNumOfGamesWon
 
+        /// <summary>
+        /// Returns the number of Aces that the user has chosen
+        /// to have value of 1.
+        /// </summary>
+        /// <returns>Returns the number of Aces that the user has chosen to have value of 1.</returns>
         public static int GetNumOfUserAcesWithValueOfOne() {
             return numOfUserAcesWithValueOne;
-        }
+        } // end GetNumOfUserAcesWithValueOfOne
 
+        /// <summary>
+        /// Adds 1 to the numOfUserAcesWithValueOne
+        /// </summary>
         public static void IncrementNumOfUserAcesWithValueOne() {
             numOfUserAcesWithValueOne++;
-        }
+        } // end IncrementNumOfUserAcesWithValueOne
 
+        /// <summary>
+        /// Initialise the elements of the array, totalPoints to zero as well.
+        /// Allows for player to cancel out of a game and come back in with scores reset 
+        /// </summary>
+        public static void ResetTotals() {
+            for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+                numOfGamesWon[i] = 0;
+            }
+        } // end ResetTotals
+
+        /// <summary>
+        /// Determines winner of round after the dealer has taken their turn
+        /// Incremements numOfGamesWon of dealer/player accordingly
+        /// </summary>
+        /// <param name="who">The index of the person in the totalpoints array</param>
         private static void DetermineWinner(int who) {
-            // Dealer busts
+            // Dealer busts after drawing additional cards
             if (totalPoints[DEALER] > WIN && totalPoints[PLAYER] < WIN) {
                 numOfGamesWon[PLAYER]++;
             } // Player score higher than dealer - but not busted
@@ -155,18 +211,23 @@ namespace Games_Logic_Library {
             } // Player gets 21 and player does not
             else if (totalPoints[PLAYER] == WIN && totalPoints[DEALER] != WIN) {
                 numOfGamesWon[PLAYER]++;
-            } 
-        }
+            }
+        } // end DetermineWinner
 
-        private static void DeterminePlayerBust(int who) {
-            // Player Bust
+        /// <summary>
+        /// Determines if either the player or the dealer has busted on the players turn.
+        /// Incremements numOfGamesWon of dealer/player accordingly
+        /// </summary>
+        /// <param name="who">The index of the person in the totalpoints array</param>
+        private static void DetermineBustOnPlayerTurn(int who) {
+            // Determine if player has busted 
             if (who == PLAYER && totalPoints[PLAYER] > WIN) {
                 numOfGamesWon[DEALER]++;
-            } // Dealer bust - avoids double increment from DetermineWinner
-            else if (who == DEALER && totalPoints[DEALER] > WIN && totalPoints[PLAYER] != WIN) {
+            } // Determine if dealer has busted on their initial hand (two Aces will cause dealer bust)
+            else if (who == PLAYER && totalPoints[DEALER] > WIN && totalPoints[PLAYER] != WIN) {
                 numOfGamesWon[PLAYER]++;
             }
-        }
+        } // end DetermineBustOnPlayerTurn
 
     }
 
