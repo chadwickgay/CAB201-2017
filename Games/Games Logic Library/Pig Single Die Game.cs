@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
-    public class Pig_Single_Die_Game {
+    public static class Pig_Single_Die_Game {
 
         static Die die = new Die();
         private static int faceValue;

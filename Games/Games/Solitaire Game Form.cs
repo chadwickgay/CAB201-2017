@@ -51,43 +51,7 @@ namespace Games {
 
         }
 
-        /*   Click events for draw and discard piles            */
-
-        private void pbDrawPile_Click(object sender, EventArgs e) {
-            //
-            if (Solitaire.GetNumDrawCards() != 0) {
-                Solitaire.DrawCard();
-                DisplayDiscard();
-
-                // If last card is drawn, make image blank to show end of deck
-                if (Solitaire.GetNumDrawCards() == 0) {
-
-                    // consider showing outline of empty card
-                    pbDrawPile.Image = null;
-                }
-
-            } else {
-                Solitaire.ResetDrawPile();
-                DisplayDiscard();
-                pbDrawPile.Image = Images.GetBackOfCardImage();
-            }
-        }
-
-        private void pbDiscardPile_Click(object sender, EventArgs e) {
-            // which card was clicked?
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_DISCARD);
-
-        }
-
-        private void UpdateTableauPiles() {
-            for (int tableau = 0; tableau < NUM_OF_TABLEAU; tableau++) {
-                DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau), tableau);
-            }
-        }
+        // Created methods
 
         private void DisplayBlankPictureBox(Hand hand, TableLayoutPanel tableLayoutPanel, int tableauNo) {
             if (hand.GetCount() == 0) {
@@ -107,7 +71,7 @@ namespace Games {
                 // Add the blankPictureBox to the tableLayoutPanel
                 tableLayoutPanel.Controls.Add(blankPictureBox);
             }
-        }
+        } // DisplayBlankPictureBox
 
         private void DisplayGuiHand(Hand hand, TableLayoutPanel tableLayoutPanel, int numCardsFaceUp, int tableauNo) {
             tableLayoutPanel.Controls.Clear(); // Remove any cards already being shown.
@@ -148,7 +112,6 @@ namespace Games {
             }
         }// End DisplayGuiHand
 
-        // passs card and picturebox... make general method
         private void DisplayDiscard() {
             Card lastCard;
 
@@ -162,7 +125,7 @@ namespace Games {
             } else {
                 pbDiscardPile.Image = null;
             }
-        }
+        }// end DisplayDiscard
 
         private void UpdateSuitPiles() {
 
@@ -175,56 +138,22 @@ namespace Games {
 
                     suitPiles[suitPile].Tag = card;
                 }
-            }     
-        }
+            }
+        }// end UpdateSuitPiles
 
         private void UpdateDiscardPile() {
             pbDiscardPile.Image = Images.GetCardImage(Solitaire.GetLastDiscard());
 
             pbDiscardPile.Tag = Solitaire.GetLastDiscard();
-        }
+        }// end UpdateDiscardPile
 
-        /*   Events & methods for picture boxes - from Assignment instructions       */
-
-        private void pictureBox_Click(object sender, EventArgs e) {
-            // Determine which card was clicked
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_TABLE);
-        }
-
-        private void blankPictureBox_Click(object sender, EventArgs e) {
-            // Determine which card was clicked
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            int clickedCardTableauNo = (int)clickedPictureBox.Tag;
-
-            // This MessageBox.Show is for debugging purposes only.
-            // comment out line, once sure you can click on a card in a tableau
-            //MessageBox.Show(clickedCardTableauNo.ToString(), "Clicked");
-
-            if (firstClick = true && firstCard.GetFaceValue() == FaceValue.King) {
-
-                Solitaire.PlayKing(startLocation, firstCard, clickedCardTableauNo);
-
-            } else {
-
-                // Error handling here
+        private void UpdateTableauPiles() {
+            for (int tableau = 0; tableau < NUM_OF_TABLEAU; tableau++) {
+                DisplayGuiHand(Solitaire.GetTableau(tableau), tableauPiles[tableau], Solitaire.GetNumCardsFaceUp(tableau), tableau);
             }
-
-            firstClick = false;
-
-            UpdateDiscardPile();
-            UpdateSuitPiles();
-            UpdateTableauPiles();
-        }
+        }// end UpdateTableauPiles
 
         private void TryToPlayCard(Card clickedCard, string location) {
-            // This MessageBox.Show is for debugging purposes only.
-            // comment out line, once sure you can click on a card in a tableau
-            //MessageBox.Show(clickedCard.ToString(false, true), "Clicked");
 
             // Moves card directly to 1 of the suitPiles without needing addition click
             if (clickedCard != null && clickedCard.GetFaceValue() == FaceValue.Ace && location != LOCATION_SUIT) {
@@ -262,8 +191,7 @@ namespace Games {
                     UpdateTableauPiles();
                 }
             }
-        }
-
+        }// end TryToPlayCard
 
         private void InvalidMoveError(string destLocation) {
             if (destLocation == LOCATION_DISCARD) {
@@ -275,44 +203,79 @@ namespace Games {
             } else if (destLocation == LOCATION_SUIT) {
                 MessageBox.Show("ERROR - Move not allowed - Cannot place card onto this suit pile");
             }
-        }
+        }// end InvalidMoveError
 
-        /*   Click events for suit piles            */
+        // Event handlers
 
-        private void pbSuitPile1_Click(object sender, EventArgs e) {
+        private void pbDrawPile_Click(object sender, EventArgs e) {
+            //
+            if (Solitaire.GetNumDrawCards() != 0) {
+                Solitaire.DrawCard();
+                DisplayDiscard();
+
+                // If last card is drawn, make image blank to show end of deck
+                if (Solitaire.GetNumDrawCards() == 0) {
+
+                    // consider showing outline of empty card
+                    pbDrawPile.Image = null;
+                }
+
+            } else {
+                Solitaire.ResetDrawPile();
+                DisplayDiscard();
+                pbDrawPile.Image = Images.GetBackOfCardImage();
+            }
+        }// end pbDrawPile_Click
+
+        private void pbDiscardPile_Click(object sender, EventArgs e) {
+            // Determine which card was clicked
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // Get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_DISCARD);
+
+        }// end pbDiscardPile_Click
+
+        private void pictureBox_Click(object sender, EventArgs e) {
+            // Determine which card was clicked
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // Get a reference to the card
+            Card clickedCard = (Card)clickedPictureBox.Tag;
+
+            TryToPlayCard(clickedCard, LOCATION_TABLE);
+        }// end pictureBox_Click
+
+        private void blankPictureBox_Click(object sender, EventArgs e) {
+            // Determine which card was clicked
+            PictureBox clickedPictureBox = (PictureBox)sender;
+            // Get a reference to the card
+            int clickedCardTableauNo = (int)clickedPictureBox.Tag;
+
+            if (firstClick = true && firstCard.GetFaceValue() == FaceValue.King) {
+
+                Solitaire.PlayKing(startLocation, firstCard, clickedCardTableauNo);
+
+            } else {
+
+                // Error handling here
+            }
+
+            firstClick = false;
+
+            UpdateDiscardPile();
+            UpdateSuitPiles();
+            UpdateTableauPiles();
+        }// end blankPictureBox_Click
+
+        private void pbSuitPile_Click(object sender, EventArgs e) {
             // which card was clicked?
             PictureBox clickedPictureBox = (PictureBox)sender;
             // get a reference to the card
             Card clickedCard = (Card)clickedPictureBox.Tag;
 
             TryToPlayCard(clickedCard, LOCATION_SUIT);
-        }
+        }// end pbSuitPile1_Click
 
-        private void pbSuitPile2_Click(object sender, EventArgs e) {
-            // which card was clicked?
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_SUIT);
-        }
-
-        private void pbSuitPile3_Click(object sender, EventArgs e) {
-            // which card was clicked?
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_SUIT);
-        }
-
-        private void pbSuitPile4_Click(object sender, EventArgs e) {
-            // which card was clicked?
-            PictureBox clickedPictureBox = (PictureBox)sender;
-            // get a reference to the card
-            Card clickedCard = (Card)clickedPictureBox.Tag;
-
-            TryToPlayCard(clickedCard, LOCATION_SUIT);
-        }
     }
 }

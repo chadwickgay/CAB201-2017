@@ -270,7 +270,7 @@
             this.pbSuitPile1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbSuitPile1.TabIndex = 7;
             this.pbSuitPile1.TabStop = false;
-            this.pbSuitPile1.Click += new System.EventHandler(this.pbSuitPile1_Click);
+            this.pbSuitPile1.Click += new System.EventHandler(this.pbSuitPile_Click);
             // 
             // pbDrawPile
             // 
@@ -302,7 +302,7 @@
             this.pbSuitPile2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbSuitPile2.TabIndex = 10;
             this.pbSuitPile2.TabStop = false;
-            this.pbSuitPile2.Click += new System.EventHandler(this.pbSuitPile2_Click);
+            this.pbSuitPile2.Click += new System.EventHandler(this.pbSuitPile_Click);
             // 
             // pbSuitPile3
             // 
@@ -313,7 +313,7 @@
             this.pbSuitPile3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbSuitPile3.TabIndex = 11;
             this.pbSuitPile3.TabStop = false;
-            this.pbSuitPile3.Click += new System.EventHandler(this.pbSuitPile3_Click);
+            this.pbSuitPile3.Click += new System.EventHandler(this.pbSuitPile_Click);
             // 
             // pbSuitPile4
             // 
@@ -324,7 +324,7 @@
             this.pbSuitPile4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbSuitPile4.TabIndex = 12;
             this.pbSuitPile4.TabStop = false;
-            this.pbSuitPile4.Click += new System.EventHandler(this.pbSuitPile4_Click);
+            this.pbSuitPile4.Click += new System.EventHandler(this.pbSuitPile_Click);
             // 
             // SolitaireGameForm
             // 
